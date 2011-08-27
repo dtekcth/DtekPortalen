@@ -1,0 +1,87 @@
+name:              DtekPortalen
+version:           0.0.0
+license:           BSD3
+license-file:      LICENSE
+author:            Arash Rouhani
+maintainer:        Arash Rouhani
+synopsis:          The greatest Yesod web application ever.
+description:       I'm sure you can say something clever here if you try.
+category:          Web
+stability:         Experimental
+cabal-version:     >= 1.6
+build-type:        Simple
+homepage:          http://DtekPortalen.yesodweb.com/
+
+Flag production
+    Description:   Build the production executable.
+    Default:       False
+
+Flag devel
+    Description:   Build for use with "yesod devel"
+    Default:       False
+
+library
+    if flag(devel)
+        Buildable: True
+    else
+        Buildable: False
+
+    if os(windows)
+        cpp-options: -DWINDOWS
+
+    hs-source-dirs: .
+    exposed-modules: Application
+    other-modules:   Foundation
+                     Model
+                     Settings
+                     Settings.StaticFiles
+                     Handler.Root
+
+executable         DtekPortalen
+    if flag(devel)
+        Buildable: False
+
+    if flag(production)
+        cpp-options:   -DPRODUCTION
+        ghc-options:   -Wall -threaded -O2
+    else
+        ghc-options:   -Wall -threaded
+
+    if os(windows)
+        cpp-options: -DWINDOWS
+
+    main-is:       main.hs
+    hs-source-dirs: .
+
+    build-depends: base         >= 4       && < 5
+                 , yesod        >= 0.9     && < 0.10
+                 , yesod-core
+                 , yesod-auth
+                 , yesod-static
+                 , blaze-html
+                 , yesod-form
+                 , mime-mail
+                 , clientsession
+                 , wai-extra
+                 , directory
+                 , bytestring
+                 , text
+                 , persistent
+                 , persistent-template
+                 , persistent-postgresql >= 0.6 && < 0.7
+                 
+                 , template-haskell
+                 , hamlet               >= 0.10     && < 0.11
+                 , shakespeare-css      >= 0.10     && < 0.11
+                 , shakespeare-js       >= 0.10     && < 0.11
+                 , shakespeare-text     >= 0.10     && < 0.11
+                 , hjsmin
+                 , transformers
+                 , data-object
+                 , data-object-yaml
+                 , warp
+                 , blaze-builder
+                 , cmdargs
+
+    if !os(windows)
+         build-depends: unix
