@@ -14,6 +14,9 @@ module Foundation
     , module Model
     , StaticRoute (..)
     , AuthRoute (..)
+    -- own exports
+    , module Forening
+    , module Settings.StaticFiles
     ) where
 
 import Yesod
@@ -40,6 +43,7 @@ import Text.Hamlet (shamlet)
 import Text.Shakespeare.Text (stext)
 
 -- Arash imports
+import Forening
 import Data.Monoid(mappend)
 
 -- | The site argument for your application. This can be a good place to

@@ -1,2 +1,28 @@
 body
-    font-family: sans-serif
+    background: #cff
+
+section
+    margin-top: 1em
+    font-size: 120%
+    padding: 20px
+    background: #fff
+
+/*links*/
+
+a
+    color: #09c
+    text-decoration: none
+
+a:hover
+    color: #069
+    text-decoration: underline
+
+a:visited
+    color: #069
+
+/* Round corners */
+
+.round 
+    -moz-border-radius: 10px
+    -webkit-border-radius: 10px
+    border-radius: 10px

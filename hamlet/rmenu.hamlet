@@ -1,0 +1,5 @@
+<div #einsteinblock .block
+    <span .menuheading>Dagens Einsteinmeny
+    <ul
+        $forall dish <- esMenu
+            <li>#{dish}

@@ -1,0 +1,16 @@
+<header
+    <div #logo
+        <a href=@{RootR}
+            <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen" 
+    <div #headertitle
+        <h1>Datateknologens Portal
+    <div #headernav
+        <nav .round
+            <ul
+                <li
+                    <a href=@{RootR}>Hem
+                <li
+                    <a href=@{ForeningR DNollK}>Nollningen
+                <li
+                    <a href="#">Logga in
+

@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
-module Handler.Root where
+module Handler.Links where
 
 import Foundation
 import StandardLayout
@@ -11,9 +11,6 @@ import StandardLayout
 -- The majority of the code you will write in Yesod lives in these handler
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
-getRootR :: Handler RepHtml
-getRootR = do
-    standardLayout $ do
-        h2id <- lift newIdent
-        setTitle "htmltest homepage"
-        addWidget $(widgetFile "homepage")
+getLinksR :: Handler RepHtml
+getLinksR = standardLayout $ addWidget $(widgetFile "links") 
+

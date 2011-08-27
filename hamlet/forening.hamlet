@@ -1,0 +1,6 @@
+#{medlem forening} rocks!
+
+<div .info
+    <ul
+        <li>Epost: #{show forening}@dtek.se
+        <li>Wikisite: http://dtek.se/wiki/Main/#{show forening}

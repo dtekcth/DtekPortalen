@@ -4,13 +4,15 @@ license:           BSD3
 license-file:      LICENSE
 author:            Arash Rouhani
 maintainer:        Arash Rouhani
-synopsis:          The greatest Yesod web application ever.
-description:       I'm sure you can say something clever here if you try.
+synopsis:          Yesod website for Chalmers D students.
+description:       This site is intenteded for use of computer science students
+                   at Chalmers University, this site relies on a in-place
+                   Kerberos configuration, and a read-by-all mailman mail-lists
 category:          Web
 stability:         Experimental
 cabal-version:     >= 1.6
 build-type:        Simple
-homepage:          http://DtekPortalen.yesodweb.com/
+homepage:          https://github.com/Tarrasch/DtekPortalen
 
 Flag production
     Description:   Build the production executable.
@@ -35,7 +37,14 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
-                     Handler.Root
+                     -- Egenlagda av Arash
+                     Forening
+                     StandardLayout
+                     Einstein
+                     -- Handler.Root fanns innan iufersig
+                     Handler.Root 
+                     Handler.Forening
+                     Handler.Links
 
 executable         DtekPortalen
     if flag(devel)
@@ -82,6 +91,11 @@ executable         DtekPortalen
                  , warp
                  , blaze-builder
                  , cmdargs
+                 -- Nedan e arashes inlagda
+                 , split
+                 , tagsoup
+                 , HTTP                 >= 4000
+                 , time
 
     if !os(windows)
          build-depends: unix

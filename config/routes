@@ -5,3 +5,5 @@
 /robots.txt RobotsR GET
 
 / RootR GET
+/links LinksR GET
+/forening/#Forening ForeningR GET

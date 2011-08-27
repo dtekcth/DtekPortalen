@@ -26,6 +26,8 @@ import Control.Concurrent.MVar (newEmptyMVar, putMVar, takeMVar)
 
 -- Import all relevant handler modules here.
 import Handler.Root
+import Handler.Forening
+import Handler.Links
 
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see

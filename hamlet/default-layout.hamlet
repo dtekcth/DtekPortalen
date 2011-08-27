@@ -2,6 +2,8 @@
 <html
     <head
         <title>#{pageTitle pc}
+        <link rel=stylesheet media=screen href=@{StaticR blueprint_screen_css}>
+        <link rel=stylesheet media=print href=@{StaticR blueprint_print_css}>
         <link rel="stylesheet" href=@{StaticR css_normalize_css}>
         ^{pageHead pc}
     <body

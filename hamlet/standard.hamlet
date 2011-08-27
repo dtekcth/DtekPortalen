@@ -1,0 +1,16 @@
+<div #container>
+    <div #header>
+        ^{header}
+
+    <div #lmenu>
+        ^{lmenu}
+
+    <div #content>
+        <div #innercontent>
+            ^{contentWidget}
+
+    <div #rmenu>
+        ^{rmenu}
+
+    <div #footer>
+        ^{footer}

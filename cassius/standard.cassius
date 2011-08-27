@@ -1,0 +1,112 @@
+h1
+    text-align: center
+    margin-bottom: 0
+
+span.linkheading, span.menuheading
+    font-weight: bold
+
+/*
+.block
+    margin-bottom: 5px
+    background-color: #FFD700
+    border: 1px solid #888800
+    overflow: auto
+    padding: 1em
+    box-shadow: 0 0 8px #888888 inset
+*/
+
+.block
+    background-color: #FFD700
+
+.block, #innercontent, #header, #footer
+    margin-top: 5px
+    margin-bottom: 5px
+    overflow: auto
+    padding: 1em
+    box-shadow: 0 0 3px #888888 
+    border-radius: 10px
+
+
+#container
+    width: 960px
+    margin-left: auto  
+    margin-right: auto  
+#lmenu
+    float: left
+    margin-right: 10px
+#rmenu
+    float: right
+#lmenu,#rmenu
+    width: 200px
+#lmenu,#content,#rmenu
+    height: auto
+    /*height: auto*/
+#header,#footer
+    background-color: #FFA500
+    clear: both
+#header
+    overflow: hidden
+#content
+    width: 540px
+    float: left
+#innercontent
+    background-color: #EEEEEE;    
+
+#logo
+    float:  left
+
+#headertitle
+
+#headernav
+    padding-top: 0.5em
+    margin-left: auto
+    margin-right: auto
+    display: table
+
+/* Header */
+
+header img
+    padding-left: 1em
+
+/* Navigation */
+
+nav
+    text-align: center
+
+nav
+    content-width: 300px
+    background-color: white
+    padding: 0 0.7em
+    white-space: nowrap
+
+nav ul
+    margin: 0
+    padding: 0
+
+nav ul li
+    list-style-type: none
+    display: inline-block
+    padding: 0.2em 0
+
+nav ul li a
+    padding: 0 0.5em
+    font-weight: bold
+
+nav ul li a:visited
+    color: #09c
+
+nav ul li a:hover
+    text-decoration: underline
+
+/* Footer */
+
+footer
+    text-align: center
+    margin-top: 10px
+    width: 710px
+    margin-left: auto
+    margin-right: auto
+
+footer nav
+    float: none
+
