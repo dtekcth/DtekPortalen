@@ -152,6 +152,16 @@ instance YesodAuth Dtek where
                                                 (`mappend` ("/net" :: T.Text))}
                   ]
 
+    loginHandler = defaultLayout $ do
+        setDtekTitle "Inloggning"
+        addHamlet [hamlet|
+<p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
+    Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
+<p>Tillbaka till #
+    <a href=@{RootR}>startsidan
+|]
+        tm <- lift getRouteToMaster
+        mapM_ (flip apLogin tm) authPlugins
 -- Sends off your mail. Requires sendmail in production!
 deliver :: Dtek -> L.ByteString -> IO ()
 #ifdef PRODUCTION
@@ -160,6 +170,7 @@ deliver _ = sendmail
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #endif
 
+setDtekTitle :: Monad m => Html -> GGWidget master m ()
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 instance RenderMessage Dtek FormMessage where

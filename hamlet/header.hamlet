@@ -12,5 +12,5 @@
                 <li
                     <a href=@{ForeningR DNollK}>Nollningen
                 <li
-                    <a href="#">Logga in
+                    <a href=@{AuthR LoginR}>Logga in
 
