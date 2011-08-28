@@ -17,6 +17,7 @@ module Foundation
     -- own exports
     , module Forening
     , module Settings.StaticFiles
+    , setDtekTitle
     ) where
 
 import Yesod
@@ -159,6 +160,7 @@ deliver _ = sendmail
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #endif
 
+setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 instance RenderMessage Dtek FormMessage where
     renderMessage _ _ = defaultFormMessage

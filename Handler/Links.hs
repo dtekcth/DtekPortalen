@@ -12,5 +12,7 @@ import StandardLayout
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
 getLinksR :: Handler RepHtml
-getLinksR = standardLayout $ addWidget $(widgetFile "links") 
+getLinksR = standardLayout $ do
+    setDtekTitle "Länksamling"
+    addWidget $(widgetFile "links")
 
