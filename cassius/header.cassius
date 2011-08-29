@@ -9,3 +9,11 @@
 
 header img
     padding-left: 1em
+
+#userbox
+    margin: 0px
+    padding: 0px
+    padding-right: 1em
+    float: right
+#userbox ul
+    list-style: none outside

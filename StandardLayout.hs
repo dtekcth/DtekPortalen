@@ -7,11 +7,13 @@ import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Einstein
 
 standardLayout contentWidget = do
+    mu <- maybeAuth
     rmenu <- mkrmenu
+    header <- mkHeader mu
     defaultLayout $ addWidget $(widgetFile "standard")
   where
     footer = $(widgetFile "footer")
-    header = $(widgetFile "header")
+    mkHeader mu = return $(widgetFile "header")
     lmenu  = $(widgetFile "lmenu" )
     mkrmenu  = do
         einsteinScrapResult <- liftIO scrapEinstein 

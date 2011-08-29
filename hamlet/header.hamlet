@@ -2,6 +2,18 @@
     <div #logo
         <a href=@{RootR}
             <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen" 
+    <div #userbox
+        <ul
+            $maybe u <- mu
+                <li
+                    <a href=@{AuthR LogoutR}>Logga ut
+                <li
+                    <a href=@{AuthR LoginR}>Profil
+                <li
+                    <a href=@{AuthR LoginR}>Inställningar
+            $nothing
+                <li
+                    <a href=@{AuthR LoginR}>Logga in
     <div #headertitle
         <h1>Datateknologens Portal
     <div #headernav
