@@ -52,22 +52,6 @@ span.linkheading, span.menuheading
 #innercontent
     background-color: #EEEEEE;    
 
-#logo
-    float:  left
-
-#headertitle
-
-#headernav
-    padding-top: 0.5em
-    margin-left: auto
-    margin-right: auto
-    display: table
-
-/* Header */
-
-header img
-    padding-left: 1em
-
 /* Navigation */
 
 nav
