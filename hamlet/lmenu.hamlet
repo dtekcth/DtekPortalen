@@ -1,8 +1,4 @@
 <div #links .block>
-    <span .linkheading>Föreningar<br>
-    $forall x <- allaForeningar
-        <a href=@{ForeningR x}>#{show x}<br>
-
     <span .linkheading>Dteklänkar<br>
     <a href="http://dtek.se/wiki/">Wiki<br>
     <a href="http://dtek.se/forum/">Forum<br>

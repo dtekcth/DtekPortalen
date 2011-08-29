@@ -1,0 +1,4 @@
+<span .linkheading>Föreningar<br>
+$forall x <- allaForeningar
+    <a href=@{ForeningR x}>#{show x}<br>
+
