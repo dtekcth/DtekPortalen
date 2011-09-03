@@ -23,14 +23,14 @@ printMenuToStdout :: IO()
 printMenuToStdout = do
     Just (week, sss) <- scrapEinstein 
     putStrLn $ "\nVecka " ++ show week ++ ":"
-    mapM_ putStrLn $ map unlines sss
+    mapM_ (putStrLn . unlines) sss
 
 parse :: String -> Maybe (Int, [[String]])
 parse body = liftM2 (,) mweek mmenu
   where
     tags = parseTags body
     goodContents = filter (elem '•') [ s | TagText s <- tags ]
-    cleanContents = map (dropWhile (`elem` [' ', '•', '\n', '\r'])) goodContents
+    cleanContents = map (dropWhile (`elem` " •\n\r")) goodContents
     splitted = splitEvery 3  cleanContents
     mmenu = guard (map length splitted == [3, 3, 3, 3, 3]) >> Just splitted
     textNum = T.takeWhile isNumber $ snd $ T.breakOnEnd "Meny V " (T.pack body)
