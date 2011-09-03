@@ -41,6 +41,7 @@ library
                      Forening
                      StandardLayout
                      Einstein
+                     CalendarFeed
                      -- Handler.Root fanns innan iufersig
                      Handler.Root 
                      Handler.Forening
@@ -96,6 +97,9 @@ executable         DtekPortalen
                  , tagsoup
                  , HTTP                 >= 4000
                  , time
+                 , url                  >= 2.1.2
+                 , rfc3339              >= 1.0.4
+                 , utf8-string          >= 0.3.6
 
     if !os(windows)
          build-depends: unix
