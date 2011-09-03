@@ -5,6 +5,8 @@ import Foundation
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Einstein
+import CalendarFeed
+import System.Locale
 
 standardLayout contentWidget = do
     mu <- maybeAuth
@@ -16,6 +18,7 @@ standardLayout contentWidget = do
     mkHeader mu = return $(widgetFile "header")
     lmenu  = $(widgetFile "lmenu" )
     mkrmenu  = do
+        -- Scrap einstein
         einsteinScrapResult <- liftIO scrapEinstein 
         esMenu <- case einsteinScrapResult of 
              Nothing            -> return ["Ingen meny tillgänglig"]
@@ -26,5 +29,11 @@ standardLayout contentWidget = do
                     [["Stängt under helgdag"] | weekday `notElem` [1..5]]
                  ++ [["Einstein har ej uppdaterat veckan"] | esWeek /= week] 
                  ++ [sss !! (weekday - 1)]
+        -- Scrap calender
+        eventInfos <- liftIO getEventInfo
         return $ $(widgetFile "rmenu" )
+    niceShowEvent :: EventInfo -> String
+    niceShowEvent (EventInfo title startTime endTime _link) =
+      let format = formatTime defaultTimeLocale
+      in title ++ ": " ++ format "%A %R" startTime ++ "-" ++ format "%R" endTime
 

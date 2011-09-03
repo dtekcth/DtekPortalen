@@ -3,3 +3,9 @@
     <ul
         $forall dish <- esMenu
             <li>#{dish}
+<div #calendarblock .block
+    <span .menuheading>Kommande händelser
+    <ul
+        $forall event <- eventInfos
+            <li>
+                <a href=#{link event}> #{niceShowEvent event}
