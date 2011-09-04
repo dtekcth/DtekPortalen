@@ -18,6 +18,7 @@ module Foundation
     , module Forening
     , module Settings.StaticFiles
     , setDtekTitle
+    , CachedValues(..)
     ) where
 
 import Yesod
@@ -46,6 +47,14 @@ import Text.Shakespeare.Text (stext)
 -- Arash imports
 import Forening
 import Data.Monoid(mappend)
+import Data.IORef
+import Einstein
+import CalendarFeed
+
+data CachedValues = CachedValues {
+    einstein :: IORef EinsteinScrapResult
+  , calendar :: IORef CalendarScrapResult
+}
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -56,6 +65,7 @@ data Dtek = Dtek
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Settings.ConnectionPool -- ^ Database connection pool.
+    , cache :: CachedValues
     }
 
 -- This is where we define all of the routes in our application. For a full

@@ -29,6 +29,14 @@ import Handler.Root
 import Handler.Forening
 import Handler.Links
 
+-- Egna imports
+import Data.IORef
+import Einstein
+import CalendarFeed
+import Control.Monad (forever)
+import Control.Concurrent (threadDelay)
+
+
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see
 -- the comments there for more details.
@@ -49,9 +57,12 @@ getRobotsR = return $ RepPlain $ toContent ("User-agent: *" :: ByteString)
 withDtek :: AppConfig -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
     s <- static Settings.staticDir
+    einsteinRef <- hourlyRefreshingRef scrapEinstein
+    calendarRef <- hourlyRefreshingRef getEventInfo
+    let cachedValues = CachedValues einsteinRef calendarRef
     Settings.withConnectionPool conf $ \p -> do
         runConnectionPool (runMigration migrateAll) p
-        let h = Dtek conf logger s p
+        let h = Dtek conf logger s p cachedValues
 #ifdef WINDOWS
         toWaiApp h >>= f >> return ()
 #else
@@ -63,6 +74,13 @@ withDtek conf logger f = do
             putMVar flag ()) Nothing
         takeMVar flag
 #endif
+
+-- For einsteinscraping and such
+hourlyRefreshingRef :: IO a -> IO (IORef a)
+hourlyRefreshingRef io = do
+    ref <- io >>= newIORef
+    forkIO $ forever $ (writeIORef ref =<< io) >> threadDelay (3600*1000)
+    return ref
 
 -- for yesod devel
 withDevelAppPort :: Dynamic

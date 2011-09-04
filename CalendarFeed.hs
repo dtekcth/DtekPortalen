@@ -2,6 +2,7 @@
 module CalendarFeed (
    EventInfo(..)
  , getEventInfo
+ , CalendarScrapResult
  )
  where
 
@@ -12,6 +13,8 @@ import Data.Time.Calendar (addDays)
 import Network.URL
 import Network.HTTP
 import Text.HTML.TagSoup
+
+type CalendarScrapResult = [EventInfo]
 
 openURL x = getResponseBody =<< simpleHTTP (getRequest x)
 
@@ -30,6 +33,7 @@ getUrl = do
                     , ("sortorder", "ascending"), ("ctz", "Europe/Stockholm")] }
 
 getUrlBody = fmap UTF8.decodeString $ getUrl >>= openURL
+getEventInfo :: IO CalendarScrapResult
 getEventInfo = fmap (extractInfo . parseTags) getUrlBody
 
 plusOneWeek :: ZonedTime -> ZonedTime

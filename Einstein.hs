@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Einstein (scrapEinstein) where
+module Einstein (scrapEinstein, EinsteinScrapResult) where
 
 import Network.HTTP
 import Text.HTML.TagSoup
@@ -10,11 +10,12 @@ import Data.Maybe (listToMaybe)
 import qualified Data.Text as T
 
 -- I use tag soup as it apperently fixes unicode characters
+type EinsteinScrapResult = Maybe (Int, [[String]])
 
 openURL :: String -> IO String
 openURL x = getResponseBody =<< simpleHTTP (getRequest x)
 
-scrapEinstein :: IO (Maybe (Int, [[String]]))
+scrapEinstein :: IO EinsteinScrapResult
 scrapEinstein = do
     body <- openURL "http://www.butlercatering.se/einstein.html"
     return (parse body)
