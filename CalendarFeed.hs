@@ -18,7 +18,7 @@ type CalendarScrapResult = [EventInfo]
 
 openURL x = getResponseBody =<< simpleHTTP (getRequest x)
 
-getUrl = do
+getUrl url = do
     startTime <- fmap showRFC3339 getZonedTime
     endTime   <- fmap (showRFC3339 . plusOneWeek) getZonedTime
     let completeUrl = (`add_param` ("start-min", startTime))
@@ -26,15 +26,16 @@ getUrl = do
                     $ paramUrl
     return $ exportURL completeUrl
   where
-    Just basicUrl = importURL
-     "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
+    Just basicUrl = importURL url
     paramUrl = basicUrl {
         url_params = [("max-results", "5"), ("orderby", "starttime")
                     , ("sortorder", "ascending"), ("ctz", "Europe/Stockholm")] }
 
-getUrlBody = fmap UTF8.decodeString $ getUrl >>= openURL
-getEventInfo :: IO CalendarScrapResult
-getEventInfo = fmap (extractInfo . parseTags) getUrlBody
+getBody url = fmap UTF8.decodeString $ getUrl url >>= openURL
+
+getEventInfo :: String -- | The URL
+             -> IO CalendarScrapResult
+getEventInfo url = fmap (extractInfo . parseTags) $ getBody url
 
 plusOneWeek :: ZonedTime -> ZonedTime
 plusOneWeek (ZonedTime  lt tz) = ZonedTime lt' tz

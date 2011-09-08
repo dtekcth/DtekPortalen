@@ -58,7 +58,8 @@ withDtek :: AppConfig -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
     s <- static Settings.staticDir
     einsteinRef <- hourlyRefreshingRef scrapEinstein
-    calendarRef <- hourlyRefreshingRef getEventInfo
+    let calendarUrl = "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
+    calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl)
     let cachedValues = CachedValues einsteinRef calendarRef
     Settings.withConnectionPool conf $ \p -> do
         runConnectionPool (runMigration migrateAll) p
