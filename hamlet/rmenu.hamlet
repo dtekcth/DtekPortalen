@@ -7,5 +7,6 @@
     <span .menuheading>Kommande händelser
     <ul
         $forall event <- eventInfos
-            <li>
-                <a href=#{link event}> #{niceShowEvent event}
+            <li
+                <a title=#{niceShowEvent event} href=#{link event}
+                    #{shorten 30 $ niceShowEvent event}

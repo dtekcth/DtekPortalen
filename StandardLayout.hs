@@ -8,6 +8,7 @@ import Einstein (EinsteinScrapResult)
 import CalendarFeed (EventInfo(..), CalendarScrapResult)
 import System.Locale
 import Data.IORef
+import Yesod.Goodies(shorten)
 
 standardLayout contentWidget = do
     mu <- maybeAuth
