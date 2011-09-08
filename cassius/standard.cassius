@@ -21,7 +21,7 @@ span.linkheading, span.menuheading
 .block, #innercontent, #header, #footer
     margin-top: 5px
     margin-bottom: 5px
-    overflow: auto
+    overflow: none
     padding: 1em
     box-shadow: 0 0 3px #888888 
     border-radius: 10px
