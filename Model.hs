@@ -2,7 +2,9 @@
 module Model where
 
 import Yesod
+import Data.Time (UTCTime)
 import Data.Text (Text)
+import Yesod.Goodies.Markdown
 
 
 -- You can define all of your database entities in the entities file.
