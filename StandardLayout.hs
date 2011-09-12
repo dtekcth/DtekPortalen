@@ -4,8 +4,7 @@ module StandardLayout (standardLayout) where
 import Foundation
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
-import Einstein (EinsteinScrapResult)
-import CalendarFeed (EventInfo(..), CalendarScrapResult)
+import CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Yesod.Goodies(shorten)
@@ -34,7 +33,8 @@ standardLayout contentWidget = do
                  ++ [sss !! (weekday - 1)]
         return $ $(widgetFile "rmenu" )
     niceShowEvent :: EventInfo -> String
-    niceShowEvent (EventInfo title startTime endTime _link) =
+    niceShowEvent event =
       let format = formatTime defaultTimeLocale
-      in title ++ ": " ++ format "%A %R" startTime ++ "-" ++ format "%R" endTime
+      in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
+       ++ format "%R" (endTime event)
 
