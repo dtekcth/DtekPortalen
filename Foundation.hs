@@ -19,6 +19,8 @@ module Foundation
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)
+    , unless
+    , mappend
     ) where
 
 import Yesod
