@@ -1,0 +1,9 @@
+<header>
+  <h1>Redigera inlägg
+
+<article .fullpage>
+  $maybe post <- mpost
+    ^{runPostForm (Just $ snd post) uid}
+  $nothing
+    Hittade inte inlägget!
+

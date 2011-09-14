@@ -1,0 +1,25 @@
+<div .posts_existing>
+  <h3>Existerande inlägg:
+
+  <table>
+    <tr>
+      <th>Titel
+      <th>Innehåll
+      <th>Redigera
+      <th>Ta bort
+
+    $forall p <- map snd posts
+      <tr>
+        <td>
+          <a href="@{PostR $ postSlug p}">#{shorten 20 $ postTitle p}
+
+        <td>
+          #{markdownToHtml $ shorten 60 $ postTeaser p}
+
+        <td>
+          <a href="@{EditPostR $ postSlug p}">redigera
+
+        <td>
+          <a href="@{DelPostR $ postSlug p}">ta bort
+
+

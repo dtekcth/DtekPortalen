@@ -28,6 +28,7 @@ import Control.Concurrent.MVar (newEmptyMVar, putMVar, takeMVar)
 import Handler.Root
 import Handler.Forening
 import Handler.Links
+import Handler.Posts
 
 -- Egna imports
 import Data.IORef
