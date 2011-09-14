@@ -23,6 +23,11 @@ medlem DNollK = "Carro"
 medlem DAG    = "sag"
 medlem SND    = "soghal"
 
+checkMembership :: Forening -> IO Bool
+checkMembership f = return True
+
+checkMemberships :: [Forening] -> IO Bool
+checkMemberships = fmap or . mapM checkMembership
 
 instance SinglePiece Forening where
     toSinglePiece x = T.pack $ show x

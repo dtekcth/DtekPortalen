@@ -1,5 +1,8 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
-module StandardLayout (standardLayout) where
+module StandardLayout
+   -- (standardLayout)
+   -- FIXME Rename file and export requireFunctions
+  where
 
 import Foundation
 import Data.Time
@@ -8,6 +11,7 @@ import CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Yesod.Goodies(shorten)
+import qualified Data.Text as T
 
 standardLayout contentWidget = do
     mu <- maybeAuth
@@ -38,3 +42,14 @@ standardLayout contentWidget = do
       in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
        ++ format "%R" (endTime event)
 
+requireMemberships :: [Forening] -> Handler (UserId, User)
+requireMemberships fs = do
+    let fs' = Webredax : fs
+    tup@(key, u) <- requireAuth
+    member <- liftIO $ checkMemberships fs'
+    unless member $ permissionDenied $
+      "Åtkomst nekad, du måste tillhöra någon av " `mappend` T.pack (show fs')
+    return tup
+
+requireEditor :: Handler (UserId, User)
+requireEditor = requireMemberships [SND]
