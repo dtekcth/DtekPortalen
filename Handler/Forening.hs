@@ -6,5 +6,5 @@ import StandardLayout
 import Data.Text (Text)
 
 getForeningR :: Forening -> Handler RepHtml
-getForeningR forening = standardLayout $ addWidget $(widgetFile "forening") 
+getForeningR forening = standardLayout $ addWidget $(widgetFile "forening")
 
