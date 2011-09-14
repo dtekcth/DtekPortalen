@@ -3,10 +3,15 @@ User
     UniqueUser ident
 
 Post
-    slug   Text
-    date   UTCTime
-    title  Text
-    teaser Markdown
-    body   Markdown
-    sumem  Bool
+    -- Values for user to fill in
+    slug       Text
+    title      Text
+    teaser     Markdown
+    body       Markdown
+    sumem      Bool
+    -- "Automatic" values
+    created    UTCTime
+    creator    UserId
+    edited     UTCTime
+    editor     UserId
     UniquePost slug
