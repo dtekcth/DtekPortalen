@@ -10,6 +10,7 @@ data Forening = Delta
               | DNollK
               | DAG
               | SND
+              | Webredax
   deriving (Show, Read, Enum, Bounded, Eq )
   
 allaForeningar :: [Forening]
