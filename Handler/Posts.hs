@@ -4,11 +4,12 @@ module Handler.Posts where
 import Foundation
 import StandardLayout
 import Data.Text (Text)
+import qualified Data.Text as T
 import Control.Applicative ((<*>), (<$>))
 import Yesod.Goodies.Markdown
 import Yesod.Goodies.Shorten
 import Data.Time (getCurrentTime)
-
+import Network.URL
 
 getPostsR :: Int -> Handler RepHtml
 getPostsR offset = do
@@ -142,7 +143,7 @@ runPostForm mpost uid = do
 -- then use that to prepopulate the form
 postForm :: Maybe Post -> Html -> Form Dtek Dtek (FormResult PostEditForm, Widget)
 postForm mpost = renderTable $ PostEditForm
-    <$> areq textField     fsSlug     (fmap postSlug   mpost)
+    <$> areq slugField     fsSlug     (fmap postSlug   mpost)
     <*> areq textField     "Titel"    (fmap postTitle  mpost)
     <*> areq markdownField fsTeaser   (fmap postTeaser mpost)
     <*> areq markdownField "Brödtext" (fmap postBody   mpost)
@@ -151,3 +152,5 @@ postForm mpost = renderTable $ PostEditForm
     fsSlug   = "Slugen"     {fsTooltip = Just "Om titeln är  \"Hacke hackspett\" bör slugen va \"hacke-hackspett\". Slugen är en unik nyckel"}
     fsTeaser = "Teaser"     {fsTooltip = Just "Sammanfattningen som visas på t.ex. förstasidan"}
     fsSumem  = "Konkatenera"{fsTooltip = Just "Låt innehållet vara teaser+brödtext. Annars är innehållet bara brödtexten"}
+    slugField = checkBool isEscaped ("Endast bokstäver, siffror o lite till" :: Text) textField
+    isEscaped = all ok_host . T.unpack
