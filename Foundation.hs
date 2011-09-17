@@ -21,6 +21,8 @@ module Foundation
     , CachedValues(..)
     , unless
     , mappend
+    , setSuccessMessage
+    , setErrorMessage
     ) where
 
 import Yesod
@@ -184,6 +186,11 @@ deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 
 setDtekTitle :: Monad m => Html -> GGWidget master m ()
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
+
+-- The message types below assumes blueprint or similiar CSS framework
+setSuccessMessage, setErrorMessage :: Monad mo => Html -> GGHandler sub master mo ()
+setSuccessMessage t = setMessage [shamlet|<div .success>#{t}|]
+setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 
 instance RenderMessage Dtek FormMessage where
     renderMessage _ _ = defaultFormMessage

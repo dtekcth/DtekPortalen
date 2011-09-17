@@ -57,8 +57,8 @@ getDelPostR slug = do
     case p of
         Just (key, _) -> do
             runDB $ delete key
-            setMessage "Inlägg raderat!"
-        Nothing -> setMessage "Inlägg ej funnet."
+            setSuccessMessage "Inlägg raderat!"
+        Nothing -> setErrorMessage "Inlägg ej funnet."
     redirect RedirectTemporary ManagePostsR
 
 
@@ -102,11 +102,11 @@ runPostForm mpost uid = do
             case result of
                 Right k -> do
                     -- post was inserted
-                    setMessage "Inlägg skapad!"
+                    setSuccessMessage "Inlägg skapat!"
                 Left (k, _) -> do
                     -- post exists, update
                     updatePost k p
-                    setMessage "Inlägg uppdaterat!"
+                    setSuccessMessage "Inlägg uppdaterat!"
             redirect RedirectTemporary ManagePostsR
 
         postFromForm :: PostEditForm -> Handler Post
