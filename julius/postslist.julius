@@ -1,0 +1,3 @@
+function confirmation(){
+    return confirm("Vill du verkligen ta bort nyheten?");
+}

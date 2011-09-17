@@ -20,6 +20,6 @@
           <a href="@{EditPostR $ postSlug p}">redigera
 
         <td>
-          <a href="@{DelPostR $ postSlug p}">ta bort
+          <a onclick="return confirmation()" href="@{DelPostR $ postSlug p}" >ta bort
 
 
