@@ -170,7 +170,7 @@ instance YesodAuth Dtek where
         setDtekTitle "Inloggning"
         addHamlet [hamlet|
 <p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
-    Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
+   \ Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
 <p>Tillbaka till #
     <a href=@{RootR}>startsidan
 |]
