@@ -1,0 +1,6 @@
+.footer
+    background-color: #FFA500
+
+    footer
+        text-align: center
+        margin-top: 10px

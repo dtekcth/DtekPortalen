@@ -1,16 +1,18 @@
-<div #container>
-    <div #header>
-        ^{header}
+<div #container .container>
+    <div .span-24>
+        <div .header .block>
+            ^{header}
 
-    <div #lmenu>
+    <div #lmenu .menu .column .span-5>
         ^{lmenu}
 
-    <div #content>
-        <div #innercontent>
+    <div .span-14>
+        <div .content .block>
             ^{contentWidget}
 
-    <div #rmenu>
+    <div #rmenu .menu .span-5 .last>
         ^{rmenu}
 
-    <div #footer>
-        ^{footer}
+    <div .span-24>
+        <div .footer .block>
+            ^{footer}
