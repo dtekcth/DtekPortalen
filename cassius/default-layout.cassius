@@ -22,7 +22,7 @@ a:visited
 
 /* Round corners */
 
-.round 
+.round
     -moz-border-radius: 10px
     -webkit-border-radius: 10px
     border-radius: 10px

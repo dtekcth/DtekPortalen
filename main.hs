@@ -32,7 +32,7 @@ data ArgConfig = ArgConfig {environment :: String, port :: Int}
                  deriving (Show, Data, Typeable)
 
 argConfig :: ArgConfig
-argConfig = ArgConfig{ environment = def 
+argConfig = ArgConfig{ environment = def
   &= help ("application environment, one of: " ++ (foldl1 (\a b -> a ++ ", " ++ b) environments))
   &= typ "ENVIRONMENT"
   ,port = def &= typ "PORT"

@@ -176,7 +176,7 @@ hamletFile :: FilePath -> Q Exp
 hamletFile = S.hamletFile . globFile "hamlet"
 
 cassiusFile :: FilePath -> Q Exp
-cassiusFile = 
+cassiusFile =
 #ifdef PRODUCTION
   S.cassiusFile . globFile "cassius"
 #else
@@ -184,7 +184,7 @@ cassiusFile =
 #endif
 
 luciusFile :: FilePath -> Q Exp
-luciusFile = 
+luciusFile =
 #ifdef PRODUCTION
   S.luciusFile . globFile "lucius"
 #else

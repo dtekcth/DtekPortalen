@@ -12,7 +12,7 @@ data Forening = Delta
               | SND
               | Webredax
   deriving (Show, Read, Enum, Bounded, Eq )
-  
+
 allaForeningar :: [Forening]
 allaForeningar = [minBound..maxBound]
 

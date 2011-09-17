@@ -19,10 +19,10 @@ scrapEinstein :: IO EinsteinScrapResult
 scrapEinstein = do
     body <- openURL "http://www.butlercatering.se/einstein.html"
     return (parse body)
-                   
+
 printMenuToStdout :: IO()
 printMenuToStdout = do
-    Just (week, sss) <- scrapEinstein 
+    Just (week, sss) <- scrapEinstein
     putStrLn $ "\nVecka " ++ show week ++ ":"
     mapM_ (putStrLn . unlines) sss
 

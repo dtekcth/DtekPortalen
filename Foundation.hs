@@ -161,8 +161,8 @@ instance YesodAuth Dtek where
             Nothing -> do
                 fmap Just $ insert $ User (credsIdent creds)
 
-    authPlugins = [ genericAuthKerberos 
-                      defaultKerberosConfig { usernameModifier = 
+    authPlugins = [ genericAuthKerberos
+                      defaultKerberosConfig { usernameModifier =
                                                 (`mappend` ("/net" :: T.Text))}
                   ]
 
