@@ -43,7 +43,7 @@ library
                      Einstein
                      CalendarFeed
                      -- Handler.Root fanns innan iufersig
-                     Handler.Root 
+                     Handler.Root
                      Handler.Forening
                      Handler.Links
                      Handler.Posts
@@ -80,7 +80,7 @@ executable         DtekPortalen
                  , persistent
                  , persistent-template
                  , persistent-postgresql >= 0.6 && < 0.7
-                 
+
                  , template-haskell
                  , hamlet               >= 0.10     && < 0.11
                  , shakespeare-css      >= 0.10     && < 0.11
