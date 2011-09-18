@@ -90,9 +90,9 @@ runPostForm mpost uid = do
                         <td>&nbsp;
                         <td .buttons>
                             $maybe _ <- mpost
-                                <input type="submit" value="Update">
+                                <input type="submit" value="Updatera">
                             $nothing
-                                <input type="submit" value="Create">
+                                <input type="submit" value="Skapa">
         |]
 
     where
