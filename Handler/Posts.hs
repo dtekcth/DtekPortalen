@@ -151,6 +151,6 @@ postForm mpost = renderTable $ PostEditForm
   where
     fsSlug   = "Slugen"     {fsTooltip = Just "Om titeln är  \"Hacke hackspett\" bör slugen va \"hacke-hackspett\". Slugen är en unik nyckel"}
     fsTeaser = "Teaser"     {fsTooltip = Just "Sammanfattningen som visas på t.ex. förstasidan"}
-    fsSumem  = "Konkatenera"{fsTooltip = Just "Låt innehållet vara teaser+brödtext. Annars är innehållet bara brödtexten"}
+    fsSumem  = "Konkatenera"{fsTooltip = Just "Sätter innehållet till teaser+brödtext. Annars är innehållet bara brödtexten"}
     slugField = checkBool isEscaped ("Endast bokstäver, siffror o lite till" :: Text) textField
     isEscaped = all ok_host . T.unpack
