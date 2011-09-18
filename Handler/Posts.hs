@@ -143,7 +143,7 @@ runPostForm mpost uid = do
 -- then use that to prepopulate the form
 postForm :: Maybe Post -> Html -> Form Dtek Dtek (FormResult PostEditForm, Widget)
 postForm mpost = renderTable $ PostEditForm
-    <$> areq slugField     fsSlug     (fmap postSlug   mpost)
+    <$> areq uSlugField    fsSlug     (fmap postSlug   mpost)
     <*> areq textField     "Titel"    (fmap postTitle  mpost)
     <*> areq markdownField fsTeaser   (fmap postTeaser mpost)
     <*> areq markdownField "Brödtext" (fmap postBody   mpost)
@@ -153,4 +153,10 @@ postForm mpost = renderTable $ PostEditForm
     fsTeaser = "Teaser"     {fsTooltip = Just "Sammanfattningen som visas på t.ex. förstasidan"}
     fsSumem  = "Konkatenera"{fsTooltip = Just "Sätter innehållet till teaser+brödtext. Annars är innehållet bara brödtexten"}
     slugField = checkBool isEscaped ("Endast bokstäver, siffror o lite till" :: Text) textField
+    uSlugField = checkM slugInDb slugField
     isEscaped = all ok_host . T.unpack
+    slugInDb t = if Just t == fmap postSlug mpost then return $ Right t else do
+        n <- runDB $ count [PostSlug ==. t]
+        return $ if n == 0
+            then Right t
+            else Left ("Det inlägget finns redan" :: Text)
