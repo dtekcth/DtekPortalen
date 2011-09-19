@@ -8,22 +8,26 @@ import qualified Data.Text as T
 import Control.Applicative ((<*>), (<$>))
 import Yesod.Goodies.Markdown
 import Yesod.Goodies.Shorten
+import Yesod.Goodies.Paginate
 import Data.Time (getCurrentTime)
 import Network.URL
 
-getPostsR :: Int -> Handler RepHtml
-getPostsR offset = do
-    let numShown = 10
-    posts <- runDB $ selectList [] [LimitTo numShown, OffsetBy offset, Desc PostCreated]
+getPostsR :: Handler RepHtml
+getPostsR = do
+    let po = PageOptions {
+        itemsPerPage = 4
+      , showItems    = mapM_ postWidget
+    }
+    posts <- runDB $ selectList [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
-        addWidget $(widgetFile "posts")
+        addWidget $ paginate po (map (postSlug . snd) posts)
 
 getPostR :: Text -> Handler RepHtml
 getPostR slug = do
-    mpost <- runDB $ selectFirst [PostSlug ==. slug] []
     standardLayout $ do
         setDtekTitle "Specifikt inlägg"
+        addWidget $ postWidget slug
 
 postPostR :: Text -> Handler RepHtml
 postPostR = getPostR
@@ -66,6 +70,12 @@ getDelPostR slug = do
 -----------------------------------------
 --- Useful helpers
 -----------------------------------------
+postWidget :: Text -- | The slug
+           -> Widget
+postWidget slug = do
+    mpost <- lift $ runDB $ selectFirst [PostSlug ==. slug] []
+    addWidget $(widgetFile "post")
+
 data PostEditForm = PostEditForm
     { formSlug   :: Text
     , formTitle  :: Text

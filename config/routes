@@ -8,7 +8,7 @@
 /links LinksR GET
 /forening/#Forening ForeningR GET
 
-/posts/#Int   PostsR GET
+/posts/       PostsR GET
 /post/#T.Text PostR GET POST
 /manage ManagePostsR GET POST
 /manage/edit/#T.Text EditPostR GET POST
