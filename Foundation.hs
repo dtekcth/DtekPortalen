@@ -20,7 +20,7 @@ module Foundation
     , setDtekTitle
     , CachedValues(..)
     , unless
-    , mappend
+    , module Data.Monoid
     , setSuccessMessage
     , setErrorMessage
     ) where
@@ -50,7 +50,7 @@ import Text.Shakespeare.Text (stext)
 
 -- Arash imports
 import Forening
-import Data.Monoid(mappend)
+import Data.Monoid
 import Data.IORef
 import Einstein
 import CalendarFeed

@@ -42,6 +42,7 @@ library
                      StandardLayout
                      Einstein
                      CalendarFeed
+                     Helpers.Post
                      -- Handler.Root fanns innan iufersig
                      Handler.Root
                      Handler.Forening
