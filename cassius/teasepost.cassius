@@ -1,0 +1,10 @@
+article
+    border-top: 1px solid #AAAAAA
+
+article footer
+    font-style: italic
+    color: #AAA
+    text-align: right
+
+article h3
+    margin: 5px 0px

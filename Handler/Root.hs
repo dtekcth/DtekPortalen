@@ -3,6 +3,7 @@ module Handler.Root where
 
 import Foundation
 import StandardLayout
+import Helpers.Post
 
 -- This is a handler function for the GET request method on the RootR
 -- resource pattern. All of your resource patterns are defined in
@@ -12,7 +13,9 @@ import StandardLayout
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
 getRootR :: Handler RepHtml
-getRootR =
+getRootR = do
+    kposts <- runDB $ selectList [] [LimitTo 5, Desc PostCreated]
+    let posts = map snd kposts
     standardLayout $ do
         setDtekTitle "Startsida"
         addWidget $(widgetFile "homepage")
