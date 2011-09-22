@@ -14,6 +14,5 @@ import StandardLayout
 getRootR :: Handler RepHtml
 getRootR =
     standardLayout $ do
-        h2id <- lift newIdent
         setDtekTitle "Startsida"
         addWidget $(widgetFile "homepage")
