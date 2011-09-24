@@ -42,9 +42,9 @@ data PostEditForm = PostEditForm
     , formSumem  :: Bool
     }
 
-runPostForm :: Maybe Post -> UserId -> Widget
-runPostForm mpost uid = do
-    ((res, form), enctype) <- lift $ runFormPost $ postForm mpost
+runPostForm :: Maybe (PostId, Post) -> UserId -> Widget
+runPostForm mkpost uid = do
+    ((res, form), enctype) <- lift $ runFormPost $ postForm $ fmap snd mkpost
     isPreview <- lift $ runInputPost $ iopt boolField "preview"
     case res of
         FormSuccess pf ->
@@ -63,7 +63,7 @@ runPostForm mpost uid = do
                         <td>&nbsp;
                         <td .buttons>
                             <input type="submit" name="Förhandsgranskning" value="yes">
-                            $maybe _ <- mpost
+                            $maybe _ <- mkpost
                                 <input type="submit" value="Updatera">
                             $nothing
                                 <input type="submit" value="Skapa">
@@ -74,15 +74,13 @@ runPostForm mpost uid = do
         processFormResult :: PostEditForm -> Handler ()
         processFormResult pf = do
             p <- postFromForm pf
-            result <- runDB $ insertBy p
-            case result of
-                Right k -> do
-                    -- post was inserted
-                    setSuccessMessage "Inlägg skapat!"
-                Left (k, _) -> do
-                    -- post exists, update
+            case mkpost of
+                Just (k, _) -> do  -- We are going to replace
                     updatePost k p
                     setSuccessMessage "Inlägg uppdaterat!"
+                _           -> do --  Post should be inserted
+                    _ <- runDB $ insertBy p
+                    setSuccessMessage "Inlägg skapat!"
             redirect RedirectTemporary ManagePostsR
 
         postFromForm :: PostEditForm -> Handler Post

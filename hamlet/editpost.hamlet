@@ -2,8 +2,8 @@
   <h1>Redigera inlägg
 
 <article .fullpage>
-  $maybe post <- mpost
-    ^{runPostForm (Just $ snd post) uid}
+  $maybe _ <- mkpost
+    ^{runPostForm mkpost uid}
   $nothing
     Hittade inte inlägget!
 

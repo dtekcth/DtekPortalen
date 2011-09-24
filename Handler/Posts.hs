@@ -46,7 +46,7 @@ postManagePostsR = getManagePostsR
 getEditPostR :: Text -> Handler RepHtml
 getEditPostR slug = do
     (uid, _) <- requireEditor
-    mpost <- runDB $ selectFirst [PostSlug ==. slug] []
+    mkpost <- runDB $ selectFirst [PostSlug ==. slug] []
     defaultLayout $ do
         setDtekTitle "Redigera inlägg"
         addWidget $(widgetFile "editpost")
