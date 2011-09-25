@@ -32,7 +32,7 @@ postToWidget isFull post = do
     prettyEdited  <- lift $ humanReadableTime $ postEdited post
     addWidget $ if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
-    safeExtract = fromMaybe "(borttagen)" . fmap userIdent
+    safeExtract = fromMaybe "(borttagen)" . fmap userCalcName
 
 data PostEditForm = PostEditForm
     { formSlug   :: Text
