@@ -48,6 +48,7 @@ library
                      Handler.Forening
                      Handler.Links
                      Handler.Posts
+                     Handler.Profile
 
 executable         DtekPortalen
     if flag(devel)

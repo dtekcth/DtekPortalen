@@ -29,6 +29,7 @@ import Handler.Root
 import Handler.Forening
 import Handler.Links
 import Handler.Posts
+import Handler.Profile
 
 -- Egna imports
 import Data.IORef
