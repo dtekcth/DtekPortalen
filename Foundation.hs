@@ -159,7 +159,7 @@ instance YesodAuth Dtek where
         case x of
             Just (uid, _) -> return $ Just uid
             Nothing -> do
-                fmap Just $ insert $ User (credsIdent creds)
+                fmap Just $ insert $ User (credsIdent creds) Nothing
 
     authPlugins = [ genericAuthKerberos
                       defaultKerberosConfig { usernameModifier =

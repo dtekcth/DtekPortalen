@@ -2,6 +2,7 @@
 module Model where
 
 import Yesod
+import Data.Maybe (fromMaybe)
 import Data.Time (UTCTime)
 import Data.Text (Text)
 import Yesod.Goodies.Markdown
@@ -12,3 +13,6 @@ import Yesod.Goodies.Markdown
 -- at:
 -- http://www.yesodweb.com/book/persistent/
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] $(persistFile "config/models")
+
+userCalcName :: User -> Text
+userCalcName u = fromMaybe (userIdent u) (userNick u)

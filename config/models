@@ -1,5 +1,6 @@
 User
     ident Text
+    nick Text Maybe
     UniqueUser ident
 
 Post
