@@ -1,7 +1,7 @@
 <header
     <div #logo
         <a href=@{RootR}
-            <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen" 
+            <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen"
     <div #userbox
         <ul
             $maybe u <- mu
