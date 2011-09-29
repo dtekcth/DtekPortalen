@@ -49,6 +49,8 @@ library
                      Handler.Links
                      Handler.Posts
                      Handler.Profile
+                     Handler.About
+                     Handler.Contact
 
 executable         DtekPortalen
     if flag(devel)

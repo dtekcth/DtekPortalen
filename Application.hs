@@ -30,6 +30,8 @@ import Handler.Forening
 import Handler.Links
 import Handler.Posts
 import Handler.Profile
+import Handler.About
+import Handler.Contact
 
 -- Egna imports
 import Data.IORef

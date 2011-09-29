@@ -15,3 +15,6 @@
 /manage ManagePostsR GET POST
 /manage/edit/#T.Text EditPostR GET POST
 /manage/delete/#T.Text DelPostR GET
+
+/about AboutR GET
+/contact ContactR GET
