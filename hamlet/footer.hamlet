@@ -1,3 +1,8 @@
-<footer>© 2011 Datateknologsektionen. Vid strul kontakta #
-    <adress>webredax@dtek.se
-
+<footer>
+    <div #footernav
+        <nav
+            <ul
+                <li
+                    <a href=@{AboutR}>Om Portalen
+                <li
+                    <a href=@{ContactR}>Kontakt

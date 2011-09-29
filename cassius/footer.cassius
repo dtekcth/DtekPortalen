@@ -4,3 +4,28 @@
 .footer footer
         text-align: center
         margin-top: 10px
+
+    /* Navigation */
+    nav
+        text-align: center
+        content-width: 300px
+        padding: 0 0.7em
+        white-space: nowrap
+
+    nav ul
+        margin: 0
+        padding: 0
+
+    nav ul li
+        list-style-type: none
+        display: inline-block
+
+    nav ul li a
+        padding: 0 0.5em
+        font-weight: bold
+
+    nav ul li a:visited
+        color: #09c
+
+    nav ul li a:hover
+        text-decoration: underline

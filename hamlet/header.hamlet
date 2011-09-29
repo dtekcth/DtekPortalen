@@ -14,13 +14,3 @@
                     <a href=@{AuthR LoginR}>Logga in
     <div #headertitle
         <h1>Datateknologens Portal
-    <div #headernav
-        <nav .round
-            <ul
-                <li
-                    <a href=@{RootR}>Hem
-                <li
-                    <a href=@{ForeningR DNollK}>Nollningen
-                <li
-                    <a href=@{AuthR LoginR}>Logga in
-
