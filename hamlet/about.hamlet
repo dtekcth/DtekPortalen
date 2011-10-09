@@ -1,0 +1,37 @@
+<h3>Portalen
+<p>Datateknologens portal skapadas hösten 2011 i främst två syften
+<ul>
+    <li>Studenterna på sektionen ska kunna hitta all möjlig information snabbt, allt ifrån kommande spelkväll till dagens lässchema
+    <li>Vårt ansikte utåt ska se proffesionellt ut för andra studenter och företag
+
+
+<h3>Innehåll
+
+<p>Det redaktionella innehållet ska skrivas av datateknologens styre medan tekniska bitar sköts av webbredaktionen.
+
+<p>Med det redaktionella menas nyheter, kommande händelser och sådant.
+
+<h3>Tekniskt
+
+<p>Sidan har <a href="https://github.com/Tarrasch/DtekPortalen">öppen källkod</a> och är givetvis skriven i datateknologernas favoritspråk <a href="http://haskell.org">haskell</a> med webbramverket <a href="http://www.yesodweb.com">yesod</a>.</p>
+
+<!--
+Jag fular mig o sparar markdownen här.
+### Portalen
+
+Datateknologens portal skapadas hösten 2011 i främst två syften:
+
+ * Studenterna på sektionen ska kunna hitta all möjlig information snabbt, allt ifrån kommande spelkväll till dagens lässchema
+ * Vårt ansikte utåt ska se proffesionellt ut för andra studenter och företag
+
+### Innehåll
+
+Det redaktionella innehållet ska skrivas av datateknologens styre medan tekniska bitar sköts av webbredaktionen.
+
+Med det redaktionella menas nyheter, kommande händelser och sådant.
+
+### Tekniskt
+
+Sidan har [öppen källkod](https://github.com/Tarrasch/DtekPortalen) och är givetvis skriven i datateknologernas favoritspråk [haskell](http://haskell.org) med webbramverket [yesod](http://www.yesodweb.com).
+-->
+
