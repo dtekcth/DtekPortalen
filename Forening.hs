@@ -16,13 +16,6 @@ data Forening = Delta
 allaForeningar :: [Forening]
 allaForeningar = [minBound..maxBound]
 
-medlem :: Forening -> Text
-medlem Delta  = "Jävla Johan"
-medlem Drust  = "Valentin"
-medlem DNollK = "Carro"
-medlem DAG    = "sag"
-medlem SND    = "soghal"
-
 checkMembership :: Forening -> IO Bool
 checkMembership f = return True
 

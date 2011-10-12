@@ -1,5 +1,3 @@
-#{medlem forening} rocks!
-
 <div .info
     <ul
         <li>Epost: #{show forening}@dtek.se
