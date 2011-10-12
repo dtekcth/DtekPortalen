@@ -15,7 +15,6 @@ module Foundation
     , StaticRoute (..)
     , AuthRoute (..)
     -- own exports
-    , module Forening
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)
@@ -49,7 +48,6 @@ import Text.Hamlet (shamlet)
 import Text.Shakespeare.Text (stext)
 
 -- Arash imports
-import Forening
 import Data.Monoid
 import Data.IORef
 import Einstein

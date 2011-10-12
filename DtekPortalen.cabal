@@ -38,7 +38,6 @@ library
                      Settings
                      Settings.StaticFiles
                      -- Egenlagda av Arash
-                     Forening
                      StandardLayout
                      Einstein
                      CalendarFeed
@@ -98,6 +97,7 @@ executable         DtekPortalen
                  , blaze-builder
                  , cmdargs
                  -- Nedan e arashes inlagda
+                 , process              >= 1.0      && < 2.0
                  , split
                  , tagsoup
                  , HTTP                 >= 4000
