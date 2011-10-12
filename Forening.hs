@@ -5,12 +5,18 @@ import Yesod.Dispatch(SinglePiece(..))
 import Data.Text (Text)
 import qualified Data.Text as T
 
-data Forening = Delta
-              | Drust
-              | DNollK
+data Forening = Styret
+              | Presidiet
               | DAG
               | SND
+              | Delta
+              | D6
+              | DNollK
+              | DRUST
+              | DFoto
+              | IDrott -- iDrott really
               | Webredax
+              | LuDer
   deriving (Show, Read, Enum, Bounded, Eq )
 
 allaForeningar :: [Forening]
