@@ -19,7 +19,7 @@ main = do
     config <- Settings.loadConfig env
     let c = if (port args) /= 0 then config {appPort = (port args) } else config
 #if PRODUCTION
-    withDtek c $ run (appPort c)
+    withDtek c logger $ run (appPort c)
 #else
     logString logger $ (show env) ++ " application launched, listening on port " ++ show (appPort c)
     withDtek c logger $ run (appPort c) . debugHandle (logHandle logger)
