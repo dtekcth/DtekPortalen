@@ -13,7 +13,7 @@ import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))
 import Data.List
 import Control.Applicative (liftA2)
-import Data.Monoid (mconcat)
+import Data.Monoid (mconcat, mappend)
 
 
 -- You can define all of your database entities in the entities file.
@@ -45,6 +45,9 @@ allaForeningar = [minBound..maxBound]
 
 foreningToListname :: Forening -> String
 foreningToListname = show -- This should work, last time I checked
+
+wikiUrl :: Forening -> String
+wikiUrl x = "http://dtek.se/wiki/main/" `mappend` show x
 
 instance SinglePiece Forening where
     toSinglePiece x = T.pack $ show x
