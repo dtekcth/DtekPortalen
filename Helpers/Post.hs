@@ -62,7 +62,7 @@ runPostForm mkpost uid = do
                     <tr>
                         <td>&nbsp;
                         <td .buttons>
-                            <input type="submit" name="Förhandsgranskning" value="yes">
+                            <button type="submit" name="preview" value="yes">Förhandsgranska
                             $maybe _ <- mkpost
                                 <input type="submit" value="Updatera">
                             $nothing
