@@ -2,19 +2,19 @@ span.linkheading, span.menuheading
     font-weight: bold
 
 .content
-    background-color: #EEEEEE
+    background-color: #EEE
 
 .menu .block
-    background-color: #FFD700
+    background-color: #DDD
 
 .menu .block
-    background-color: #FFD700
+    background-color: #DDD
 
 .block
     margin-top: 5px
     margin-bottom: 5px
     overflow: none
     padding: 1em
-    box-shadow: 0 0 3px #888888
+    box-shadow: 0 0 3px #888
     border-radius: 10px
 

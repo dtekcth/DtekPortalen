@@ -1,5 +1,9 @@
 body
-    background: #cff
+    background: #fca
+
+/* override blueprint value */
+tbody tr:nth-child(even) td, tbody tr.even td
+    background: #fdc
 
 section
     margin-top: 1em
