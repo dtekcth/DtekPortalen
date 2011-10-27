@@ -1,5 +1,5 @@
 body
-    background: #fca
+    background: #CACACA
 
 /* override blueprint value */
 tbody tr:nth-child(even) td, tbody tr.even td
