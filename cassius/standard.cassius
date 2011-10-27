@@ -7,9 +7,6 @@ span.linkheading, span.menuheading
 .menu .block
     background-color: #DDD
 
-.menu .block
-    background-color: #DDD
-
 .block
     margin-top: 5px
     margin-bottom: 5px
