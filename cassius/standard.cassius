@@ -13,5 +13,9 @@ span.linkheading, span.menuheading
     overflow: none
     padding: 1em
     box-shadow: 0 0 3px #888
+    -moz-box-shadow: 0 0 3px #888
+    -webkit-box-shadow: 0 0 3px #888
     border-radius: 10px
+    -moz-border-radius: 10px
+    -webkit-border-radius: 10px
 
