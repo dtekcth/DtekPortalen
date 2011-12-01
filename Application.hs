@@ -61,9 +61,9 @@ getRobotsR = return $ RepPlain $ toContent ("User-agent: *" :: ByteString)
 withDtek :: AppConfig -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
     s <- static Settings.staticDir
-    einsteinRef <- hourlyRefreshingRef scrapEinstein
+    einsteinRef <- hourlyRefreshingRef scrapEinstein Nothing
     let calendarUrl = "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
-    calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl)
+    calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
     let cachedValues = CachedValues einsteinRef calendarRef
     Settings.withConnectionPool conf $ \p -> do
         runConnectionPool (runMigration migrateAll) p
@@ -81,10 +81,14 @@ withDtek conf logger f = do
 #endif
 
 -- For einsteinscraping and such
-hourlyRefreshingRef :: IO a -> IO (IORef a)
-hourlyRefreshingRef io = do
-    ref <- io >>= newIORef
-    forkIO $ forever $ (writeIORef ref =<< io) >> threadDelay (3600*1000)
+hourlyRefreshingRef :: IO a         -- ^ Routine to run every hour to fill in ref
+                    -> a            -- ^ Start value
+                    -> IO (IORef a) -- ^ Ref one can read from
+hourlyRefreshingRef io a = do
+    ref <- newIORef a
+    forkIO $ forever $ do forkIO (writeIORef ref =<< io)
+                          threadDelay (3600*1000)
+    forkIO $ writeIORef ref =<< io
     return ref
 
 -- for yesod devel
