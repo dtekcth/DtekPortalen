@@ -56,4 +56,4 @@ requireMemberships fs = do
         _             -> return tup
 
 requireEditor :: Handler (UserId, User)
-requireEditor = requireMemberships [SND]
+requireEditor = requireMemberships [Styret, DAG]
