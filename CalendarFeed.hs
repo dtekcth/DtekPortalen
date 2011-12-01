@@ -36,7 +36,7 @@ getUrl url = do
 getBody :: String -> IO String
 getBody url = fmap UTF8.decodeString $ getUrl url >>= openURL
 
-getEventInfo :: String -- | The URL
+getEventInfo :: String -- ^ The URL
              -> IO CalendarScrapResult
 getEventInfo url = fmap (extractInfo . parseTags) $ getBody url
 
