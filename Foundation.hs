@@ -107,6 +107,24 @@ instance Yesod Dtek where
             addCassius $(Settings.cassiusFile "default-layout")
         hamletToRepHtml $(Settings.hamletFile "default-layout")
 
+    isAuthorized route _isWrite = do
+        let mreqs = dtekPrivileges route
+        case mreqs of
+          Nothing -> return Authorized
+          Just ((Webredax:) -> fs) -> do
+            mu <- maybeAuth
+            case mu of
+              Nothing      -> return AuthenticationRequired
+              Just (_, u)  -> do
+                res <- liftIO $ checkMemberships fs u
+                return $ case res of
+                  Left errMsg -> Unauthorized $ "auth error: " `mappend` T.pack errMsg
+                  Right True  -> Authorized
+                  Right False -> Unauthorized $
+                                   "Åtkomst nekad. Måste va medlem i nån av: "
+                         `mappend` T.pack (show fs)
+
+
     -- This is done to provide an optimization for serving static files from
     -- a separate domain. Please see the staticRoot setting in Settings.hs
     urlRenderOverride y (StaticR s) =
@@ -193,3 +211,12 @@ setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 
 instance RenderMessage Dtek FormMessage where
     renderMessage _ _ = defaultFormMessage
+
+-- It is not neccesary to include Webredax in lists
+dtekPrivileges :: DtekRoute -> Maybe [Forening]
+dtekPrivileges ManagePostsR = Just editors
+dtekPrivileges EditPostR {} = Just editors
+dtekPrivileges DelPostR {}  = Just editors
+dtekPrivileges any = Nothing
+
+editors = [Styret, DAG]
