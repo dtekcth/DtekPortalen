@@ -11,10 +11,10 @@
 /profile ProfileR GET POST
 
 /posts/       PostsR GET
-/post/#T.Text PostR GET POST
+/post/#T.Text PostR GET
 /manage ManagePostsR GET POST
 /manage/edit/#T.Text EditPostR GET POST
-/manage/delete/#T.Text DelPostR GET
+/manage/delete/#T.Text DelPostR DELETE
 
 /about AboutR GET
 /contact ContactR GET
