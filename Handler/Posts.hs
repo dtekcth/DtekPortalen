@@ -30,7 +30,7 @@ getPostR slug = do
 
 getManagePostsR :: Handler RepHtml
 getManagePostsR = do
-    (uid, _) <- requireEditor
+    (uid, _) <- requireAuth
     posts <- runDB $ selectList [] [Desc PostCreated]
     defaultLayout $ do
         setDtekTitle "Administrera inlägg"
@@ -42,7 +42,7 @@ postManagePostsR = getManagePostsR
 
 getEditPostR :: Text -> Handler RepHtml
 getEditPostR slug = do
-    (uid, _) <- requireEditor
+    (uid, _) <- requireAuth
     mkpost <- runDB $ selectFirst [PostSlug ==. slug] []
     defaultLayout $ do
         setDtekTitle "Redigera inlägg"
@@ -53,7 +53,6 @@ postEditPostR = getEditPostR
 
 deleteDelPostR :: Text -> Handler RepHtml
 deleteDelPostR slug = do
-    requireEditor
     p <- runDB $ getBy $ UniquePost slug
     case p of
         Just (key, _) -> do

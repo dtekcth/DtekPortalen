@@ -41,19 +41,3 @@ standardLayout contentWidget = do
       let format = formatTime defaultTimeLocale
       in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
        ++ format "%R" (endTime event)
-
-requireMemberships :: [Forening] -> Handler (UserId, User)
-requireMemberships fs = do
-    let fs' = Webredax : fs
-    tup@(key, u) <- requireAuth
-    emember <- liftIO $ checkMemberships fs' u
-    case emember of
-        Left errorMsg -> do
-            setErrorMessage $ "Internal error: " `mappend` toHtml errorMsg
-            redirect RedirectTemporary RootR
-        Right False   -> permissionDenied $
-            "Åtkomst nekad, du måste tillhöra någon av " `mappend` T.pack (show fs')
-        _             -> return tup
-
-requireEditor :: Handler (UserId, User)
-requireEditor = requireMemberships [Styret, DAG]
