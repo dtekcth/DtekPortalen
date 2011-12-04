@@ -9,6 +9,7 @@
 /forening/#Forening ForeningR GET
 
 /profile ProfileR GET POST
+/admin AdminR GET
 
 /posts/       PostsR GET
 /post/#T.Text PostR GET

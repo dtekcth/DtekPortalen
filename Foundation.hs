@@ -1,5 +1,6 @@
 {-# LANGUAGE QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 {-# LANGUAGE OverloadedStrings, MultiParamTypeClasses #-}
+{-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE CPP #-}
 module Foundation
     ( Dtek (..)

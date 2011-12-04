@@ -32,6 +32,7 @@ import Handler.Posts
 import Handler.Profile
 import Handler.About
 import Handler.Contact
+import Handler.Admin
 
 -- Egna imports
 import Data.IORef

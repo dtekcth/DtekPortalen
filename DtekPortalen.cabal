@@ -48,6 +48,7 @@ library
                      Handler.Links
                      Handler.Posts
                      Handler.Profile
+                     Handler.Admin
                      Handler.About
                      Handler.Contact
 
