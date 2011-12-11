@@ -1,0 +1,11 @@
+<p> Du (#{userIdent u}) har beräknats vara med i följande grupper: #{show fs}
+<p
+    $if (null okRoutes)
+        Du har inga administriva rättigheter på portalen
+    $else
+        Dina rättigheter:
+        <ul
+            $forall route <- okRoutes
+                <li
+                    <a href=@{route}
+                        #{routeDescription route}
