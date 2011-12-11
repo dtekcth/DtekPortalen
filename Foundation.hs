@@ -23,6 +23,9 @@ module Foundation
     , module Data.Monoid
     , setSuccessMessage
     , setErrorMessage
+    , routePrivileges
+    , adminRoutes
+    , routeDescription
     ) where
 
 import Yesod
@@ -108,7 +111,7 @@ instance Yesod Dtek where
         hamletToRepHtml $(Settings.hamletFile "default-layout")
 
     isAuthorized route _isWrite = do
-        let mreqs = dtekPrivileges route
+        let mreqs = routePrivileges route
         case mreqs of
           Nothing -> return Authorized
           Just ((Webredax:) -> fs) -> do
@@ -212,11 +215,14 @@ setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 instance RenderMessage Dtek FormMessage where
     renderMessage _ _ = defaultFormMessage
 
--- It is not neccesary to include Webredax in lists
-dtekPrivileges :: DtekRoute -> Maybe [Forening]
-dtekPrivileges ManagePostsR = Just editors
-dtekPrivileges EditPostR {} = Just editors
-dtekPrivileges DelPostR {}  = Just editors
-dtekPrivileges any = Nothing
+-- | Privilege control for the pages. Warning! by default pages are
+--   unrestricted!
+--
+--   It is not neccesary to include Webredax in lists
+routePrivileges :: DtekRoute -> Maybe [Forening]
+routePrivileges ManagePostsR = Just editors
+routePrivileges EditPostR {} = Just editors
+routePrivileges DelPostR {}  = Just editors
+routePrivileges any = Nothing
 
 editors = [Styret, DAG]
