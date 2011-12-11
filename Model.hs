@@ -7,11 +7,13 @@ import Yesod
 import Data.Maybe (fromMaybe)
 import Data.Time (UTCTime)
 import Data.Text (Text)
+import Data.Either (rights)
 import qualified Data.Text as T
 import Yesod.Goodies.Markdown
 import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))
 import Data.List
+import Control.Monad (guard)
 import Control.Applicative (liftA2)
 import Data.Monoid (mconcat, mappend)
 
@@ -75,6 +77,15 @@ getMembers forening = do
     _           -> return $ Left $ show exitCode ++ ":\n\n" ++ serr
   where
     maillist = foreningToListname forening
+
+-- returns [] on failure
+getMemberships :: User -> IO [Forening]
+getMemberships u = fmap (map fst
+                      . filter snd
+                      . rights) $
+    mapM (\f -> fmap (fmap ((,) f)) $ g f)  allaForeningar
+  where
+    g = flip checkMembership u
 
 checkMembership :: Forening -> User -> IO (Either String Bool)
 checkMembership f u =
