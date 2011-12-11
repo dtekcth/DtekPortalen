@@ -56,6 +56,7 @@ import Data.Monoid
 import Data.IORef
 import Einstein
 import CalendarFeed
+import Data.Text (Text)
 
 data CachedValues = CachedValues {
     einstein :: IORef EinsteinScrapResult
@@ -224,5 +225,16 @@ routePrivileges ManagePostsR = Just editors
 routePrivileges EditPostR {} = Just editors
 routePrivileges DelPostR {}  = Just editors
 routePrivileges any = Nothing
+
+-- Administrative routes
+-- These are only for visual significance when displaying the admin
+-- page.
+adminRoutes :: [DtekRoute]
+adminRoutes = [ManagePostsR]
+
+routeDescription :: DtekRoute -> Text
+routeDescription ManagePostsR = "Redigera nyheter"
+routeDescription any = "Beskrivning saknas"
+
 
 editors = [Styret, DAG]
