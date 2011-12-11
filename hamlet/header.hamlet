@@ -9,6 +9,8 @@
                     <a href=@{AuthR LogoutR}>Logga ut
                 <li
                     <a href=@{ProfileR}>Profil
+                <li
+                    <a href=@{AdminR}>Administrera
             $nothing
                 <li
                     <a href=@{AuthR LoginR}>Logga in
