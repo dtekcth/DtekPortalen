@@ -34,12 +34,10 @@ import Handler.About
 import Handler.Contact
 import Handler.Admin
 
--- Egna imports
-import Data.IORef
+-- Own imports
+import Helpers.Scraping (hourlyRefreshingRef)
 import Scrapers.Einstein
 import Scrapers.CalendarFeed
-import Control.Monad (forever)
-import Control.Concurrent (threadDelay)
 
 
 -- This line actually creates our YesodSite instance. It is the second half
@@ -80,17 +78,6 @@ withDtek conf logger f = do
             putMVar flag ()) Nothing
         takeMVar flag
 #endif
-
--- For einsteinscraping and such
-hourlyRefreshingRef :: IO a         -- ^ Routine to run every hour to fill in ref
-                    -> a            -- ^ Start value
-                    -> IO (IORef a) -- ^ Ref one can read from
-hourlyRefreshingRef io a = do
-    ref <- newIORef a
-    forkIO $ forever $ do forkIO (writeIORef ref =<< io)
-                          threadDelay (3600*1000)
-    forkIO $ writeIORef ref =<< io
-    return ref
 
 -- for yesod devel
 withDevelAppPort :: Dynamic
