@@ -7,7 +7,7 @@ module StandardLayout
 import Foundation
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
-import CalendarFeed (EventInfo(..))
+import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Yesod.Goodies(shorten)

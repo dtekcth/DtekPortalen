@@ -39,9 +39,10 @@ library
                      Settings.StaticFiles
                      -- Egenlagda av Arash
                      StandardLayout
-                     Einstein
-                     CalendarFeed
+                     Scrapers.Einstein
+                     Scrapers.CalendarFeed
                      Helpers.Post
+                     Helpers.Scraping
                      -- Handler.Root fanns innan iufersig
                      Handler.Root
                      Handler.Forening
@@ -108,6 +109,7 @@ executable         DtekPortalen
                  , utf8-string          >= 0.3.6
                  , old-locale           >= 1.0.0.0
                  , yesod-goodies        >= 0.0.5    && < 0.0.6
+                 , http-enumerator
 
     if !os(windows)
          build-depends: unix

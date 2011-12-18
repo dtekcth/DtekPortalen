@@ -54,8 +54,8 @@ import Text.Shakespeare.Text (stext)
 -- Arash imports
 import Data.Monoid
 import Data.IORef
-import Einstein
-import CalendarFeed
+import Scrapers.Einstein
+import Scrapers.CalendarFeed
 import Data.Text (Text)
 
 data CachedValues = CachedValues {

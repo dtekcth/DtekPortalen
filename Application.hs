@@ -36,8 +36,8 @@ import Handler.Admin
 
 -- Egna imports
 import Data.IORef
-import Einstein
-import CalendarFeed
+import Scrapers.Einstein
+import Scrapers.CalendarFeed
 import Control.Monad (forever)
 import Control.Concurrent (threadDelay)
 

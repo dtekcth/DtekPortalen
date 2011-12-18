@@ -1,23 +1,19 @@
 {-# LANGUAGE ViewPatterns #-}
-module CalendarFeed (
-   EventInfo(..)
- , getEventInfo
- , CalendarScrapResult
- )
- where
+module Scrapers.CalendarFeed (
+     EventInfo(..)
+   , getEventInfo
+   , CalendarScrapResult
+   ) where
 
+import Helpers.Scraping (openUrl)
+import Network.URL
 import qualified Codec.Binary.UTF8.String as UTF8
 import Data.Time.RFC3339
 import Data.Time.LocalTime
 import Data.Time.Calendar (addDays)
-import Network.URL
-import Network.HTTP
 import Text.HTML.TagSoup
 
 type CalendarScrapResult = [EventInfo]
-
-openURL :: String -> IO String
-openURL x = getResponseBody =<< simpleHTTP (getRequest x)
 
 getUrl :: String -> IO String
 getUrl url = do
@@ -34,7 +30,7 @@ getUrl url = do
                     , ("sortorder", "ascending"), ("ctz", "Europe/Stockholm")] }
 
 getBody :: String -> IO String
-getBody url = fmap UTF8.decodeString $ getUrl url >>= openURL
+getBody url = fmap UTF8.decodeString $ getUrl url >>= openUrl
 
 getEventInfo :: String -- ^ The URL
              -> IO CalendarScrapResult

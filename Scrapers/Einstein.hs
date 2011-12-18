@@ -1,7 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Einstein (scrapEinstein, EinsteinScrapResult) where
+module Scrapers.Einstein (
+     scrapEinstein
+   , EinsteinScrapResult
+   ) where
 
-import Network.HTTP
+import Helpers.Scraping (openUrl)
 import Text.HTML.TagSoup
 import Data.List.Split (splitEvery)
 import Control.Monad (guard, liftM2)
@@ -12,12 +15,9 @@ import qualified Data.Text as T
 -- I use tag soup as it apperently fixes unicode characters
 type EinsteinScrapResult = Maybe (Int, [[String]])
 
-openURL :: String -> IO String
-openURL x = getResponseBody =<< simpleHTTP (getRequest x)
-
 scrapEinstein :: IO EinsteinScrapResult
 scrapEinstein = do
-    body <- openURL "http://www.butlercatering.se/einstein.html"
+    body <- openUrl "http://www.butlercatering.se/einstein.html"
     return (parse body)
 
 printMenuToStdout :: IO()
