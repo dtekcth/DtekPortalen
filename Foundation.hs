@@ -169,7 +169,7 @@ instance Yesod Dtek where
 instance YesodPersist Dtek where
     type YesodPersistBackend Dtek = SqlPersist
     runDB f = liftIOHandler
-            $ fmap connPool getYesod >>= runSqlPool f
+            $ fmap connPool getYesod >>= Database.Persist.Base.runPool (undefined :: Settings.PersistConfig) f
 
 instance YesodAuth Dtek where
     type AuthId Dtek = UserId

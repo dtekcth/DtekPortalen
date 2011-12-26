@@ -11,7 +11,8 @@ import Yesod.Auth
 import Yesod.Default.Config
 import Yesod.Default.Main
 import Yesod.Default.Handlers
-import Yesod.Logger (Logger)
+import Yesod.Logger (Logger, logBS, flushLogger)
+import Network.Wai.Middleware.RequestLogger
 import Data.Dynamic (Dynamic, toDyn)
 import qualified Database.Persist.Base
 import Database.Persist.GenericSql (runMigration)
@@ -43,11 +44,7 @@ mkYesodDispatch "Dtek" resourcesDtek
 -- migrations handled by Yesod.
 withDtek :: AppConfig DefaultEnv () -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
-#ifdef DEVELOPMENT
-    s <- staticDevel Settings.staticDir
-#else
-    s <- static Settings.staticDir
-#endif
+    s <- staticSite
     einsteinRef <- hourlyRefreshingRef scrapEinstein Nothing
     let calendarUrl = "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
@@ -57,7 +54,13 @@ withDtek conf logger f = do
     Database.Persist.Base.withPool (dbconf :: Settings.PersistConfig) $ \p -> do
         Database.Persist.Base.runPool dbconf (runMigration migrateAll) p
         let h = Dtek conf logger s p cachedValues
-        defaultRunner f h
+        defaultRunner (f . logWare) h
+  where
+#ifdef DEVELOPMENT
+    logWare = logHandleDev (\msg -> logBS logger msg >> flushLogger logger)
+#else
+    logWare = logStdout
+#endif
 
 -- for yesod devel
 withDevelAppPort :: Dynamic
