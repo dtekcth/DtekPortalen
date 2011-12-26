@@ -5,21 +5,18 @@ module Handler.Posts where
 import Import
 import qualified Data.Text as T
 import Control.Applicative ((<*>), (<$>))
-import Yesod.Goodies.Paginate
-import Yesod.Goodies.Shorten
-import Yesod.Goodies.Markdown
+import Yesod.Paginator
+import Yesod.Markdown
+import Data.Shorten
 import Helpers.Post
 
 getPostsR :: Handler RepHtml
 getPostsR = do
-    let po = PageOptions {
-        itemsPerPage = 4
-      , showItems    = mapM_ (slugToPostWidget True)
-    }
     posts <- runDB $ selectList [] [Desc PostCreated]
+    (posts', widget :: Widget) <- paginate 5 (map (postSlug . snd) posts)
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
-        addWidget $ paginate po (map (postSlug . snd) posts)
+        addWidget widget
 
 getPostR :: Text -> Handler RepHtml
 getPostR slug = do

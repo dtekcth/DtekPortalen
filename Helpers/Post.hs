@@ -7,9 +7,9 @@ import Data.Time (getCurrentTime)
 import Network.URL
 import Text.Hamlet(shamlet)
 import Data.Maybe (fromMaybe)
-import Yesod.Goodies.Markdown
-import Yesod.Goodies.Shorten
-import Yesod.Goodies.Time
+import Yesod.Markdown
+import Data.Shorten
+import Data.Time.Format.Human
 import qualified Data.Text as T
 
 slugToPostWidget :: Bool -- | Full?

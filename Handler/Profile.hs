@@ -7,9 +7,6 @@ import Data.Time (getCurrentTime)
 import Network.URL
 import Text.Hamlet(shamlet)
 import Data.Maybe (fromMaybe)
-import Yesod.Goodies.Markdown
-import Yesod.Goodies.Shorten
-import Yesod.Goodies.Time
 import Data.Text (Text)
 import qualified Data.Text as T
 

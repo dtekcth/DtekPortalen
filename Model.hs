@@ -12,7 +12,7 @@ import Data.Time (UTCTime)
 import Data.Text (Text)
 import Data.Either (rights)
 import qualified Data.Text as T
-import Yesod.Goodies.Markdown
+import Yesod.Markdown
 import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))
 import Data.List

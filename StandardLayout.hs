@@ -10,7 +10,7 @@ import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
-import Yesod.Goodies(shorten)
+import Data.Shorten(shorten)
 import qualified Data.Text as T
 
 standardLayout :: Widget -> Handler RepHtml
