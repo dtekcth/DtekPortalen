@@ -1,28 +1,20 @@
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Application
     ( withDtek
     , withDevelAppPort
     ) where
 
-import Foundation
+import Import
 import Settings
-import Settings.StaticFiles (static)
+import Yesod.Static
 import Yesod.Auth
-import Yesod.Logger (makeLogger, flushLogger, Logger, logString, logLazyText)
-import Database.Persist.GenericSql
-import Data.ByteString (ByteString)
+import Yesod.Default.Config
+import Yesod.Default.Main
+import Yesod.Default.Handlers
+import Yesod.Logger (Logger)
 import Data.Dynamic (Dynamic, toDyn)
-import Network.Wai.Middleware.Debug (debugHandle)
-
-#ifndef WINDOWS
-import qualified System.Posix.Signals as Signal
-import Control.Concurrent (forkIO, killThread)
-import Control.Concurrent.MVar (newEmptyMVar, putMVar, takeMVar)
-#endif
+import qualified Database.Persist.Base
+import Database.Persist.GenericSql (runMigration)
 
 -- Import all relevant handler modules here.
 import Handler.Root
@@ -45,52 +37,28 @@ import Scrapers.CalendarFeed
 -- the comments there for more details.
 mkYesodDispatch "Dtek" resourcesDtek
 
--- Some default handlers that ship with the Yesod site template. You will
--- very rarely need to modify this.
-getFaviconR :: Handler ()
-getFaviconR = sendFile "image/x-icon" "config/favicon.ico"
-
-getRobotsR :: Handler RepPlain
-getRobotsR = return $ RepPlain $ toContent ("User-agent: *" :: ByteString)
-
 -- This function allocates resources (such as a database connection pool),
 -- performs initialization and creates a WAI application. This is also the
 -- place to put your migrate statements to have automatic database
 -- migrations handled by Yesod.
-withDtek :: AppConfig -> Logger -> (Application -> IO a) -> IO ()
+withDtek :: AppConfig DefaultEnv () -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
+#ifdef DEVELOPMENT
+    s <- staticDevel Settings.staticDir
+#else
     s <- static Settings.staticDir
+#endif
     einsteinRef <- hourlyRefreshingRef scrapEinstein Nothing
     let calendarUrl = "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
     let cachedValues = CachedValues einsteinRef calendarRef
-    Settings.withConnectionPool conf $ \p -> do
-        runConnectionPool (runMigration migrateAll) p
+    dbconf <- withYamlEnvironment "config/postgresql.yml" (appEnv conf)
+            $ either error return . Database.Persist.Base.loadConfig
+    Database.Persist.Base.withPool (dbconf :: Settings.PersistConfig) $ \p -> do
+        Database.Persist.Base.runPool dbconf (runMigration migrateAll) p
         let h = Dtek conf logger s p cachedValues
-#ifdef WINDOWS
-        toWaiApp h >>= f >> return ()
-#else
-        tid <- forkIO $ toWaiApp h >>= f >> return ()
-        flag <- newEmptyMVar
-        _ <- Signal.installHandler Signal.sigINT (Signal.CatchOnce $ do
-            putStrLn "Caught an interrupt"
-            killThread tid
-            putMVar flag ()) Nothing
-        takeMVar flag
-#endif
+        defaultRunner f h
 
 -- for yesod devel
 withDevelAppPort :: Dynamic
-withDevelAppPort =
-    toDyn go
-  where
-    go :: ((Int, Application) -> IO ()) -> IO ()
-    go f = do
-        conf <- Settings.loadConfig Settings.Development
-        let port = appPort conf
-        logger <- makeLogger
-        logString logger $ "Devel application launched, listening on port " ++ show port
-        withDtek conf logger $ \app -> f (port, debugHandle (logHandle logger) app)
-        flushLogger logger
-      where
-        logHandle logger msg = logLazyText logger msg >> flushLogger logger
+withDevelAppPort = toDyn $ defaultDevelApp withDtek

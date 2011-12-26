@@ -19,45 +19,50 @@ module Foundation
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)
-    , unless
     , module Data.Monoid
     , setSuccessMessage
     , setErrorMessage
     , routePrivileges
     , adminRoutes
     , routeDescription
+    , Form
     ) where
 
-import Yesod
+import Prelude
+import Yesod hiding (Form, AppConfig (..), withYamlEnvironment)
 import Yesod.Static (Static, base64md5, StaticRoute(..))
 import Settings.StaticFiles
 import Yesod.Auth
-import Yesod.Auth.Kerberos
-import Yesod.Logger (Logger, logLazyText)
+import Yesod.Auth.OpenId
+import Yesod.Default.Config
+import Yesod.Default.Util (addStaticContentExternal)
+import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
 import qualified Settings
-import System.Directory
 import qualified Data.ByteString.Lazy as L
+import qualified Database.Persist.Base
 import Database.Persist.GenericSql
-import Settings (hamletFile, cassiusFile, luciusFile, juliusFile, widgetFile)
+import Settings (widgetFile)
 import Model
-import Data.Maybe (isJust)
-import Control.Monad (join, unless)
-import Network.Mail.Mime
-import qualified Data.Text.Lazy.Encoding
 import Text.Jasmine (minifym)
-import qualified Data.Text as T
 import Web.ClientSession (getKey)
-import Text.Blaze.Renderer.Utf8 (renderHtml)
-import Text.Hamlet (shamlet)
-import Text.Shakespeare.Text (stext)
-
+import Text.Hamlet (hamletFile)
+#if DEVELOPMENT
+import qualified Data.Text.Lazy.Encoding
+#else
+import Network.Mail.Mime (sendmail)
+#endif
 -- Arash imports
 import Data.Monoid
 import Data.IORef
 import Scrapers.Einstein
 import Scrapers.CalendarFeed
+import qualified Data.Text as T
 import Data.Text (Text)
 import Control.Monad.IO.Class (MonadIO)
+import Text.Hamlet (shamlet)
+import Text.Shakespeare.Text (stext)
+import Yesod.Auth.Kerberos
+
 
 data CachedValues = CachedValues {
     einstein :: IORef EinsteinScrapResult
@@ -69,10 +74,10 @@ data CachedValues = CachedValues {
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data Dtek = Dtek
-    { settings :: Settings.AppConfig
+    { settings :: AppConfig DefaultEnv ()
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
-    , connPool :: Settings.ConnectionPool -- ^ Database connection pool.
+    , connPool :: Database.Persist.Base.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
     , cache :: CachedValues
     }
 
@@ -97,20 +102,29 @@ data Dtek = Dtek
 -- split these actions into two functions and place them in separate files.
 mkYesodData "Dtek" $(parseRoutesFile "config/routes")
 
+type Form x = Html -> MForm Dtek Dtek (FormResult x, Widget)
+
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
 instance Yesod Dtek where
-    approot = Settings.appRoot . settings
+    approot = appRoot . settings
 
     -- Place the session key file in the config folder
     encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
 
     defaultLayout widget = do
         mmsg <- getMessage
+
+        -- We break up the default layout into two components:
+        -- default-layout is the contents of the body tag, and
+        -- default-layout-wrapper is the entire page. Since the final
+        -- value passed to hamletToRepHtml cannot be a widget, this allows
+        -- you to use normal widget features in default-layout.
+
         pc <- widgetToPageContent $ do
-            widget
-            addCassius $(Settings.cassiusFile "default-layout")
-        hamletToRepHtml $(Settings.hamletFile "default-layout")
+            $(widgetFile "normalize")
+            $(widgetFile "default-layout")
+        hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     isAuthorized route _isWrite = do
         let mreqs = routePrivileges route
@@ -140,33 +154,22 @@ instance Yesod Dtek where
     authRoute _ = Just $ AuthR LoginR
 
     messageLogger y loc level msg =
-      formatLogMessage loc level msg >>= logLazyText (getLogger y)
+      formatLogText (getLogger y) loc level msg >>= logMsg (getLogger y)
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
     -- expiration dates to be set far in the future without worry of
     -- users receiving stale content.
-    addStaticContent ext' _ content = do
-        let fn = base64md5 content ++ '.' : T.unpack ext'
-        let content' =
-                if ext' == "js"
-                    then case minifym content of
-                            Left _ -> content
-                            Right y -> y
-                    else content
-        let statictmp = Settings.staticDir ++ "/tmp/"
-        liftIO $ createDirectoryIfMissing True statictmp
-        let fn' = statictmp ++ fn
-        exists <- liftIO $ doesFileExist fn'
-        unless exists $ liftIO $ L.writeFile fn' content'
-        return $ Just $ Right (StaticR $ StaticRoute ["tmp", T.pack fn] [], [])
+    addStaticContent = addStaticContentExternal minifym base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
 
+    -- Enable Javascript async loading
+    yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
 
 -- How to run database actions.
 instance YesodPersist Dtek where
     type YesodPersistBackend Dtek = SqlPersist
     runDB f = liftIOHandler
-            $ fmap connPool getYesod >>= Settings.runConnectionPool f
+            $ fmap connPool getYesod >>= runSqlPool f
 
 instance YesodAuth Dtek where
     type AuthId Dtek = UserId
@@ -198,12 +201,13 @@ instance YesodAuth Dtek where
 |]
         tm <- lift getRouteToMaster
         mapM_ (flip apLogin tm) authPlugins
+
 -- Sends off your mail. Requires sendmail in production!
 deliver :: Dtek -> L.ByteString -> IO ()
-#ifdef PRODUCTION
-deliver _ = sendmail
-#else
+#ifdef DEVELOPMENT
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
+#else
+deliver _ = sendmail
 #endif
 
 setDtekTitle :: Monad m => Html -> GGWidget master m ()

@@ -3,6 +3,7 @@ module Helpers.Scraping (
    , hourlyRefreshingRef
    ) where
 
+import Prelude
 import Network.HTTP.Enumerator (simpleHttp)
 import Data.ByteString.Lazy.Char8 (unpack)
 import Data.IORef

@@ -1,8 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.Root where
 
-import Foundation
-import StandardLayout
+import Import
 import Helpers.Post
 
 -- This is a handler function for the GET request method on the RootR

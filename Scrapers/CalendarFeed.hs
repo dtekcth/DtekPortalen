@@ -5,6 +5,7 @@ module Scrapers.CalendarFeed (
    , CalendarScrapResult
    ) where
 
+import Prelude
 import Helpers.Scraping (openUrl)
 import Network.URL
 import qualified Codec.Binary.UTF8.String as UTF8

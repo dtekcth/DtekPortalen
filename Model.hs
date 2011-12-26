@@ -1,8 +1,11 @@
 {-# LANGUAGE QuasiQuotes, TypeFamilies, GeneralizedNewtypeDeriving, TemplateHaskell, GADTs #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE FlexibleContexts #-}
+
 module Model where
 
+import Prelude
 import Yesod
 import Data.Maybe (fromMaybe)
 import Data.Time (UTCTime)

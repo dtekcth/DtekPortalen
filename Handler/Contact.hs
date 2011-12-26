@@ -1,8 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.Contact where
 
-import Foundation
-import StandardLayout
+import Import
 
 getContactR :: Handler RepHtml
 getContactR = do

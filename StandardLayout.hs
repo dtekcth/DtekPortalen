@@ -1,9 +1,9 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
-module StandardLayout
-   -- (standardLayout)
-   -- FIXME Rename file and export requireFunctions
+{-# LANGUAGE ScopedTypeVariables #-}
+module StandardLayout (standardLayout)
   where
 
+import Prelude
 import Foundation
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
@@ -13,15 +13,16 @@ import Data.IORef
 import Yesod.Goodies(shorten)
 import qualified Data.Text as T
 
+standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
     mu <- maybeAuth
-    rmenu <- mkrmenu
-    header <- mkHeader mu
+    (rmenu :: Widget)  <- mkrmenu
+    (header :: Widget) <- mkHeader mu
     defaultLayout $ addWidget $(widgetFile "standard")
   where
-    footer = $(widgetFile "footer")
+    (footer :: Widget) = $(widgetFile "footer")
     mkHeader mu = return $(widgetFile "header")
-    lmenu  = $(widgetFile "lmenu" )
+    (lmenu :: Widget)  = $(widgetFile "lmenu" )
     mkrmenu  = do
         (Dtek _ _ _ _ (CachedValues einsteinRef calendarRef)) <- getYesod
         einsteinScrapResult <- liftIO $ readIORef einsteinRef

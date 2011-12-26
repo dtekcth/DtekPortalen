@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.Profile where
 
-import Foundation
+import Import
 import Control.Applicative ((<$>), (<*>))
 import Data.Time (getCurrentTime)
 import Network.URL
@@ -15,7 +15,7 @@ import qualified Data.Text as T
 
 type UserFormResult = Maybe Text
 
-profileEditForm :: User -> Html -> Form Dtek Dtek (FormResult UserFormResult, Widget)
+profileEditForm :: User -> Form UserFormResult
 profileEditForm u = renderTable $ aopt textField "Användarnamn"
         { fsTooltip = Just "Visas t.ex. vid nyhetsinlägg"
         } (Just $ userNick u)

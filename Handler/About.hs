@@ -1,8 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.About where
 
-import Foundation
-import StandardLayout
+import Import
 
 getAboutR :: Handler RepHtml
 getAboutR = do

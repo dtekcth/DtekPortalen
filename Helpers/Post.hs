@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Helpers.Post where
 
-import Foundation
+import Import
 import Control.Applicative ((<$>), (<*>))
 import Data.Time (getCurrentTime)
 import Network.URL
@@ -10,7 +10,6 @@ import Data.Maybe (fromMaybe)
 import Yesod.Goodies.Markdown
 import Yesod.Goodies.Shorten
 import Yesod.Goodies.Time
-import Data.Text (Text)
 import qualified Data.Text as T
 
 slugToPostWidget :: Bool -- | Full?
@@ -28,8 +27,8 @@ postToWidget :: Bool -- | Full?
 postToWidget isFull post = do
     creator <- fmap safeExtract $ lift $ runDB $ get (postCreator post)
     editor <- fmap safeExtract  $ lift $ runDB $ get (postEditor post)
-    prettyCreated <- lift $ humanReadableTime $ postCreated post
-    prettyEdited  <- lift $ humanReadableTime $ postEdited post
+    prettyCreated <- lift $ liftIOHandler $ lift $ humanReadableTime $ postCreated post
+    prettyEdited  <- lift $ liftIOHandler $ lift $ humanReadableTime $ postEdited post
     addWidget $ if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
     safeExtract = fromMaybe "(borttagen)" . fmap userCalcName
@@ -118,7 +117,7 @@ runPostForm mkpost uid = do
 
 -- | Display the new post form inself. If the first argument is Just,
 -- then use that to prepopulate the form
-postForm :: Maybe Post -> Html -> Form Dtek Dtek (FormResult PostEditForm, Widget)
+postForm :: Maybe Post -> Form PostEditForm
 postForm mpost = renderTable $ PostEditForm
     <$> areq uSlugField    fsSlug     (fmap postSlug   mpost)
     <*> areq textField     "Titel"    (fmap postTitle  mpost)

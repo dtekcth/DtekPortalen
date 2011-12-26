@@ -1,10 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.Forening where
 
-import Foundation
-import StandardLayout
-import Data.Text (Text)
+import Import
 
 getForeningR :: Forening -> Handler RepHtml
 getForeningR forening = standardLayout $ addWidget $(widgetFile "forening")
-

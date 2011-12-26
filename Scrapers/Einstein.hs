@@ -4,6 +4,7 @@ module Scrapers.Einstein (
    , EinsteinScrapResult
    ) where
 
+import Prelude
 import Helpers.Scraping (openUrl)
 import Text.HTML.TagSoup
 import Data.List.Split (splitEvery)

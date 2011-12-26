@@ -1,9 +1,8 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Handler.Posts where
 
-import Foundation
-import StandardLayout
-import Data.Text (Text)
+import Import
 import qualified Data.Text as T
 import Control.Applicative ((<*>), (<$>))
 import Yesod.Goodies.Paginate
@@ -34,7 +33,7 @@ getManagePostsR = do
     posts <- runDB $ selectList [] [Desc PostCreated]
     defaultLayout $ do
         setDtekTitle "Administrera inlägg"
-        let postslist = $(widgetFile "postslist")
+        let (postslist :: Widget) = $(widgetFile "postslist")
         addWidget $(widgetFile "manage")
 
 postManagePostsR :: Handler RepHtml

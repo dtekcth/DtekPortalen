@@ -1,8 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 module Handler.Admin where
 
-import Foundation
-import StandardLayout
+import Import
 
 getAdminR :: Handler RepHtml
 getAdminR = do
