@@ -59,6 +59,7 @@ import Data.Text (Text)
 import Control.Monad.IO.Class (MonadIO)
 import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
+import Yesod.Form.I18n.Swedish
 
 
 data CachedValues = CachedValues {
@@ -216,7 +217,7 @@ setSuccessMessage t = setMessage [shamlet|<div .success>#{t}|]
 setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 
 instance RenderMessage Dtek FormMessage where
-    renderMessage _ _ = defaultFormMessage
+    renderMessage _ _ = swedishFormMessage
 
 -- | Privilege control for the pages. Warning! by default pages are
 --   unrestricted!
