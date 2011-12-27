@@ -10,8 +10,8 @@ import Yesod.Markdown
 import Data.Time.Format.Human
 import qualified Data.Text as T
 
-slugToPostWidget :: Bool -- | Full?
-                 -> Text -- | The slug
+slugToPostWidget :: Bool -- ^ Full?
+                 -> Text -- ^ The slug
                  -> Widget
 slugToPostWidget isFull slug = do
     mpost <- lift $ runDB $ selectFirst [PostSlug ==. slug] []
@@ -19,7 +19,7 @@ slugToPostWidget isFull slug = do
         Just (_key, post) -> do postToWidget isFull post
         Nothing   -> addHtml [shamlet|Posten med slug "#{slug}" hittades inte!|]
 
-postToWidget :: Bool -- | Full?
+postToWidget :: Bool -- ^ Full?
              -> Post
              -> Widget
 postToWidget isFull post = do
