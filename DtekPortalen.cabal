@@ -109,7 +109,9 @@ executable         DtekPortalen
                  , shakespeare-text              >= 0.10       && < 0.11
                  , hjsmin                        >= 0.0.14     && < 0.1
                  , monad-control                 == 0.3.*
-                 -- Nedan e arashes inlagda
+                 -- Manually added but should probably be in by default
+                 , wai-extra                     >= 0.4        && < 0.5
+                 -- Modules for this project
                  , process              >= 1.0      && < 2.0
                  , split
                  , tagsoup
