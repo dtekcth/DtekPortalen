@@ -19,7 +19,6 @@ module Foundation
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)
-    , module Data.Monoid
     , setSuccessMessage
     , setErrorMessage
     , routePrivileges
@@ -33,7 +32,6 @@ import Yesod hiding (Form, AppConfig (..), withYamlEnvironment)
 import Yesod.Static (Static, base64md5, StaticRoute(..))
 import Settings.StaticFiles
 import Yesod.Auth
-import Yesod.Auth.OpenId
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
@@ -60,7 +58,6 @@ import qualified Data.Text as T
 import Data.Text (Text)
 import Control.Monad.IO.Class (MonadIO)
 import Text.Hamlet (shamlet)
-import Text.Shakespeare.Text (stext)
 import Yesod.Auth.Kerberos
 
 
@@ -229,7 +226,7 @@ routePrivileges :: DtekRoute -> Maybe [Forening]
 routePrivileges ManagePostsR = Just editors
 routePrivileges EditPostR {} = Just editors
 routePrivileges DelPostR {}  = Just editors
-routePrivileges any = Nothing
+routePrivileges _ = Nothing
 
 -- Administrative routes
 -- These are only for visual significance when displaying the admin
@@ -239,7 +236,7 @@ adminRoutes = [ManagePostsR]
 
 routeDescription :: DtekRoute -> Text
 routeDescription ManagePostsR = "Redigera nyheter"
-routeDescription any = "Beskrivning saknas"
+routeDescription _ = "Beskrivning saknas"
 
-
+editors :: [Forening]
 editors = [Styret, DAG]

@@ -2,13 +2,7 @@
 module Handler.Profile where
 
 import Import
-import Control.Applicative ((<$>), (<*>))
-import Data.Time (getCurrentTime)
-import Network.URL
-import Text.Hamlet(shamlet)
 import Data.Maybe (fromMaybe)
-import Data.Text (Text)
-import qualified Data.Text as T
 
 type UserFormResult = Maybe Text
 

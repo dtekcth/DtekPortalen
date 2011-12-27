@@ -11,7 +11,6 @@ import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Data.Shorten(shorten)
-import qualified Data.Text as T
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do

@@ -3,8 +3,6 @@
 module Handler.Posts where
 
 import Import
-import qualified Data.Text as T
-import Control.Applicative ((<*>), (<$>))
 import Yesod.Paginator
 import Yesod.Markdown
 import Data.Shorten

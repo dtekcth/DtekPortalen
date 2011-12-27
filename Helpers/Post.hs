@@ -2,13 +2,11 @@
 module Helpers.Post where
 
 import Import
-import Control.Applicative ((<$>), (<*>))
 import Data.Time (getCurrentTime)
 import Network.URL
 import Text.Hamlet(shamlet)
 import Data.Maybe (fromMaybe)
 import Yesod.Markdown
-import Data.Shorten
 import Data.Time.Format.Human
 import qualified Data.Text as T
 

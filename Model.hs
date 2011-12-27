@@ -16,9 +16,7 @@ import Yesod.Markdown
 import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))
 import Data.List
-import Control.Monad (guard)
-import Control.Applicative (liftA2)
-import Data.Monoid (mconcat, mappend)
+import Data.Monoid (mappend)
 
 
 -- You can define all of your database entities in the entities file.
