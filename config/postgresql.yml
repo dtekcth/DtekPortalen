@@ -4,6 +4,7 @@ Default: &defaults
   host: localhost
   port: 5432
   database: dtekportalen
+  poolsize: 10
 
 Development:
   <<: *defaults
