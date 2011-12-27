@@ -49,7 +49,7 @@ import qualified Data.Text.Lazy.Encoding
 #else
 import Network.Mail.Mime (sendmail)
 #endif
--- Arash imports
+-- Imports specific for this site (not scaffolded)
 import Data.Monoid
 import Data.IORef
 import Scrapers.Einstein
@@ -228,9 +228,8 @@ routePrivileges EditPostR {} = Just editors
 routePrivileges DelPostR {}  = Just editors
 routePrivileges _ = Nothing
 
--- Administrative routes
--- These are only for visual significance when displaying the admin
--- page.
+-- | Administrative routes. These are only for visual significance
+--   when displaying the admin page.
 adminRoutes :: [DtekRoute]
 adminRoutes = [ManagePostsR]
 
