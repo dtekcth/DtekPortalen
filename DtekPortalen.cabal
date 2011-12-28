@@ -34,13 +34,13 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
-                     -- Egenlagda av Arash
+                     -- Nonscaffolded sitespecific modules
                      StandardLayout
                      Scrapers.Einstein
                      Scrapers.CalendarFeed
                      Helpers.Post
                      Helpers.Scraping
-                     -- Handler.Root fanns innan iufersig
+                     -- Handler modules
                      Handler.Root
                      Handler.Forening
                      Handler.Links
