@@ -60,6 +60,7 @@ import Control.Monad.IO.Class (MonadIO)
 import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
 import Yesod.Form.I18n.Swedish
+import Config
 
 
 data CachedValues = CachedValues {
@@ -72,7 +73,7 @@ data CachedValues = CachedValues {
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data Dtek = Dtek
-    { settings :: AppConfig DefaultEnv ()
+    { settings :: AppConfig DefaultEnv Extra
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Database.Persist.Base.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.

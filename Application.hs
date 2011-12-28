@@ -31,6 +31,7 @@ import Handler.Admin
 import Helpers.Scraping (hourlyRefreshingRef)
 import Scrapers.Einstein
 import Scrapers.CalendarFeed
+import Config
 
 
 -- This line actually creates our YesodSite instance. It is the second half
@@ -42,11 +43,11 @@ mkYesodDispatch "Dtek" resourcesDtek
 -- performs initialization and creates a WAI application. This is also the
 -- place to put your migrate statements to have automatic database
 -- migrations handled by Yesod.
-withDtek :: AppConfig DefaultEnv () -> Logger -> (Application -> IO a) -> IO ()
+withDtek :: AppConfig DefaultEnv Extra -> Logger -> (Application -> IO a) -> IO ()
 withDtek conf logger f = do
     s <- staticSite
     einsteinRef <- hourlyRefreshingRef scrapEinstein Nothing
-    let calendarUrl = "https://www.google.com/calendar/feeds/pbtqihgenalb8s3eddsgeuo1fg%40group.calendar.google.com/public/full"
+    let calendarUrl = appExtra conf
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
     let cachedValues = CachedValues einsteinRef calendarRef
     dbconf <- withYamlEnvironment "config/postgresql.yml" (appEnv conf)
@@ -64,4 +65,7 @@ withDtek conf logger f = do
 
 -- for yesod devel
 withDevelAppPort :: Dynamic
-withDevelAppPort = toDyn $ defaultDevelApp withDtek
+withDevelAppPort = toDyn $ defaultDevelAppWith myDevelopmentConfig withDtek
+  where myDevelopmentConfig :: IO (AppConfig DefaultEnv Extra)
+        myDevelopmentConfig = fmap (\c -> c { appExtra = extra }) loadDevelopmentConfig
+        extra = "https://www.google.com/calendar/feeds/datateknologsektionen@gmail.com/public/full"
