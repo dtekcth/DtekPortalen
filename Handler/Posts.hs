@@ -22,6 +22,9 @@ getPostR slug = do
         setDtekTitle "Specifikt inlägg"
         addWidget $ slugToPostWidget True slug
 
+postPostR :: Text -> Handler RepHtml
+postPostR = getPostR
+
 getManagePostsR :: Handler RepHtml
 getManagePostsR = do
     (uid, _) <- requireAuth
@@ -45,8 +48,8 @@ getEditPostR slug = do
 postEditPostR :: Text -> Handler RepHtml
 postEditPostR = getEditPostR
 
-deleteDelPostR :: Text -> Handler RepHtml
-deleteDelPostR slug = do
+getDelPostR :: Text -> Handler RepHtml
+getDelPostR slug = do
     p <- runDB $ getBy $ UniquePost slug
     case p of
         Just (key, _) -> do

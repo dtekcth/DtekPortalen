@@ -12,10 +12,10 @@
 /admin AdminR GET
 
 /posts/       PostsR GET
-/post/#T.Text PostR GET
+/post/#T.Text PostR GET POST
 /manage ManagePostsR GET POST
 /manage/edit/#T.Text EditPostR GET POST
-/manage/delete/#T.Text DelPostR DELETE
+/manage/delete/#T.Text DelPostR GET
 
 /about AboutR GET
 /contact ContactR GET
