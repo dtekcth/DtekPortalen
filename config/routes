@@ -17,5 +17,7 @@
 /manage/edit/#T.Text EditPostR GET POST
 /manage/delete/#T.Text DelPostR GET
 
+/document/#T.Text DocumentR GET POST
+
 /about AboutR GET
 /contact ContactR GET

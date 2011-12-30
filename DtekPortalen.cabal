@@ -50,6 +50,7 @@ library
                      Handler.Admin
                      Handler.About
                      Handler.Contact
+                     Handler.Document
 
     ghc-options:   -Wall -threaded -O0
     cpp-options:   -DDEVELOPMENT

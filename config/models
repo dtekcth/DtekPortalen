@@ -16,3 +16,8 @@ Post
     edited     UTCTime
     editor     UserId
     UniquePost slug
+
+Document
+    textId      Text
+    content     Markdown
+    UniqueDocument textId

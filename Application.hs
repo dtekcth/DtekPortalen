@@ -26,6 +26,7 @@ import Handler.Profile
 import Handler.About
 import Handler.Contact
 import Handler.Admin
+import Handler.Document
 
 -- Own imports
 import Helpers.Scraping (hourlyRefreshingRef)
