@@ -15,10 +15,14 @@ documentsList =  [
     g "sndfullpage" "SNDs publika sida med snabbinfo med scheman o.s.v." [SND]
   , g "sndfrontpage" "Snabblänkar med scheman o.s.v.. Visas på förstasidan!" [SND]
   ]
-  where g x y z = (x, (y, z))
+  where g x y z = (x, ("Dokument " ++ x ++ ": " ++ y, z))
+        (++)    = T.append
 
 documentPrivileges :: [(Text, [Forening])]
 documentPrivileges = map (fmap snd) documentsList
+
+documentDescriptions :: [(Text, Text)]
+documentDescriptions = map (fmap fst) documentsList
 
 specialDocTids :: [Text]
 specialDocTids = map fst documentsList

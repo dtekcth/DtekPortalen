@@ -236,10 +236,11 @@ routePrivileges _ = Nothing
 -- | Administrative routes. These are only for visual significance
 --   when displaying the admin page.
 adminRoutes :: [DtekRoute]
-adminRoutes = [ManagePostsR]
+adminRoutes = [ManagePostsR] ++ map DocumentR specialDocTids
 
 routeDescription :: DtekRoute -> Text
 routeDescription ManagePostsR = "Redigera nyheter"
+routeDescription (DocumentR (flip lookup documentDescriptions -> Just x)) = x
 routeDescription _ = "Beskrivning saknas"
 
 editors :: [Forening]
