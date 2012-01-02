@@ -1,23 +1,28 @@
+-- "Standard routes"
 /static StaticR Static getStatic
 /auth   AuthR   Auth   getAuth
 
+-- More standard routes
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
+-- Public routes
 / RootR GET
 /links LinksR GET
 /forening/#Forening ForeningR GET
 
+-- Administrating for users
 /profile ProfileR GET POST
 /admin AdminR GET
+/document/#T.Text DocumentR GET POST
 
+-- Posts
 /posts/       PostsR GET
 /post/#T.Text PostR GET POST
 /manage ManagePostsR GET POST
 /manage/edit/#T.Text EditPostR GET POST
 /manage/delete/#T.Text DelPostR GET
 
-/document/#T.Text DocumentR GET POST
-
+-- Other
 /about AboutR GET
 /contact ContactR GET
