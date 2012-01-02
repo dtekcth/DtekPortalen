@@ -130,7 +130,6 @@ executable         DtekPortalen
                  , utf8-string          >= 0.3.6
                  , old-locale           >= 1.0.0.0
                  , http-enumerator
-                 , transformers
                  , data-object
                  -- Packages from the yesod-goodies collection below
                  , yesod-markdown       >= 0.3

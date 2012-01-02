@@ -58,7 +58,6 @@ import Scrapers.Einstein
 import Scrapers.CalendarFeed
 import qualified Data.Text as T
 import Data.Text (Text)
-import Control.Monad.IO.Class (MonadIO)
 import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
 import Yesod.Form.I18n.Swedish
@@ -215,7 +214,7 @@ setDtekTitle :: Monad m => Html -> GGWidget master m ()
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 -- The message types below assumes blueprint or similiar CSS framework
-setSuccessMessage, setErrorMessage :: MonadIO mo => Html -> GGHandler sub master mo ()
+setSuccessMessage, setErrorMessage :: Html -> Handler ()
 setSuccessMessage t = setMessage [shamlet|<div .success>#{t}|]
 setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 
