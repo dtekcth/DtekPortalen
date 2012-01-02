@@ -50,12 +50,9 @@ library
                      -- Handler modules
                      Handler.Root
                      Handler.Forening
-                     Handler.Links
                      Handler.Posts
                      Handler.Profile
                      Handler.Admin
-                     Handler.About
-                     Handler.Contact
                      Handler.Document
                      Handler.SmallHandlers
 

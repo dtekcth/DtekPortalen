@@ -19,11 +19,8 @@ import Database.Persist.GenericSql (runMigration)
 -- Import all relevant handler modules here.
 import Handler.Root
 import Handler.Forening
-import Handler.Links
 import Handler.Posts
 import Handler.Profile
-import Handler.About
-import Handler.Contact
 import Handler.Admin
 import Handler.Document
 import Handler.SmallHandlers
