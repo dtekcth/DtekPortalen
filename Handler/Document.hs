@@ -6,9 +6,6 @@ import Yesod.Markdown
 
 type DocumentFormResult = Markdown
 
-emptyDoc :: Text -> Document
-emptyDoc tid = Document tid ""
-
 documentEditForm :: Document -> Form DocumentFormResult
 documentEditForm doc = renderTable $
   areq markdownField "Innehåll" (Just $ documentContent doc)

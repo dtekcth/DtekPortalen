@@ -41,6 +41,12 @@ library
                      Helpers.Post
                      Helpers.Scraping
                      Config
+                     -- Model modules
+                     Model.Forening
+                     Model.Persist
+                     Model.Document
+                     Model.Post
+                     Model.User
                      -- Handler modules
                      Handler.Root
                      Handler.Forening

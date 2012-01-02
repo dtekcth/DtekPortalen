@@ -134,10 +134,3 @@ postForm mpost = renderTable $ PostEditForm
         return $ if n == 0
             then Right t
             else Left ("Det inlägget finns redan" :: Text)
-
--- These two really don't belong here
-postContent :: Post -> Markdown
-postContent post = mconcat $ [postTeaser post | postSumem post] ++ [postBody post]
-
-postIsEdited :: Post -> Bool
-postIsEdited post = postCreated post /= postEdited post

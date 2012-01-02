@@ -244,9 +244,3 @@ routeDescription _ = "Beskrivning saknas"
 editors :: [Forening]
 editors = [Styret, DAG]
 
-specialDocTids :: [Text]
-specialDocTids = []
-
-validDocTid :: Text -> Bool
-validDocTid "sandbox" = True
-validDocTid tid = tid `elem` specialDocTids
