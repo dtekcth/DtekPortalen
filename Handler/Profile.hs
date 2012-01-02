@@ -2,7 +2,6 @@
 module Handler.Profile where
 
 import Import
-import Data.Maybe (fromMaybe)
 
 type UserFormResult = Maybe Text
 
@@ -15,7 +14,6 @@ profileEditForm u = renderTable $ aopt textField "Användarnamn"
 getProfileR :: Handler RepHtml
 getProfileR = do
     (_, u) <- requireAuth
-    let usernick = fromMaybe "" $ userNick u
     ((_, form), enctype) <- runFormPost $ profileEditForm u
     defaultLayout $ do
         [whamlet|
