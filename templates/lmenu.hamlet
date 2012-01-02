@@ -15,3 +15,7 @@
     <span .linkheading>Bokhandlar<br>
     <a href="http://etek.chalmers.se/page/dc-distributionscentralen">Öppettider DC<br>
     <a href="http://www.cremona.se/vara-butiker.html">Öppettider Cremona<br>
+
+<div .block>
+    #{markdownToHtml sndmd}
+    <a href=@{SNDR}>Mer från SND

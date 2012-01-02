@@ -9,6 +9,7 @@
 -- Public routes
 / RootR GET
 /links LinksR GET
+/snd SNDR GET
 /forening/#Forening ForeningR GET
 
 -- Administrating for users

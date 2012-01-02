@@ -25,8 +25,7 @@ module Foundation
     , adminRoutes
     , routeDescription
     , Form
-    , specialDocTids
-    , validDocTid
+    , documentFromDB
     ) where
 
 import Prelude
@@ -62,6 +61,8 @@ import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
 import Yesod.Form.I18n.Swedish
 import Config
+import Data.Maybe (fromMaybe)
+import Yesod.Markdown (Markdown)
 
 
 data CachedValues = CachedValues {
@@ -229,6 +230,7 @@ routePrivileges :: DtekRoute -> Maybe [Forening]
 routePrivileges ManagePostsR = Just editors
 routePrivileges EditPostR {} = Just editors
 routePrivileges DelPostR {}  = Just editors
+routePrivileges (DocumentR (flip lookup documentPrivileges -> Just fs)) = Just fs
 routePrivileges _ = Nothing
 
 -- | Administrative routes. These are only for visual significance
@@ -243,3 +245,7 @@ routeDescription _ = "Beskrivning saknas"
 editors :: [Forening]
 editors = [Styret, DAG]
 
+documentFromDB :: Text -> Handler Markdown
+documentFromDB tid =
+    let extract = fromMaybe "" . fmap (documentContent . snd)
+    in  fmap extract $ runDB $ getBy $ UniqueDocument tid
