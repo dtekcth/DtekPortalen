@@ -11,7 +11,7 @@ import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Data.Shorten(shorten)
-import Yesod.Markdown (markdownToHtml)
+import Yesod.Markdown (markdownToHtml, Markdown(..))
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
@@ -24,7 +24,9 @@ standardLayout contentWidget = do
     (footer :: Widget) = $(widgetFile "footer")
     mkHeader mu = return $(widgetFile "header")
     mklmenu  = do
-        sndmd <- documentFromDB "sndfrontpage"
+        sndmd <- documentFromDB "stat_sndfrontpage"
+        dagmd <- documentFromDB "stat_dagads"
+        let dagmdEmtpy = dagmd == Markdown ""
         return $(widgetFile "lmenu" )
     mkrmenu  = do
         (Dtek _ _ _ _ (CachedValues einsteinRef calendarRef)) <- getYesod

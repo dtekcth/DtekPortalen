@@ -1,4 +1,11 @@
 module Model.Document where
+-- | Documents are kept in a non-type safe way for simplicity, that is
+-- document types (static, user-owned, forening-owned) ones are
+-- indistinguishable by value. Instead we use convention of textual id:
+--
+--  * prefix `stat_` means a statical by compile time known id
+--
+-- No other types are used yet, but can become so later.
 
 import Prelude
 import Data.Text (Text)
@@ -14,9 +21,10 @@ documentsList :: [(Text, (Text, [Forening]))]
 documentsList =  [
     g "sndfullpage" "SNDs publika sida med snabbinfo med scheman o.s.v." [SND]
   , g "sndfrontpage" "Snabblänkar med scheman o.s.v.. Visas på förstasidan!" [SND]
+  , g "dagads" "Reklam som kan sättas upp av DAG" [DAG]
   ]
-  where g x y z = (x, ("Dokument " ++ x ++ ": " ++ y, z))
-        (++)    = T.append
+  where g x y z = ("stat_" <> x, ("Dokument `" <> x <> "`: " <> y, z))
+        (<>)    = T.append
 
 documentPrivileges :: [(Text, [Forening])]
 documentPrivileges = map (fmap snd) documentsList
@@ -28,7 +36,7 @@ specialDocTids :: [Text]
 specialDocTids = map fst documentsList
 
 validDocTid :: Text -> Bool
-validDocTid "sandbox" = True
+validDocTid "stat_sandbox" = True
 validDocTid tid = tid `elem` specialDocTids
 
 emptyDoc :: Text -> Document

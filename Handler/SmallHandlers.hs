@@ -10,5 +10,5 @@ layout title widget = standardLayout $ do
 
 getSNDR :: Handler RepHtml
 getSNDR = do
-    md <- documentFromDB "sndfullpage"
+    md <- documentFromDB "stat_sndfullpage"
     layout "SNDs snabbinfosida" $(widgetFile "snd")
