@@ -6,6 +6,7 @@ module StandardLayout (standardLayout)
 import Prelude
 import Foundation
 import Data.Time
+import qualified Data.Text as T
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
@@ -25,8 +26,8 @@ standardLayout contentWidget = do
     mkHeader mu = return $(widgetFile "header")
     mklmenu  = do
         sndmd <- documentFromDB "stat_sndfrontpage"
-        dagmd <- documentFromDB "stat_dagads"
-        let dagmdEmtpy = dagmd == Markdown ""
+        dagmd@(Markdown dagtext) <- documentFromDB "stat_dagads"
+        let dagmdEmtpy = (T.strip . T.pack) dagtext == ""
         return $(widgetFile "lmenu" )
     mkrmenu  = do
         (Dtek _ _ _ _ (CachedValues einsteinRef calendarRef)) <- getYesod
