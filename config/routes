@@ -10,6 +10,8 @@
 / RootR GET
 /links LinksR GET
 /snd SNDR GET
+/about AboutR GET
+/contact ContactR GET
 /forening/#Forening ForeningR GET
 
 -- Administrating for users
@@ -24,6 +26,5 @@
 /manage/edit/#T.Text EditPostR GET POST
 /manage/delete/#T.Text DelPostR GET
 
--- Other
-/about AboutR GET
-/contact ContactR GET
+-- Feed
+/feed         FeedR GET

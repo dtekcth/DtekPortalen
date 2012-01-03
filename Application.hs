@@ -23,6 +23,7 @@ import Handler.Posts
 import Handler.Profile
 import Handler.Admin
 import Handler.Document
+import Handler.Feed
 import Handler.SmallHandlers
 
 -- Own imports

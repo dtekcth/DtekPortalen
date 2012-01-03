@@ -1,1 +1,9 @@
 ^{mapM_ (postToWidget False) posts}
+
+<hr>
+<nav
+    <ul
+        <li
+            <a href=@{PostsR}>Äldre nyheter
+        <li
+            <a href=@{FeedR}>Nyhetsfeed
