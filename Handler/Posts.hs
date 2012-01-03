@@ -1,5 +1,6 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ViewPatterns #-}
 module Handler.Posts where
 
 import Import
@@ -10,11 +11,10 @@ import Helpers.Post
 
 getPostsR :: Handler RepHtml
 getPostsR = do
-    posts <- runDB $ selectList [] [Desc PostCreated]
-    (posts', widget :: Widget) <- paginate 5 (map (postSlug . snd) posts)
+    (map snd -> posts, widget :: Widget) <- selectPaginated 10 [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
-        addWidget widget
+        addWidget $(widgetFile "posts")
 
 getPostR :: Text -> Handler RepHtml
 getPostR slug = do

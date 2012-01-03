@@ -1,1 +1,4 @@
-To be implemented!
+$forall post <- posts
+    ^{postToWidget True post}
+
+^{widget}
