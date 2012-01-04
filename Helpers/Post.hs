@@ -5,7 +5,6 @@ import Import
 import Data.Time (getCurrentTime)
 import Network.URL
 import Text.Hamlet(shamlet)
-import Data.Maybe (fromMaybe)
 import Yesod.Markdown
 import Data.Time.Format.Human
 import qualified Data.Text as T
@@ -48,7 +47,7 @@ runPostForm mkpost uid = do
             if isPreview /= Just True
                 then lift $ processFormResult pf
                 else do post <- lift $ postFromForm pf
-                        [whamlet| #{markdownToHtml $ postContent post} |]
+                        addWidget $(widgetFile "preview")
         _ -> return ()
 
     [whamlet|

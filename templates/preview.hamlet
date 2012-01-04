@@ -1,0 +1,8 @@
+<div .container>
+    <div .span-14 .last>
+        <div .content .block>
+            <h2>Short version
+            ^{postToWidget False post}
+        <div .content .block>
+            <h2>Long version
+            ^{postToWidget True post}
