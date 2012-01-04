@@ -51,10 +51,6 @@ runPostForm mkpost uid = do
         _ -> return ()
 
     [whamlet|
-        Teasern och Brödtexten kan skrivas med #
-        <a href="http://daringfireball.net/projects/markdown/basics"
-            markdown
-
         <div .post_input>
             <form enctype="#{enctype}" method="post">
                 <table>
