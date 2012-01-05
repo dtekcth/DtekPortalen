@@ -5,7 +5,6 @@ import Yesod (SinglePiece(..))
 import Data.Either (rights)
 import Data.Text (Text)
 import qualified Data.Text as T
-import Yesod.Markdown
 import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))
 import Data.List
@@ -74,10 +73,10 @@ getMemberships u = fmap (map fst
 
 checkMembership :: Forening -> User -> IO (Either String Bool)
 checkMembership f u =
-#ifdef PRODUCTION
-  fmap (fmap $ elem $ T.unpack $ userIdent u) $ getMembers f
-#else
+#ifdef DEVELOPMENT
   return $ Right True
+#else
+  fmap (fmap $ elem $ T.unpack $ userIdent u) $ getMembers f
 #endif
 
 checkMemberships :: [Forening] -> User -> IO (Either String Bool)
