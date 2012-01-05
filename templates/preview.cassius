@@ -1,1 +1,21 @@
-/home/arash/haskell2/DtekPortalen/templates/standard.cassius
+span.linkheading, span.menuheading
+    font-weight: bold
+
+.content
+    background-color: #EEE
+
+.menu .block
+    background-color: #DDD
+
+.block
+    margin-top: 5px
+    margin-bottom: 5px
+    overflow: none
+    padding: 1em
+    box-shadow: 0 0 3px #888
+    -moz-box-shadow: 0 0 3px #888
+    -webkit-box-shadow: 0 0 3px #888
+    border-radius: 10px
+    -moz-border-radius: 10px
+    -webkit-border-radius: 10px
+
