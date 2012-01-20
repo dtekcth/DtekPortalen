@@ -131,7 +131,7 @@ instance Yesod Dtek where
         let mreqs = routePrivileges route
         case mreqs of
           Nothing -> return Authorized
-          Just ((Webredax:) -> fs) -> do
+          Just fs -> do
             mu <- maybeAuth
             case mu of
               Nothing      -> return AuthenticationRequired
@@ -222,16 +222,23 @@ setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 instance RenderMessage Dtek FormMessage where
     renderMessage _ _ = swedishFormMessage
 
+-- | The exposed function that adds Webredax automatically
+--
+-- Since this is the only function exposed, Webredax should always have
+-- full privileges.
+routePrivileges :: DtekRoute -> Maybe [Forening]
+routePrivileges route = fmap (Webredax:) $ routePrivileges' route
+
 -- | Privilege control for the pages. Warning! by default pages are
 --   unrestricted!
 --
 --   It is not neccesary to include Webredax in lists
-routePrivileges :: DtekRoute -> Maybe [Forening]
-routePrivileges ManagePostsR = Just editors
-routePrivileges EditPostR {} = Just editors
-routePrivileges DelPostR {}  = Just editors
-routePrivileges (DocumentR (flip lookup documentPrivileges -> Just fs)) = Just fs
-routePrivileges _ = Nothing
+routePrivileges' :: DtekRoute -> Maybe [Forening]
+routePrivileges' ManagePostsR = Just editors
+routePrivileges' EditPostR {} = Just editors
+routePrivileges' DelPostR {}  = Just editors
+routePrivileges' (DocumentR (flip lookup documentPrivileges -> Just fs)) = Just fs
+routePrivileges' _ = Nothing
 
 -- | Administrative routes. These are only for visual significance
 --   when displaying the admin page.

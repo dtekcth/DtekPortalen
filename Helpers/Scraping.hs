@@ -21,5 +21,6 @@ hourlyRefreshingRef :: IO a         -- ^ Routine to run every hour to fill in re
 hourlyRefreshingRef io a = do
     ref <- newIORef a
     _ <- forkIO $ forever $ do _ <- forkIO (writeIORef ref =<< io)
-                               threadDelay (3600*1000)
+                               let seconds = 60
+                               threadDelay (seconds*1000000)
     return ref

@@ -1,4 +1,5 @@
 <p> Du (#{userIdent u}) har beräknats vara med i följande grupper: #{show fs}
+<p> Dina rättigheter baseras på vilka mailman-grupper du är med i med din chalmersmail.
 <p
     $if (null okRoutes)
         Du har inga administriva rättigheter på portalen
