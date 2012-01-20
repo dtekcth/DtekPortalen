@@ -18,7 +18,7 @@ type EinsteinScrapResult = Maybe (Int, [[String]])
 
 scrapEinstein :: IO EinsteinScrapResult
 scrapEinstein = do
-    body <- openUrl "http://www.butlercatering.se/einstein.html"
+    body <- openUrl "http://www.butlercatering.se/Lunchmeny"
     return (parse body)
 
 printMenuToStdout :: IO()
