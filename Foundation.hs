@@ -30,6 +30,7 @@ import Prelude
 import Yesod
 import Yesod.Static
 import Yesod.Auth
+import Yesod.Auth.Message (swedishMessage)
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText)
@@ -204,6 +205,8 @@ instance YesodAuth App where
                     ]
 
     authHttpManager = httpManager
+
+    renderAuthMessage _ _ = swedishMessage
 
     loginHandler = defaultLayout $ do
         -- setDtekTitle "Inloggning" -- TODO: fix my generalize setDtekTitle
