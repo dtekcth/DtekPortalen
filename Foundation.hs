@@ -3,19 +3,18 @@
 {-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE CPP #-}
 module Foundation
-    ( Dtek (..)
-    , DtekRoute (..)
-    , resourcesDtek
+    ( App (..)
+    , Route (..)
+    , resourcesApp
     , Handler
     , Widget
+    , Form
     , maybeAuth
     , requireAuth
-    , module Yesod
     , module Settings
     , module Model
-    , StaticRoute (..)
-    , AuthRoute (..)
     -- own exports
+ -- , AppMessage (..) -- We don't want i18n
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)
@@ -24,32 +23,31 @@ module Foundation
     , routePrivileges
     , adminRoutes
     , routeDescription
-    , Form
     , documentFromDB
     ) where
 
 import Prelude
-import Yesod hiding (Form, AppConfig (..), withYamlEnvironment)
-import Yesod.Static (Static, base64md5, StaticRoute(..))
-import Settings.StaticFiles
+import Yesod
+import Yesod.Static
 import Yesod.Auth
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
-import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
+import Yesod.Logger (Logger, logMsg, formatLogText)
+import Network.HTTP.Conduit (Manager)
 import qualified Settings
-import qualified Data.ByteString.Lazy as L
-import qualified Database.Persist.Base
+import qualified Database.Persist.Store
+import Settings.StaticFiles
 import Database.Persist.GenericSql
-import Settings (widgetFile)
+import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
-#if DEVELOPMENT
-import qualified Data.Text.Lazy.Encoding
-#else
-import Network.Mail.Mime (sendmail)
-#endif
+
+-- Imports we want to IGNORE in this sire (therfor commented)
+-- import Yesod.Auth.BrowserId
+-- import Yesod.Auth.GoogleEmail
+
 -- Imports specific for this site (not scaffolded)
 import Data.Monoid
 import Data.IORef
@@ -60,7 +58,6 @@ import Data.Text (Text)
 import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
 import Yesod.Form.I18n.Swedish
-import Config
 import Data.Maybe (fromMaybe)
 import Yesod.Markdown (Markdown)
 
@@ -74,11 +71,14 @@ data CachedValues = CachedValues {
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
-data Dtek = Dtek
+data App = App
     { settings :: AppConfig DefaultEnv Extra
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
-    , connPool :: Database.Persist.Base.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , httpManager :: Manager
+    , persistConfig :: Settings.PersistConfig
+    -- Below is my own nonscaffolded entries
     , cache :: CachedValues
     }
 
@@ -101,19 +101,23 @@ data Dtek = Dtek
 -- for our application to be in scope. However, the handler functions
 -- usually require access to the DtekRoute datatype. Therefore, we
 -- split these actions into two functions and place them in separate files.
-mkYesodData "Dtek" $(parseRoutesFile "config/routes")
+mkYesodData "App" $(parseRoutesFile "config/routes")
 
-type Form x = Html -> MForm Dtek Dtek (FormResult x, Widget)
+type Form x = Html -> MForm App App (FormResult x, Widget)
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
-instance Yesod Dtek where
-    approot = appRoot . settings
+instance Yesod App where
+    approot = ApprootMaster $ appRoot . settings
 
-    -- Place the session key file in the config folder
-    encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
+    -- Store session data on the client in encrypted cookies,
+    -- default session idle timeout is 120 minutes
+    makeSessionBackend _ = do
+        key <- getKey "config/client_session_key.aes"
+        return . Just $ clientSessionBackend key 120
 
     defaultLayout widget = do
+        master <- getYesod
         mmsg <- getMessage
 
         -- We break up the default layout into two components:
@@ -123,8 +127,10 @@ instance Yesod Dtek where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
-            $(widgetFile "normalize")
+            -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
+            addStylesheet $ StaticR blueprint_screen_css
+            addStylesheet $ StaticR blueprint_print_css
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     isAuthorized route _isWrite = do
@@ -134,8 +140,8 @@ instance Yesod Dtek where
           Just fs -> do
             mu <- maybeAuth
             case mu of
-              Nothing      -> return AuthenticationRequired
-              Just (_, u)  -> do
+              Nothing               -> return AuthenticationRequired
+              Just (entityVal -> u) -> do
                 res <- liftIO $ checkMemberships fs u
                 return $ case res of
                   Left errMsg -> Unauthorized $ "auth error: " `mappend` T.pack errMsg
@@ -163,17 +169,21 @@ instance Yesod Dtek where
     -- users receiving stale content.
     addStaticContent = addStaticContentExternal minifym base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
 
-    -- Enable Javascript async loading
-    yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
+    -- Place Javascript at bottom of the body tag so the rest of the page loads first
+    jsLoader _ = BottomOfBody
 
 -- How to run database actions.
-instance YesodPersist Dtek where
-    type YesodPersistBackend Dtek = SqlPersist
-    runDB f = liftIOHandler
-            $ fmap connPool getYesod >>= Database.Persist.Base.runPool (undefined :: Settings.PersistConfig) f
+instance YesodPersist App where
+    type YesodPersistBackend App = SqlPersist
+    runDB f = do
+        master <- getYesod
+        Database.Persist.Store.runPool
+            (persistConfig master)
+            f
+            (connPool master)
 
-instance YesodAuth Dtek where
-    type AuthId Dtek = UserId
+instance YesodAuth App where
+    type AuthId App = UserId
 
     -- Where to send a user after successful login
     loginDest _ = RootR
@@ -183,35 +193,31 @@ instance YesodAuth Dtek where
     getAuthId creds = runDB $ do
         x <- getBy $ UniqueUser $ credsIdent creds
         case x of
-            Just (uid, _) -> return $ Just uid
+            Just (entityKey -> uid) -> return $ Just uid
             Nothing -> do
                 fmap Just $ insert $ User (credsIdent creds) Nothing
 
-    authPlugins = [ genericAuthKerberos
-                      defaultKerberosConfig { usernameModifier =
-                                                (`mappend` ("/net" :: T.Text))}
-                  ]
+    authPlugins = const
+                    [ genericAuthKerberos
+                        defaultKerberosConfig { usernameModifier =
+                                                  (`mappend` ("/net" :: T.Text))}
+                    ]
+
+    authHttpManager = httpManager
 
     loginHandler = defaultLayout $ do
-        setDtekTitle "Inloggning"
-        addHamlet [hamlet|
+        -- setDtekTitle "Inloggning" -- TODO: fix my generalize setDtekTitle
+        toWidget [hamlet|
 <p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
    \ Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
 <p>Tillbaka till #
     <a href=@{RootR}>startsidan
 |]
         tm <- lift getRouteToMaster
-        mapM_ (flip apLogin tm) authPlugins
+        master <- lift getYesod
+        mapM_ (flip apLogin tm) (authPlugins master)
 
--- Sends off your mail. Requires sendmail in production!
-deliver :: Dtek -> L.ByteString -> IO ()
-#ifdef DEVELOPMENT
-deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
-#else
-deliver _ = sendmail
-#endif
-
-setDtekTitle :: Monad m => Html -> GGWidget master m ()
+setDtekTitle :: Html -> Widget
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 -- The message types below assumes blueprint or similiar CSS framework
@@ -219,21 +225,21 @@ setSuccessMessage, setErrorMessage :: Html -> Handler ()
 setSuccessMessage t = setMessage [shamlet|<div .success>#{t}|]
 setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
 
-instance RenderMessage Dtek FormMessage where
+instance RenderMessage App FormMessage where
     renderMessage _ _ = swedishFormMessage
 
 -- | The exposed function that adds Webredax automatically
 --
 -- Since this is the only function exposed, Webredax should always have
 -- full privileges.
-routePrivileges :: DtekRoute -> Maybe [Forening]
+routePrivileges :: Route App -> Maybe [Forening]
 routePrivileges route = fmap (Webredax:) $ routePrivileges' route
 
 -- | Privilege control for the pages. Warning! by default pages are
 --   unrestricted!
 --
 --   It is not neccesary to include Webredax in lists
-routePrivileges' :: DtekRoute -> Maybe [Forening]
+routePrivileges' :: Route App -> Maybe [Forening]
 routePrivileges' ManagePostsR = Just editors
 routePrivileges' EditPostR {} = Just editors
 routePrivileges' DelPostR {}  = Just editors
@@ -242,10 +248,10 @@ routePrivileges' _ = Nothing
 
 -- | Administrative routes. These are only for visual significance
 --   when displaying the admin page.
-adminRoutes :: [DtekRoute]
+adminRoutes :: [Route App]
 adminRoutes = [ManagePostsR] ++ map DocumentR specialDocTids
 
-routeDescription :: DtekRoute -> Text
+routeDescription :: Route App -> Text
 routeDescription ManagePostsR = "Redigera nyheter"
 routeDescription (DocumentR (flip lookup documentDescriptions -> Just x)) = x
 routeDescription _ = "Beskrivning saknas"
@@ -255,5 +261,5 @@ editors = [Styret, DAG]
 
 documentFromDB :: Text -> Handler Markdown
 documentFromDB tid =
-    let extract = fromMaybe "" . fmap (documentContent . snd)
+    let extract = fromMaybe "" . fmap (documentContent . entityVal)
     in  fmap extract $ runDB $ getBy $ UniqueDocument tid

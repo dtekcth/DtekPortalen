@@ -13,24 +13,24 @@ documentEditForm doc = renderTable $
 -- | Short-circuit if the document doesn't exist,
 --   if it does exist return the DocumentId and Document
 guardExistence :: Text -- ^ Textual ID of the document
-               -> Handler (DocumentId, Document)
+               -> Handler (Entity Document) --(DocumentId, Document)
 guardExistence tid | not (validDocTid tid) =
     hamletToRepHtml [hamlet| Ogiltigt dokument #{tid} |] >>= sendResponse
 guardExistence tid | otherwise = do
     e <- runDB $ insertBy defDoc
-    return $ either id (\did -> (did, defDoc)) e
+    return $ either id (flip Entity defDoc) e
   where defDoc = emptyDoc tid
 
 getDocumentR :: Text -- ^ Textual ID of the document
           -> Handler RepHtml
 getDocumentR tid = do
-    (_, doc) <- guardExistence tid
+    doc <- fmap entityVal $ guardExistence tid
     ((_, form), enctype) <- runFormPost $ documentEditForm doc
     defaultLayout $ do
         [whamlet|
             <h1>Redigera
             <p> Ingen historik (förutom backups) finns, redigera varsamt!
-            <article .fullpage .document
+            <article .fullpage .document>
                 <form enctype="#{enctype}" method="post">
                     <table>
                         ^{form}
@@ -40,12 +40,12 @@ getDocumentR tid = do
                                 <input type="submit" value="Spara">
             |]
         setDtekTitle "Redigera dokument"
-        addWidget $(widgetFile "document")
+        -- $(widgetFile "document") -- TODO: why left this empty?
 
 postDocumentR :: Text -- ^ Textual ID of the document
            -> Handler RepHtml
 postDocumentR tid = do
-    (did, doc) <- guardExistence tid
+    Entity did doc <- guardExistence tid
     ((res, _), _) <- runFormPost $ documentEditForm doc
     case res of
         FormSuccess formRes -> saveChanges did formRes

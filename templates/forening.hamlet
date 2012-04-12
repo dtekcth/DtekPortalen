@@ -1,6 +1,6 @@
-<h3>#{show forening}
-<div .info
-    <ul
+<h3>#{show forening}>
+<div .info>
+    <ul>
         <li>#{foreningToListname forening}@NOSPAMdtek.se
         <li>
             <a href=#{wikiUrl forening}>wikisite

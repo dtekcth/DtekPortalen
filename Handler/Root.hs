@@ -14,7 +14,7 @@ import Helpers.Post
 getRootR :: Handler RepHtml
 getRootR = do
     kposts <- runDB $ selectList [] [LimitTo 5, Desc PostCreated]
-    let posts = map snd kposts
+    let posts = map entityVal kposts
     standardLayout $ do
         setDtekTitle "Startsida"
         addWidget $(widgetFile "homepage")

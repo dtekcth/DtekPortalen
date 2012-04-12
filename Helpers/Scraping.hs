@@ -4,7 +4,7 @@ module Helpers.Scraping (
    ) where
 
 import Prelude
-import Network.HTTP.Enumerator (simpleHttp)
+import Network.HTTP.Conduit (simpleHttp)
 import Data.ByteString.Lazy.Char8 (unpack)
 import Data.IORef
 import Control.Monad (forever)

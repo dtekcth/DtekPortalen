@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
+{-# LANGUAGE ViewPatterns #-}
 module Helpers.Post where
 
 import Import
@@ -15,8 +16,8 @@ slugToPostWidget :: Bool -- ^ Full?
 slugToPostWidget isFull slug = do
     mpost <- lift $ runDB $ selectFirst [PostSlug ==. slug] []
     case mpost of
-        Just (_key, post) -> do postToWidget isFull post
-        Nothing   -> addHtml [shamlet|Posten med slug "#{slug}" hittades inte!|]
+        Just (entityVal -> post) -> do postToWidget isFull post
+        Nothing   -> toWidget [shamlet|Posten med slug "#{slug}" hittades inte!|]
 
 postToWidget :: Bool -- ^ Full?
              -> Post
@@ -24,8 +25,8 @@ postToWidget :: Bool -- ^ Full?
 postToWidget isFull post = do
     creator <- fmap safeExtract $ lift $ runDB $ get (postCreator post)
     editor <- fmap safeExtract  $ lift $ runDB $ get (postEditor post)
-    prettyCreated <- lift $ liftIOHandler $ lift $ humanReadableTime $ postCreated post
-    prettyEdited  <- lift $ liftIOHandler $ lift $ humanReadableTime $ postEdited post
+    prettyCreated <- liftIO $ humanReadableTime $ postCreated post
+    prettyEdited  <- liftIO $ humanReadableTime $ postEdited post
     addWidget $ if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
     safeExtract = fromMaybe "(borttagen)" . fmap userCalcName
@@ -38,9 +39,9 @@ data PostEditForm = PostEditForm
     , formSumem  :: Bool
     }
 
-runPostForm :: Maybe (PostId, Post) -> UserId -> Widget
+runPostForm :: Maybe (Entity Post) -> UserId -> Widget
 runPostForm mkpost uid = do
-    ((res, form), enctype) <- lift $ runFormPost $ postForm $ fmap snd mkpost
+    ((res, form), enctype) <- lift $ runFormPost $ postForm $ fmap entityVal mkpost
     isPreview <- lift $ runInputPost $ iopt boolField "preview"
     case res of
         FormSuccess pf ->
@@ -71,13 +72,13 @@ runPostForm mkpost uid = do
         processFormResult pf = do
             p <- postFromForm pf
             case mkpost of
-                Just (k, _) -> do  -- We are going to replace
+                Just (entityKey -> k) -> do  -- We are going to replace
                     updatePost k p
                     setSuccessMessage "Inlägg uppdaterat!"
                 _           -> do --  Post should be inserted
                     _ <- runDB $ insertBy p
                     setSuccessMessage "Inlägg skapat!"
-            redirect RedirectTemporary ManagePostsR
+            redirect ManagePostsR
 
         postFromForm :: PostEditForm -> Handler Post
         postFromForm pf = do

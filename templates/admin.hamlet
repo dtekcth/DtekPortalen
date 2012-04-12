@@ -1,16 +1,16 @@
 <p> Du (#{userIdent u}) har beräknats vara med i följande grupper: #{show fs}
 <p> Dina rättigheter baseras på vilka mailman-grupper du är med i med din chalmersmail.
-<p
+<p>
     $if (null okRoutes)
         Du har inga administriva rättigheter på portalen
     $else
         Dina rättigheter:
-        <ul
+        <ul>
             $forall route <- okRoutes
-                <li
+                <li>
                     <a href=@{route}
-                        #{routeDescription route}
-        <div .info
+                        #{routeDescription route}>
+        <div .info>
             Dem stora fritextsfälten när du redigerar dokument och #
             nyheter kan skrivas med #
             <a href="http://daringfireball.net/projects/markdown/basics">markdown

@@ -1,18 +1,18 @@
-<header
-    <div #logo
-        <a href=@{RootR}
-            <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen"
-    <div #userbox
-        <ul
+<header>
+    <div #logo>
+        <a href=@{RootR}>
+            <img border="0" src=@{StaticR img_dteklogo_gif} alt="Datateknologsektionen">
+    <div #userbox>
+        <ul>
             $maybe u <- mu
-                <li
+                <li>
                     <a href=@{AuthR LogoutR}>Logga ut
-                <li
+                <li>
                     <a href=@{ProfileR}>Profil
-                <li
+                <li>
                     <a href=@{AdminR}>Administrera
             $nothing
-                <li
+                <li>
                     <a href=@{AuthR LoginR}>Logga in
-    <div #headertitle
+    <div #headertitle>
         <h1>Datateknologens Portal

@@ -4,14 +4,16 @@
 module Handler.Posts where
 
 import Import
-import Yesod.Paginator
+import Yesod.Auth (requireAuthId)
 import Yesod.Markdown
-import Data.Shorten
 import Helpers.Post
+shorten :: Int -> a -> a
+shorten = error "import Data.Shorten" -- TODO
+selectPaginated = error " --import Yesod.Paginator" -- TODO
 
 getPostsR :: Handler RepHtml
 getPostsR = do
-    (map snd -> posts, widget :: Widget) <- selectPaginated 10 [] [Desc PostCreated]
+    (map entityVal -> posts, widget :: Widget) <- selectPaginated 10 [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
         addWidget $(widgetFile "posts")
@@ -27,8 +29,8 @@ postPostR = getPostR
 
 getManagePostsR :: Handler RepHtml
 getManagePostsR = do
-    (uid, _) <- requireAuth
-    posts <- runDB $ selectList [] [Desc PostCreated]
+    uid <- requireAuthId
+    (map entityVal -> posts) <- runDB $ selectList [] [Desc PostCreated]
     defaultLayout $ do
         setDtekTitle "Administrera inlägg"
         let (postslist :: Widget) = $(widgetFile "postslist")
@@ -39,7 +41,7 @@ postManagePostsR = getManagePostsR
 
 getEditPostR :: Text -> Handler RepHtml
 getEditPostR slug = do
-    (uid, _) <- requireAuth
+    uid <- requireAuthId
     mkpost <- runDB $ selectFirst [PostSlug ==. slug] []
     defaultLayout $ do
         setDtekTitle "Redigera inlägg"
@@ -52,8 +54,8 @@ getDelPostR :: Text -> Handler RepHtml
 getDelPostR slug = do
     p <- runDB $ getBy $ UniquePost slug
     case p of
-        Just (key, _) -> do
+        Just (entityKey -> key) -> do
             runDB $ delete key
             setSuccessMessage "Inlägg raderat!"
         Nothing -> setErrorMessage "Inlägg ej funnet."
-    redirect RedirectTemporary ManagePostsR
+    redirect ManagePostsR

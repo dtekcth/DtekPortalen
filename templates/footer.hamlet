@@ -1,8 +1,8 @@
 <footer>
-    <div #footernav
-        <nav
-            <ul
-                <li
+    <div #footernav>
+        <nav>
+            <ul>
+                <li>
                     <a href=@{AboutR}>Om Portalen
-                <li
+                <li>
                     <a href=@{ContactR}>Kontakt

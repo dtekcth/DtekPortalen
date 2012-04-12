@@ -1,7 +1,7 @@
 module Model.Forening where
 
 import Prelude
-import Yesod (SinglePiece(..))
+import Yesod (PathPiece(..))
 import Data.Either (rights)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -35,9 +35,9 @@ foreningToListname = show -- This should work, last time I checked
 wikiUrl :: Forening -> String
 wikiUrl x = "http://dtek.se/wiki/main/" `mappend` show x
 
-instance SinglePiece Forening where
-    toSinglePiece x = T.pack $ show x
-    fromSinglePiece s =
+instance PathPiece Forening where
+    toPathPiece x = T.pack $ show x
+    fromPathPiece s =
         case reads $ T.unpack s of
             (x, _):_ -> Just x
             []       -> Nothing

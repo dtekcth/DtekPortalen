@@ -8,15 +8,19 @@ module Settings
     , PersistConfig
     , staticRoot
     , staticDir
+    , Extra (..)
+    , parseExtra
     ) where
 
-import Prelude (FilePath, String)
+import Prelude
 import Text.Shakespeare.Text (st)
 import Language.Haskell.TH.Syntax
 import Database.Persist.Postgresql (PostgresConf)
 import Yesod.Default.Config
 import qualified Yesod.Default.Util
 import Data.Text (Text)
+import Data.Yaml
+import Control.Applicative
 
 -- | Which Persistent backend this site is using.
 type PersistConfig = PostgresConf
@@ -54,3 +58,13 @@ widgetFile = Yesod.Default.Util.widgetFileReload
 #else
 widgetFile = Yesod.Default.Util.widgetFileNoReload
 #endif
+
+data Extra = Extra
+    { extraCalendar :: Text -- ^ Google Calendar
+    , extraAnalytics :: Maybe Text -- ^ Google Analytics
+    } deriving Show
+
+parseExtra :: DefaultEnv -> Object -> Parser Extra
+parseExtra _ o = Extra
+    <$> o .:  "calendar"
+    <*> o .:? "analytics"

@@ -13,12 +13,12 @@ profileEditForm u = renderTable $ aopt textField "Användarnamn"
 
 getProfileR :: Handler RepHtml
 getProfileR = do
-    (_, u) <- requireAuth
+    u <- fmap entityVal requireAuth
     ((_, form), enctype) <- runFormPost $ profileEditForm u
     defaultLayout $ do
         [whamlet|
             <h1>Redigera
-            <article .fullpage .profile
+            <article .fullpage .profile>
                 <form enctype="#{enctype}" method="post">
                     <table>
                         ^{form}
@@ -32,7 +32,7 @@ getProfileR = do
 
 postProfileR :: Handler RepHtml
 postProfileR = do
-    (uid, u) <- requireAuth
+    Entity uid u <- requireAuth
     ((res, _ ), _ ) <- runFormPost $ profileEditForm u
     case res of
         FormSuccess ef -> saveChanges uid ef
@@ -48,5 +48,5 @@ postProfileR = do
 
             setSuccessMessage "Profil sparad"
             tm <- getRouteToMaster
-            redirect RedirectTemporary $ tm ProfileR
+            redirect $ tm ProfileR
 

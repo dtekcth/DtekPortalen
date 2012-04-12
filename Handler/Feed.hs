@@ -13,7 +13,7 @@ import Text.Blaze.Internal (HtmlM (Append))
 getFeedR :: Handler RepRss
 getFeedR = do
     kposts <- runDB $ selectList [] [LimitTo 5, Desc PostCreated]
-    feedFromPosts $ map snd kposts
+    feedFromPosts $ map entityVal kposts
 
 feedFromPosts :: [Post] -> Handler RepRss
 feedFromPosts posts = do
@@ -27,7 +27,7 @@ feedFromPosts posts = do
         , feedEntries = map postToRssEntry posts
         }
 
-postToRssEntry :: Post -> FeedEntry DtekRoute
+postToRssEntry :: Post -> FeedEntry (Route App)
 postToRssEntry post = FeedEntry
         { feedEntryLink = PostR $ postSlug post
         , feedEntryUpdated = postEdited post

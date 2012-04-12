@@ -1,12 +1,12 @@
-<div #einsteinblock .block
+<div #einsteinblock .block>
     <span .menuheading>Dagens Einsteinmeny
-    <ul
+    <ul>
         $forall dish <- esMenu
             <li>#{dish}
-<div #calendarblock .block
+<div #calendarblock .block>
     <span .menuheading>Kommande händelser
-    <ul
+    <ul>
         $forall event <- eventInfos
-            <li
+            <li>
                 <a title=#{niceShowEvent event} href=#{link event}
-                    #{shorten 30 $ niceShowEvent event}
+                    #{shorten 30 $ niceShowEvent event}>

@@ -8,7 +8,7 @@
       <th>Redigera
       <th>Ta bort
 
-    $forall p <- map snd posts
+    $forall p <- posts
       <tr>
         <td>
           <a href="@{PostR $ postSlug p}">#{shorten 20 $ postTitle p}

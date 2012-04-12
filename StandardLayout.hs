@@ -1,5 +1,6 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ViewPatterns #-}
 module StandardLayout (standardLayout)
   where
 
@@ -11,8 +12,12 @@ import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
-import Data.Shorten(shorten)
 import Yesod.Markdown (markdownToHtml, Markdown(..))
+import Yesod.Content (RepHtml)
+import Yesod (Yesod (defaultLayout))
+import Yesod
+import Yesod.Auth
+shorten = error " import Data.Shorten(shorten)" -- TODO
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
@@ -30,7 +35,7 @@ standardLayout contentWidget = do
         let dagmdEmtpy = (T.strip . T.pack) dagtext == ""
         return $(widgetFile "lmenu" )
     mkrmenu  = do
-        (Dtek _ _ _ _ (CachedValues einsteinRef calendarRef)) <- getYesod
+        (cache -> (CachedValues einsteinRef calendarRef)) <- getYesod
         einsteinScrapResult <- liftIO $ readIORef einsteinRef
         eventInfos          <- liftIO $ readIORef calendarRef
         esMenu <- case einsteinScrapResult of
@@ -42,7 +47,7 @@ standardLayout contentWidget = do
                     [["Stängt under helgdag"] | weekday `notElem` [1..5]]
                  ++ [["Einstein har ej uppdaterat veckan"] | esWeek /= week]
                  ++ [sss !! (weekday - 1)]
-        return $ $(widgetFile "rmenu" )
+        return $(widgetFile "rmenu" )
     niceShowEvent :: EventInfo -> String
     niceShowEvent event =
       let format = formatTime defaultTimeLocale

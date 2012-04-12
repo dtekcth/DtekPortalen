@@ -2,7 +2,6 @@ module Model.Post where
 
 import Prelude
 import Model.Persist
-import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import Data.Monoid (mconcat)
 import Yesod.Markdown
