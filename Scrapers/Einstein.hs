@@ -11,6 +11,7 @@ import Data.List.Split (splitEvery)
 import Control.Monad (guard, liftM2)
 import Data.Char (isNumber)
 import Data.Maybe (listToMaybe)
+import Control.Monad (msum)
 import qualified Data.Text as T
 
 -- I use tag soup as it apperently fixes unicode characters
@@ -18,10 +19,10 @@ type EinsteinScrapResult = Maybe (Int, [[String]])
 
 scrapEinstein :: IO EinsteinScrapResult
 scrapEinstein = do
-    body <- openUrl "http://www.butlercatering.se/Lunchmeny"
-    return (parse body)
+    let urls = ["http://www.butlercatering.se/" ++ x | x <- ["", "Lunchmeny"]]
+    fmap (msum . map parse) $ mapM openUrl urls
 
-printMenuToStdout :: IO()
+printMenuToStdout :: IO ()
 printMenuToStdout = do
     Just (week, sss) <- scrapEinstein
     putStrLn $ "\nVecka " ++ show week ++ ":"
