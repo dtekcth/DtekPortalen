@@ -4,7 +4,6 @@ module Import
     , standardLayout
     , (<>)
     , Text
-    , RepHtml
     , module Yesod
     , module Data.Monoid
     , module Control.Applicative
