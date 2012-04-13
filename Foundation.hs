@@ -209,7 +209,7 @@ instance YesodAuth App where
     renderAuthMessage _ _ = swedishMessage
 
     loginHandler = defaultLayout $ do
-        -- setDtekTitle "Inloggning" -- TODO: fix my generalize setDtekTitle
+        setDtekTitle "Inloggning"
         toWidget [hamlet|
 <p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
    \ Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
@@ -220,7 +220,7 @@ instance YesodAuth App where
         master <- lift getYesod
         mapM_ (flip apLogin tm) (authPlugins master)
 
-setDtekTitle :: Html -> Widget
+setDtekTitle :: Html -> GWidget sub m ()
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 -- The message types below assumes blueprint or similiar CSS framework
