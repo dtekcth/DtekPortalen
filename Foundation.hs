@@ -198,8 +198,7 @@ instance YesodAuth App where
             Nothing -> do
                 fmap Just $ insert $ User (credsIdent creds) Nothing
 
-    authPlugins = const
-                    [ genericAuthKerberos
+    authPlugins _ = [ genericAuthKerberos
                         defaultKerberosConfig { usernameModifier =
                                                   (`mappend` ("/net" :: T.Text))}
                     ]
