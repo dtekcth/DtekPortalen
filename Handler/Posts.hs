@@ -7,13 +7,12 @@ import Import
 import Yesod.Auth (requireAuthId)
 import Yesod.Markdown
 import Helpers.Post
-shorten :: Int -> a -> a
-shorten = error "import Data.Shorten" -- TODO
-selectPaginated = error " --import Yesod.Paginator" -- TODO
+import Yesod.Paginator (selectPaginated)
+import Data.Shorten
 
 getPostsR :: Handler RepHtml
 getPostsR = do
-    (map entityVal -> posts, widget :: Widget) <- selectPaginated 10 [] [Desc PostCreated]
+    (map entityVal -> posts, widget) <- runDB $ selectPaginated 10 [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
         addWidget $(widgetFile "posts")

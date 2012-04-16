@@ -17,7 +17,7 @@ import Yesod.Content (RepHtml)
 import Yesod (Yesod (defaultLayout))
 import Yesod
 import Yesod.Auth
-shorten = error " import Data.Shorten(shorten)" -- TODO
+import Data.Shorten(shorten)
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
