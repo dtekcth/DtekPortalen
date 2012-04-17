@@ -124,7 +124,6 @@ executable         DtekPortalen
                  , process              >= 1.0      && < 2.0
                  , split
                  , tagsoup
-                 , HTTP                 >= 4000
                  , time
                  , url                  >= 2.1.2
                  , rfc3339              >= 1.0.4
