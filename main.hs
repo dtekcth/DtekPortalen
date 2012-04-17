@@ -1,9 +1,8 @@
-import Yesod.Default.Main   (defaultMain)
-import Application          (withDtek)
 import Prelude              (IO)
--- Own imports below
-import Yesod.Default.Config (fromArgsExtra)
-import Config (loadExtra)
+import Yesod.Default.Config (fromArgs)
+import Yesod.Default.Main   (defaultMain)
+import Settings             (parseExtra)
+import Application          (makeApplication)
 
 main :: IO ()
-main = defaultMain (fromArgsExtra loadExtra) withDtek
+main = defaultMain (fromArgs parseExtra) makeApplication
