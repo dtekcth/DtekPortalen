@@ -8,8 +8,7 @@
         <ul>
             $forall route <- okRoutes
                 <li>
-                    <a href=@{route}
-                        #{routeDescription route}>
+                    <a href=@{route}> #{routeDescription route}
         <div .info>
             Dem stora fritextsfälten när du redigerar dokument och #
             nyheter kan skrivas med #
