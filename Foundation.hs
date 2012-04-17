@@ -131,7 +131,6 @@ instance Yesod App where
             -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
             addStylesheet $ StaticR blueprint_screen_css
-            addStylesheet $ StaticR blueprint_print_css
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     isAuthorized route _isWrite = do
