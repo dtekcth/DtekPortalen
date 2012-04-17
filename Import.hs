@@ -18,7 +18,6 @@ import Control.Applicative ((<$>), (<*>), pure)
 import Data.Text (Text)
 import Data.Maybe (fromMaybe)
 import StandardLayout (standardLayout)
-import Yesod.Content (RepHtml)
 
 infixr 5 <>
 (<>) :: Monoid m => m -> m -> m

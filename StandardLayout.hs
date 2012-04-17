@@ -13,11 +13,9 @@ import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
 import Yesod.Markdown (markdownToHtml, Markdown(..))
-import Yesod.Content (RepHtml)
 import Yesod (Yesod (defaultLayout))
 import Yesod
 import Yesod.Auth
-import Data.Shorten(shorten)
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do

@@ -40,10 +40,10 @@ getDocumentR tid = do
                                 <input type="submit" value="Spara">
             |]
         setDtekTitle "Redigera dokument"
-        -- $(widgetFile "document") -- TODO: why left this empty?
+        -- $(widgetFile "document") -- TODO: Move out the html one day
 
 postDocumentR :: Text -- ^ Textual ID of the document
-           -> Handler RepHtml
+              -> Handler RepHtml
 postDocumentR tid = do
     Entity did doc <- guardExistence tid
     ((res, _), _) <- runFormPost $ documentEditForm doc
