@@ -1,8 +1,12 @@
 <article>
-    <header>
-        <h3>
-            <a href=@{PostR (postSlug post)}>#{postTitle post}
-    #{markdownToHtml $ postTeaser post}
-    <footer>
-        Av #{creator} #{prettyCreated}
+    $with fullUrl <- PostR (postSlug post)
+        <header>
+            <h3>
+                <a href=@{fullUrl}>#{postTitle post}
+        #{markdownToHtml $ postTeaser post}
+        <footer>
+            Av #{creator} #{prettyCreated}
+            $if moreToRead post
+                <br>
+                <a href=@{fullUrl}>Läs mer...
 
