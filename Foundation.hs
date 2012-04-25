@@ -258,7 +258,7 @@ routeDescription (DocumentR (flip lookup documentDescriptions -> Just x)) = x
 routeDescription _ = "Beskrivning saknas"
 
 editors :: [Forening]
-editors = [Styret, DAG]
+editors = [Styret, DAG, Presidiet]
 
 documentFromDB :: Text -> Handler Markdown
 documentFromDB tid =
