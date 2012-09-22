@@ -126,7 +126,7 @@ executable         DtekPortalen
                  , tagsoup
                  , time
                  , url                  >= 2.1.2
-                 , rfc3339              >= 1.0.4
+                 , timerep              >= 1.0.3
                  , utf8-string          >= 0.3.6
                  , old-locale           >= 1.0.0.0
                  , yesod-newsfeed
