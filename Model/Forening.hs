@@ -3,7 +3,6 @@ module Model.Forening where
 import Prelude
 import Yesod (PathPiece(..))
 import Data.Either (rights)
-import Data.Text (Text)
 import qualified Data.Text as T
 import System.Process (readProcessWithExitCode)
 import System.Exit (ExitCode(..))

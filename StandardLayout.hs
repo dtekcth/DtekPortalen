@@ -14,8 +14,6 @@ import System.Locale
 import Data.IORef
 import Yesod.Markdown (markdownToHtml, Markdown(..))
 import Yesod (Yesod (defaultLayout))
-import Yesod
-import Yesod.Auth
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do

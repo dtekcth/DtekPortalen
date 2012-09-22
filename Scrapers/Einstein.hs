@@ -7,7 +7,7 @@ module Scrapers.Einstein (
 import Prelude
 import Helpers.Scraping (openUrl)
 import Text.HTML.TagSoup
-import Data.List.Split (splitEvery)
+import Data.List.Split (chunksOf)
 import Control.Monad (guard, liftM2)
 import Data.Char (isNumber)
 import Data.Maybe (listToMaybe)
@@ -34,7 +34,7 @@ parse body = liftM2 (,) mweek mmenu
     tags = parseTags body
     goodContents = filter (elem '•') [ s | TagText s <- tags ]
     cleanContents = map (dropWhile (`elem` " •\n\r")) goodContents
-    splitted = splitEvery 3  cleanContents
+    splitted = chunksOf 3 cleanContents
     mmenu = guard (map length splitted == [3, 3, 3, 3, 3]) >> Just splitted
     textNum = T.takeWhile isNumber $ snd $ T.breakOnEnd "Meny V " (T.pack body)
     mweek = fmap fst $ listToMaybe $ reads $ T.unpack textNum
