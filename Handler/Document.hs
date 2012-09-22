@@ -2,7 +2,7 @@
 module Handler.Document where
 
 import Import
-import Yesod.Markdown
+import Text.Markdown
 
 type DocumentFormResult = Markdown
 

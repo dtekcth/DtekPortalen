@@ -5,7 +5,7 @@ module Handler.Posts where
 
 import Import
 import Yesod.Auth (requireAuthId)
-import Yesod.Markdown
+import Text.Markdown
 import Helpers.Post
 import Yesod.Paginator (selectPaginated)
 import Data.Shorten

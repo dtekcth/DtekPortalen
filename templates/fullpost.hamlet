@@ -2,7 +2,7 @@
     <header>
         <h2>#{postTitle post}
     <span>
-        #{markdownToHtml $ postContent post}
+        #{toMarkup $ postContent post}
     <footer>
         Av #{creator} #{prettyCreated}
         $if postIsEdited post

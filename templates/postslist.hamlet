@@ -14,7 +14,7 @@
           <a href="@{PostR $ postSlug p}">#{shorten 20 $ postTitle p}
 
         <td>
-          #{markdownToHtml $ postTeaser p}
+          #{toMarkup $ postTeaser p}
 
         <td>
           <a href="@{EditPostR $ postSlug p}">redigera

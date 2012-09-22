@@ -3,7 +3,7 @@
         <header>
             <h3>
                 <a href=@{fullUrl}>#{postTitle post}
-        #{markdownToHtml $ postTeaser post}
+        #{toMarkup $ postTeaser post}
         <footer>
             Av #{creator} #{prettyCreated}
             $if moreToRead post

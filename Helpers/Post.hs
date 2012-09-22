@@ -6,7 +6,7 @@ import Import
 import Data.Time (getCurrentTime)
 import Network.URL
 import Text.Hamlet(shamlet)
-import Yesod.Markdown
+import Text.Markdown
 import Data.Time.Format.Human
 import qualified Data.Text as T
 

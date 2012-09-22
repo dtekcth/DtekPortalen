@@ -12,8 +12,10 @@ import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
-import Yesod.Markdown (markdownToHtml, Markdown(..))
+import Text.Markdown (Markdown(..), markdown, def)
+import Text.Blaze (ToMarkup (toMarkup))
 import Yesod (Yesod (defaultLayout))
+import Yesod
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
@@ -28,7 +30,7 @@ standardLayout contentWidget = do
     mklmenu  = do
         sndmd <- documentFromDB "stat_sndfrontpage"
         dagmd@(Markdown dagtext) <- documentFromDB "stat_dagads"
-        let dagmdEmtpy = (T.strip . T.pack) dagtext == ""
+        let dagmdEmtpy = dagtext == ""
         return $(widgetFile "lmenu" )
     mkrmenu  = do
         (cache -> (CachedValues einsteinRef calendarRef)) <- getYesod

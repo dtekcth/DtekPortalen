@@ -2,13 +2,14 @@ module Model.Post where
 
 import Prelude
 import Model.Persist
-import Data.Text (Text, strip, pack)
+import Data.Text (Text, strip)
+import Data.Text.Lazy (toStrict)
 import Data.Monoid (mconcat)
-import Yesod.Markdown
+import Text.Markdown
 
 -- This should ideally be provided by markdown but isn't
 unMarkdown :: Markdown -> Text
-unMarkdown (Markdown s) = pack s
+unMarkdown (Markdown t) = toStrict t
 
 -- | The "full" content of the article, including the teaser if concat
 postContent :: Post -> Markdown

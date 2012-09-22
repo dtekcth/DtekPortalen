@@ -20,8 +20,8 @@
 
 $if not dagmdEmtpy
     <div .block>
-        #{markdownToHtml dagmd}
+        #{toMarkup dagmd}
 
 <div .block>
-    #{markdownToHtml sndmd}
+    #{toMarkup sndmd}
     <a href=@{SNDR}>Mer från SND

@@ -2,7 +2,7 @@
 module Handler.SmallHandlers where
 
 import Import
-import Yesod.Markdown
+import Text.Markdown
 
 layout :: Html -> Widget -> Handler RepHtml
 layout title widget = standardLayout $ do

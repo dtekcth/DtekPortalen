@@ -6,9 +6,8 @@ module Handler.Feed
 
 import Import
 import Yesod.RssFeed
-import Yesod.Markdown (Markdown, markdownToHtml)
-import Text.Blaze (preEscapedText)
-import Text.Blaze.Internal (HtmlM (Append))
+import Text.Markdown (Markdown)
+import Text.Blaze (ToMarkup (toMarkup))
 
 getFeedR :: Handler RepRss
 getFeedR = do
@@ -19,6 +18,7 @@ feedFromPosts :: [Post] -> Handler RepRss
 feedFromPosts posts = do
     rssFeed Feed
         { feedTitle = "Dteks nyhetsfeed"
+        , feedAuthor = "Dteks sektioner"
         , feedDescription = "Nyheter från Chalmers Datateknologsektion"
         , feedLanguage = "sv"
         , feedLinkSelf = FeedR
@@ -32,15 +32,5 @@ postToRssEntry post = FeedEntry
         { feedEntryLink = PostR $ postSlug post
         , feedEntryUpdated = postEdited post
         , feedEntryTitle = postTitle post
-        , feedEntryContent = cdata $ postContent post
+        , feedEntryContent = toMarkup $ postContent post
         }
-  where
-    -- Should appear as formatted HTML in readers that support
-    -- that.Rss validation errors on script tage used by
-    -- markdown conversion to obfuscate an email. Looks pretty
-    -- bad in snownews (but readable) -- not sure about Google
-    -- yet.
-    cdata :: Markdown -> Html
-    cdata mkd = let prefix = preEscapedText "<![CDATA["
-                    content = markdownToHtml mkd
-                    suffix = preEscapedText "]]>" in Append prefix $ Append content suffix
