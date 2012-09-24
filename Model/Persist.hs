@@ -6,13 +6,10 @@
 module Model.Persist where
 
 import Prelude
-import Data.Monoid
-import Data.String
 import Yesod
 import Yesod.Form.Functions
 import Data.Text (Text)
 import Data.Text.Lazy (toStrict, fromStrict)
-import qualified Data.Text.Lazy as TL
 import Data.Time (UTCTime)
 import Text.Markdown (Markdown (Markdown))
 import Database.Persist ()
@@ -25,15 +22,6 @@ instance PersistField Markdown where
   fromPersistValue _               = Left "Not a PersistText value"
   sqlType _                        = SqlString
   isNullable _                     = False
-
--- TODO: Put in the real markdown library
-instance Monoid Markdown where
-  mempty = Markdown ""
-  mappend (Markdown t1) (Markdown t2) = Markdown $ t1 `mappend` t2
-
--- TODO: Put in the real markdown library
-instance IsString Markdown where
-  fromString s = Markdown $ TL.pack s
 
 -- TODO: Put in right place, preferably in external library
 markdownField :: RenderMessage master FormMessage => Field sub master Markdown
