@@ -16,6 +16,7 @@ import Text.Markdown (Markdown(..), markdown, def)
 import Text.Blaze (ToMarkup (toMarkup))
 import Yesod (Yesod (defaultLayout))
 import Yesod
+import Yesod.Auth (Route (LogoutR, LoginR))
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
