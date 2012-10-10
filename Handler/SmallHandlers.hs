@@ -7,7 +7,7 @@ import Text.Markdown
 layout :: Html -> Widget -> Handler RepHtml
 layout title widget = standardLayout $ do
     setDtekTitle title
-    addWidget widget
+    widget
 
 getSNDR :: Handler RepHtml
 getSNDR = do

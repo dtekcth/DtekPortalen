@@ -10,4 +10,4 @@ getAdminR = do
     let okRoutes = filter (maybe False (any (`elem` fs)) . routePrivileges) adminRoutes
     standardLayout $ do
         setDtekTitle "Administrera portalen"
-        addWidget $(widgetFile "admin")
+        $(widgetFile "admin")

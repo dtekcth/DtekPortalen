@@ -15,13 +15,13 @@ getPostsR = do
     (map entityVal -> posts, widget) <- runDB $ selectPaginated 10 [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
-        addWidget $(widgetFile "posts")
+        $(widgetFile "posts")
 
 getPostR :: Text -> Handler RepHtml
 getPostR slug = do
     standardLayout $ do
         setDtekTitle "Specifikt inlägg"
-        addWidget $ slugToPostWidget True slug
+        slugToPostWidget True slug
 
 postPostR :: Text -> Handler RepHtml
 postPostR = getPostR
@@ -33,7 +33,7 @@ getManagePostsR = do
     defaultLayout $ do
         setDtekTitle "Administrera inlägg"
         let (postslist :: Widget) = $(widgetFile "postslist")
-        addWidget $(widgetFile "manage")
+        $(widgetFile "manage")
 
 postManagePostsR :: Handler RepHtml
 postManagePostsR = getManagePostsR
@@ -44,7 +44,7 @@ getEditPostR slug = do
     mkpost <- runDB $ selectFirst [PostSlug ==. slug] []
     defaultLayout $ do
         setDtekTitle "Redigera inlägg"
-        addWidget $(widgetFile "editpost")
+        $(widgetFile "editpost")
 
 postEditPostR :: Text -> Handler RepHtml
 postEditPostR = getEditPostR

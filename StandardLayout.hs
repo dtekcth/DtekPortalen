@@ -23,7 +23,7 @@ standardLayout contentWidget = do
     (rmenu :: Widget)  <- mkrmenu
     (lmenu :: Widget)  <- mklmenu
     (header :: Widget) <- mkHeader mu
-    defaultLayout $ addWidget $(widgetFile "standard")
+    defaultLayout $(widgetFile "standard")
   where
     (footer :: Widget) = $(widgetFile "footer")
     mkHeader mu = return $(widgetFile "header")

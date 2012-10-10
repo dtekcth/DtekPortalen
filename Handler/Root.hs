@@ -17,4 +17,4 @@ getRootR = do
     let posts = map entityVal kposts
     standardLayout $ do
         setDtekTitle "Startsida"
-        addWidget $(widgetFile "homepage")
+        $(widgetFile "homepage")

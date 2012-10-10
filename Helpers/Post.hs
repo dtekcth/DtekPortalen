@@ -27,7 +27,7 @@ postToWidget isFull post = do
     editor <- fmap safeExtract  $ lift $ runDB $ get (postEditor post)
     prettyCreated <- liftIO $ humanReadableTime $ postCreated post
     prettyEdited  <- liftIO $ humanReadableTime $ postEdited post
-    addWidget $ if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
+    if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
     safeExtract = fromMaybe "(borttagen)" . fmap userCalcName
 
@@ -48,7 +48,7 @@ runPostForm mkpost uid = do
             if isPreview /= Just True
                 then lift $ processFormResult pf
                 else do post <- lift $ postFromForm pf
-                        addWidget $(widgetFile "preview")
+                        $(widgetFile "preview")
         _ -> return ()
 
     [whamlet|
