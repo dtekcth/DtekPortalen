@@ -6,8 +6,6 @@ module Handler.Feed
 
 import Import
 import Yesod.RssFeed
-import Text.Markdown (Markdown)
-import Text.Blaze (ToMarkup (toMarkup))
 
 getFeedR :: Handler RepRss
 getFeedR = do

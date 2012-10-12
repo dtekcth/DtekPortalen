@@ -7,13 +7,9 @@ module Model.Persist where
 
 import Prelude
 import Yesod
-import Yesod.Form.Functions
 import Data.Text (Text)
-import Data.Text.Lazy (toStrict, fromStrict)
 import Data.Time (UTCTime)
-import Text.Markdown (Markdown (Markdown))
-import Database.Persist ()
-import Database.Persist.Store
+import Text.Markdown (Markdown)
 import Yesod.Text.Markdown ()
 
 -- You can define all of your database entities in the entities file.

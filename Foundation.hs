@@ -203,7 +203,7 @@ instance YesodAuth App where
 
     loginHandler = defaultLayout $ do
         setDtekTitle "Inloggning"
-        toWidget [hamlet|
+        toWidget [hamlet|$newline never
 <p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
    \ Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
 <p>Tillbaka till #
@@ -218,8 +218,12 @@ setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 -- The message types below assumes blueprint or similiar CSS framework
 setSuccessMessage, setErrorMessage :: Html -> Handler ()
-setSuccessMessage t = setMessage [shamlet|<div .success>#{t}|]
-setErrorMessage   t = setMessage [shamlet|<div .error>#{t}|]
+setSuccessMessage t = setMessage [shamlet|$newline never
+      <div .success>#{t}
+    |]
+setErrorMessage   t = setMessage [shamlet|$newline never
+      <div .error>#{t}
+    |]
 
 instance RenderMessage App FormMessage where
     renderMessage _ _ = swedishFormMessage

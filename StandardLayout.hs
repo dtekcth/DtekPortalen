@@ -7,16 +7,13 @@ module StandardLayout (standardLayout)
 import Prelude
 import Foundation
 import Data.Time
-import qualified Data.Text as T
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import System.Locale
 import Data.IORef
-import Text.Markdown (Markdown(..), markdown, def)
+import Text.Markdown (Markdown(..))
 import Text.Blaze (ToMarkup (toMarkup))
-import Yesod (Yesod (defaultLayout))
 import Yesod
-import Yesod.Auth (Route (LogoutR, LoginR))
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
