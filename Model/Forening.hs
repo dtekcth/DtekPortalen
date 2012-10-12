@@ -9,6 +9,7 @@ import System.Exit (ExitCode(..))
 import Data.List
 import Data.Monoid (mappend)
 import Model.Persist
+import Settings.Development
 
 -- Forening
 data Forening = Styret
@@ -72,11 +73,9 @@ getMemberships u = fmap (map fst
 
 checkMembership :: Forening -> User -> IO (Either String Bool)
 checkMembership f u =
-#ifdef DEVELOPMENT
-  return $ Right True
-#else
-  fmap (fmap $ elem $ T.unpack $ userIdent u) $ getMembers f
-#endif
+  if production
+  then fmap (fmap $ elem $ T.unpack $ userIdent u) $ getMembers f
+  else return $ Right True
 
 checkMemberships :: [Forening] -> User -> IO (Either String Bool)
 checkMemberships fs u = fmap (fmap or . sequence) $ mapM (`checkMembership` u) fs
