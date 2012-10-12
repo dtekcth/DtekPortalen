@@ -9,6 +9,7 @@ import Text.Hamlet(shamlet)
 import Text.Markdown
 import Data.Time.Format.Human
 import qualified Data.Text as T
+import Yesod.Text.Markdown (markdownField)
 
 slugToPostWidget :: Bool -- ^ Full?
                  -> Text -- ^ The slug

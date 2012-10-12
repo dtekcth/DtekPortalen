@@ -3,6 +3,7 @@ module Handler.Document where
 
 import Import
 import Text.Markdown
+import Yesod.Text.Markdown (markdownField)
 
 type DocumentFormResult = Markdown
 

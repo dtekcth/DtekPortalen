@@ -135,8 +135,9 @@ executable         DtekPortalen
                  , yesod-newsfeed
                  , yesod-auth-kerberos  >= 1.0      && < 1.1
                  -- Packages from the yesod-goodies collection below
-                 , markdown             >= 0.1.1
                  , yesod-paginator      >= 0.3.2
                  -- shorten-strings might need manual installation
                  , shorten-strings      >= 0.1
                  , friendly-time        >= 0.2.1 && < 0.3
+                 , markdown             >= 0.1.1
+                 , yesod-text-markdown  >= 0.1
