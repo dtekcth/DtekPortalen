@@ -1,2 +1,6 @@
 language: haskell
 
+install:
+    - cabal install --force-reinstalls $(grep "yesod-platform\s*==" DtekPortalen.cabal | tr --delete ", ")
+    - cabal install --only-dependencies
+    - cabal install
