@@ -1,6 +1,4 @@
 language: haskell
 
-install:
+before_install:
     - cabal install --force-reinstalls $(grep "yesod-platform\s*==" *.cabal | tr --delete ", ")
-    - cabal install --only-dependencies
-    - cabal install
