@@ -13,7 +13,7 @@
 
 <h3>Tekniskt
 
-<p>Sidan har <a href="https://github.com/Tarrasch/DtekPortalen">öppen källkod</a> och är givetvis skriven i datateknologernas favoritspråk <a href="http://haskell.org">haskell</a> med webbramverket <a href="http://www.yesodweb.com">yesod</a>.</p>
+<p>Sidan har <a href="https://github.com/dtekcth/DtekPortalen">öppen källkod</a> och är givetvis skriven i datateknologernas favoritspråk <a href="http://haskell.org">haskell</a> med webbramverket <a href="http://www.yesodweb.com">yesod</a>.</p>
 
 <!--
 Jag fular mig o sparar markdownen här.
@@ -32,6 +32,6 @@ Med det redaktionella menas nyheter, kommande händelser och sådant.
 
 ### Tekniskt
 
-Sidan har [öppen källkod](https://github.com/Tarrasch/DtekPortalen) och är givetvis skriven i datateknologernas favoritspråk [haskell](http://haskell.org) med webbramverket [yesod](http://www.yesodweb.com).
+Sidan har [öppen källkod](https://github.com/dtekcth/DtekPortalen) och är givetvis skriven i datateknologernas favoritspråk [haskell](http://haskell.org) med webbramverket [yesod](http://www.yesodweb.com).
 -->
 

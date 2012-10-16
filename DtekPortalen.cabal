@@ -12,7 +12,7 @@ category:          Web
 stability:         Experimental
 cabal-version:     >= 1.6
 build-type:        Simple
-homepage:          https://github.com/Tarrasch/DtekPortalen
+homepage:          https://github.com/dtekcth/DtekPortalen
 
 Flag dev
     Description:   Turn on development settings, like auto-reload templates.
