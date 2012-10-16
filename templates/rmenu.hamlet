@@ -1,8 +1,3 @@
-<div #einsteinblock .block>
-    <span .menuheading>Dagens Einsteinmeny
-    <ul>
-        $forall dish <- esMenu
-            <li>#{dish}
 <div #calendarblock .block>
     <span .menuheading>Kommande händelser
     <ul>
