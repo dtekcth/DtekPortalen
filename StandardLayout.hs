@@ -14,6 +14,7 @@ import Data.IORef
 import Text.Markdown (Markdown(..))
 import Text.Blaze (ToMarkup (toMarkup))
 import Yesod
+import Data.Shorten (shorten)
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
