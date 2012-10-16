@@ -1,7 +1,7 @@
 Default: &defaults
   host: "127.0.0.1"
   port: 3000
-  calendar: "https://www.google.com/calendar/feeds/datateknologsektionen@gmail.com/public/full"
+  calendar: "https://www.google.com/calendar/feeds/1kkm5l6hn0qhh7c7b6mnablnk0%40group.calendar.google.com/public/full"
   analytics: "UA-28926914-1"
 
 Development:
