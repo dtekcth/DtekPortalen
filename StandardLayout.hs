@@ -47,6 +47,41 @@ standardLayout contentWidget = do
         return $(widgetFile "rmenu" )
     niceShowEvent :: EventInfo -> String
     niceShowEvent event =
-      let format = formatTime defaultTimeLocale
+      let format = formatTime swedishLocale
       in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
        ++ format "%R" (endTime event)
+
+swedishLocale :: TimeLocale
+swedishLocale = TimeLocale {
+  wDays = [ ("söndag", "sön")
+          , ("måndag", "mån")
+          , ("tisdag", "tis")
+          , ("onsdag", "ons")
+          , ("torsdag", "tor")
+          , ("fredag", "fre")
+          , ("lördag", "lör")],
+  months = [ ("januari", "jan")
+           , ("februari", "feb")
+           , ("mars", "mar")
+           , ("april", "apr")
+           , ("maj", "maj")
+           , ("juni", "jun")
+           , ("juli", "jul")
+           , ("augusti", "aug")
+           , ("september", "sep")
+           , ("oktober", "okt")
+           , ("november", "nov")
+           , ("december", "dec")],
+  intervals = [ ("år", "år")
+              , ("månad", "månader")
+              , ("dag", "dagar")
+              , ("timme", "timmar")
+              , ("minut", "minuter")
+              , ("sekund", "sekunder")
+              , ("µsekund", "µsekunder")],
+  amPm = ("fm", "em"),
+  dateTimeFmt = "%a %b %e %H:%M:%S %Z %Y",
+  dateFmt = "%Y-%m-%d",
+  timeFmt = "%H:%M:%S",
+  time12Fmt = "%I:%M:%S %p"
+}
