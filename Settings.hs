@@ -11,6 +11,8 @@ module Settings
     , Extra (..)
     , parseExtra
     , development
+    , swedishTimeLocale
+    , swedishHumanTimeLocale
     ) where
 
 import Prelude
@@ -25,6 +27,8 @@ import Control.Applicative
 import Settings.Development
 import Data.Default (def)
 import Text.Hamlet
+import System.Locale
+import Data.Time.Format.Human
 
 -- | Which Persistent backend this site is using.
 type PersistConfig = PostgresConf
@@ -78,3 +82,55 @@ parseExtra :: DefaultEnv -> Object -> Parser Extra
 parseExtra _ o = Extra
     <$> o .:  "calendar"
     <*> o .:? "analytics"
+
+
+swedishTimeLocale :: TimeLocale
+swedishTimeLocale = TimeLocale {
+  wDays = [ ("söndag", "sön")
+          , ("måndag", "mån")
+          , ("tisdag", "tis")
+          , ("onsdag", "ons")
+          , ("torsdag", "tor")
+          , ("fredag", "fre")
+          , ("lördag", "lör")],
+  months = [ ("januari", "jan")
+           , ("februari", "feb")
+           , ("mars", "mar")
+           , ("april", "apr")
+           , ("maj", "maj")
+           , ("juni", "jun")
+           , ("juli", "jul")
+           , ("augusti", "aug")
+           , ("september", "sep")
+           , ("oktober", "okt")
+           , ("november", "nov")
+           , ("december", "dec")],
+  intervals = [ ("år", "år")
+              , ("månad", "månader")
+              , ("dag", "dagar")
+              , ("timme", "timmar")
+              , ("minut", "minuter")
+              , ("sekund", "sekunder")
+              , ("µsekund", "µsekunder")],
+  amPm = ("fm", "em"),
+  dateTimeFmt = "%a %b %e %H:%M:%S %Z %Y",
+  dateFmt = "%Y-%m-%d",
+  timeFmt = "%H:%M:%S",
+  time12Fmt = "%I:%M:%S %p"
+}
+
+swedishHumanTimeLocale :: HumanTimeLocale
+swedishHumanTimeLocale = HumanTimeLocale
+    { justNow = "just nu"
+    , secondsAgo = \x -> "för " ++ x ++ " sekunder sedan"
+    , oneMinuteAgo = "en minut sedan"
+    , minutesAgo = \x -> "för " ++ x ++ " minuter sedan"
+    , oneHourAgo = "en timme sedan"
+    , aboutHoursAgo = \x -> "för cirka " ++ x ++ " timmar sedan"
+    , at = \x -> "i " ++ x ++ "s"
+    , daysAgo = \x -> "för " ++ x ++ " dagar sedan"
+    , weekAgo = \x -> "för " ++ x ++ " vecka sedan"
+    , weeksAgo = \x -> "för " ++ x ++ " veckor sedan"
+    , onYear = ("" ++)
+    , locale = swedishTimeLocale
+    }

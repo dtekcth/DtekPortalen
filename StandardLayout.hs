@@ -9,12 +9,12 @@ import Foundation
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
-import System.Locale
 import Data.IORef
 import Text.Markdown (Markdown(..))
 import Text.Blaze (ToMarkup (toMarkup))
 import Yesod
 import Data.Shorten (shorten)
+import Settings
 
 standardLayout :: Widget -> Handler RepHtml
 standardLayout contentWidget = do
@@ -47,41 +47,7 @@ standardLayout contentWidget = do
         return $(widgetFile "rmenu" )
     niceShowEvent :: EventInfo -> String
     niceShowEvent event =
-      let format = formatTime swedishLocale
+      let format = formatTime swedishTimeLocale
       in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
        ++ format "%R" (endTime event)
 
-swedishLocale :: TimeLocale
-swedishLocale = TimeLocale {
-  wDays = [ ("söndag", "sön")
-          , ("måndag", "mån")
-          , ("tisdag", "tis")
-          , ("onsdag", "ons")
-          , ("torsdag", "tor")
-          , ("fredag", "fre")
-          , ("lördag", "lör")],
-  months = [ ("januari", "jan")
-           , ("februari", "feb")
-           , ("mars", "mar")
-           , ("april", "apr")
-           , ("maj", "maj")
-           , ("juni", "jun")
-           , ("juli", "jul")
-           , ("augusti", "aug")
-           , ("september", "sep")
-           , ("oktober", "okt")
-           , ("november", "nov")
-           , ("december", "dec")],
-  intervals = [ ("år", "år")
-              , ("månad", "månader")
-              , ("dag", "dagar")
-              , ("timme", "timmar")
-              , ("minut", "minuter")
-              , ("sekund", "sekunder")
-              , ("µsekund", "µsekunder")],
-  amPm = ("fm", "em"),
-  dateTimeFmt = "%a %b %e %H:%M:%S %Z %Y",
-  dateFmt = "%Y-%m-%d",
-  timeFmt = "%H:%M:%S",
-  time12Fmt = "%I:%M:%S %p"
-}

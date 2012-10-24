@@ -10,6 +10,7 @@ import Text.Markdown
 import Data.Time.Format.Human
 import qualified Data.Text as T
 import Yesod.Text.Markdown (markdownField)
+import Settings
 
 slugToPostWidget :: Bool -- ^ Full?
                  -> Text -- ^ The slug
@@ -26,8 +27,8 @@ postToWidget :: Bool -- ^ Full?
 postToWidget isFull post = do
     creator <- fmap safeExtract $ lift $ runDB $ get (postCreator post)
     editor <- fmap safeExtract  $ lift $ runDB $ get (postEditor post)
-    prettyCreated <- liftIO $ humanReadableTime $ postCreated post
-    prettyEdited  <- liftIO $ humanReadableTime $ postEdited post
+    prettyCreated <- liftIO $ humanReadableTimeI18N swedishHumanTimeLocale $ postCreated post
+    prettyEdited  <- liftIO $ humanReadableTimeI18N swedishHumanTimeLocale $ postEdited post
     if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
     safeExtract = fromMaybe "(borttagen)" . fmap userCalcName

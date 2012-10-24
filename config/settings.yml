@@ -1,6 +1,7 @@
 Default: &defaults
-  host: "127.0.0.1"
-  port: 3000
+  approot: "https://dtek.se/portal-dev"
+  ssl: yes
+  port: 3502
   calendar: "https://www.google.com/calendar/feeds/1kkm5l6hn0qhh7c7b6mnablnk0%40group.calendar.google.com/public/full"
   analytics: "UA-28926914-1"
 
@@ -14,4 +15,6 @@ Staging:
   <<: *defaults
 
 Production:
+  approot: "https://dtek.se/portal"
+  port: 3501
   <<: *defaults
