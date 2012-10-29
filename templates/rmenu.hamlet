@@ -4,4 +4,4 @@
         $forall event <- eventInfos
             <li>
                 <a title=#{niceShowEvent event} href=#{link event}>
-                    #{shorten 30 $ niceShowEvent event}
+                    #{niceShowEvent event}
