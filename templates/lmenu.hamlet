@@ -1,8 +1,12 @@
 <div #links .block>
+    <span .linkheading>Föreningar<br>
+    <a href="http://dfoto.dtek.se/">dFoto<br>
+    <a href="http://dnollk.se/">DNollK<br>
+    <a href="http://snd.dtek.se/">SND<br>
+
     <span .linkheading>Dteklänkar<br>
     <a href="http://dtek.se/wiki/">Wiki<br>
     <a href="http://dtek.se/forum/">Forum<br>
-    <a href="http://dfoto.dtek.se/">dFoto<br>
     <a href="http://www.reddit.com/r/dtek/">DTek-subredditen<br>
 
     <span .linkheading>Chalmerslänkar<br>
