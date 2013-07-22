@@ -228,17 +228,17 @@ setErrorMessage   t = setMessage [shamlet|$newline never
 instance RenderMessage App FormMessage where
     renderMessage _ _ = swedishFormMessage
 
--- | The exposed function that adds Webredax automatically
+-- | The exposed function that adds dhack automatically
 --
--- Since this is the only function exposed, Webredax should always have
+-- Since this is the only function exposed, dHack should always have
 -- full privileges.
 routePrivileges :: Route App -> Maybe [Forening]
-routePrivileges route = fmap (Webredax:) $ routePrivileges' route
+routePrivileges route = fmap (DHack:) $ routePrivileges' route
 
 -- | Privilege control for the pages. Warning! by default pages are
 --   unrestricted!
 --
---   It is not neccesary to include Webredax in lists
+--   It is not neccesary to include dHack in lists
 routePrivileges' :: Route App -> Maybe [Forening]
 routePrivileges' ManagePostsR = Just editors
 routePrivileges' EditPostR {} = Just editors

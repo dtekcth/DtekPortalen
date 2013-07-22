@@ -22,7 +22,7 @@ data Forening = Styret
               | DRUST
               | DFoto
               | IDrott -- iDrott really
-              | Webredax
+              | DHack
               | LuDer
   deriving (Show, Read, Enum, Bounded, Eq )
 
