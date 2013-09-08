@@ -1,7 +1,7 @@
 Default: &defaults
-  approot: "https://dtek.se/portal-dev"
+  approot: "http://localhost:3000"
   ssl: yes
-  port: 3502
+  port: 3000
   calendar: "https://www.google.com/calendar/feeds/1kkm5l6hn0qhh7c7b6mnablnk0%40group.calendar.google.com/public/full"
   analytics: "UA-28926914-1"
 
