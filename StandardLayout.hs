@@ -32,18 +32,8 @@ standardLayout contentWidget = do
         let dagmdEmtpy = dagtext == ""
         return $(widgetFile "lmenu" )
     mkrmenu  = do
-        (cache -> (CachedValues einsteinRef calendarRef)) <- getYesod
-        einsteinScrapResult <- liftIO $ readIORef einsteinRef
+        (cache -> (CachedValues calendarRef)) <- getYesod
         eventInfos          <- liftIO $ readIORef calendarRef
-        esMenu <- case einsteinScrapResult of
-             Nothing            -> return ["Ingen meny tillgänglig"]
-             Just (esWeek, sss) -> do
-                day <- liftIO $ fmap utctDay getCurrentTime
-                let (week, weekday) = mondayStartWeek day
-                return $ head $
-                    [["Stängt under helgdag"] | weekday `notElem` [1..5]]
-                 ++ [["Einstein har ej uppdaterat veckan"] | esWeek /= week]
-                 ++ [sss !! (weekday - 1)]
         return $(widgetFile "rmenu" )
     niceShowEvent :: EventInfo -> String
     niceShowEvent event =

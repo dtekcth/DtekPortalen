@@ -14,7 +14,7 @@ import Control.Concurrent (forkIO, threadDelay)
 openUrl :: String -> IO String
 openUrl = fmap unpack . simpleHttp
 
--- For einsteinscraping and such
+-- For scraping
 hourlyRefreshingRef :: IO a         -- ^ Routine to run every hour to fill in ref
                     -> a            -- ^ Start value
                     -> IO (IORef a) -- ^ Ref one can read from

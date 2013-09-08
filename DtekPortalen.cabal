@@ -37,7 +37,6 @@ library
                      Settings.Development
                      -- Nonscaffolded sitespecific modules
                      StandardLayout
-                     Scrapers.Einstein
                      Scrapers.CalendarFeed
                      Helpers.Post
                      Helpers.Scraping

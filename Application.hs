@@ -30,7 +30,6 @@ import Handler.SmallHandlers
 
 -- Own imports
 import Helpers.Scraping (hourlyRefreshingRef)
-import Scrapers.Einstein
 import Scrapers.CalendarFeed
 import Data.Text (unpack)
 
@@ -64,10 +63,9 @@ makeFoundation :: AppConfig DefaultEnv Extra -> IO App
 makeFoundation conf = do
     manager <- newManager def
     s <- staticSite
-    einsteinRef <- hourlyRefreshingRef scrapEinstein Nothing
     let calendarUrl = unpack . extraCalendar $ appExtra conf
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
-    let cachedValues = CachedValues einsteinRef calendarRef
+    let cachedValues = CachedValues calendarRef
 
     dbconf <- withYamlEnvironment "config/postgresql.yml" (appEnv conf)
               Database.Persist.loadConfig >>=

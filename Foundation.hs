@@ -52,7 +52,6 @@ import System.Log.FastLogger (Logger)
 -- Imports specific for this site (not scaffolded)
 import Data.Monoid
 import Data.IORef
-import Scrapers.Einstein
 import Scrapers.CalendarFeed
 import qualified Data.Text as T
 import Data.Text (Text)
@@ -64,8 +63,7 @@ import Text.Markdown (Markdown)
 
 
 data CachedValues = CachedValues {
-    einstein :: IORef EinsteinScrapResult
-  , calendar :: IORef CalendarScrapResult
+    calendar :: IORef CalendarScrapResult
 }
 
 -- | The site argument for your application. This can be a good place to
