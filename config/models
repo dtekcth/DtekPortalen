@@ -2,6 +2,7 @@ User
     ident Text
     nick Text Maybe
     UniqueUser ident
+    deriving Typeable
 
 Post
     -- Values for user to fill in

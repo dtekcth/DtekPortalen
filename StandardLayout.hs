@@ -16,7 +16,7 @@ import Yesod
 import Data.Shorten (shorten)
 import Settings
 
-standardLayout :: Widget -> Handler RepHtml
+standardLayout :: Widget -> Handler Html
 standardLayout contentWidget = do
     mu <- maybeAuth
     (rmenu :: Widget)  <- mkrmenu
@@ -50,4 +50,3 @@ standardLayout contentWidget = do
       let format = formatTime swedishTimeLocale
       in  (title event) ++ ": " ++ format "%A %R" (startTime event) ++ "-"
        ++ format "%R" (endTime event)
-

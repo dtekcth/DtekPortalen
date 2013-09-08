@@ -3,7 +3,7 @@ module Handler.Admin where
 
 import Import
 
-getAdminR :: Handler RepHtml
+getAdminR :: Handler Html
 getAdminR = do
     u <- fmap entityVal requireAuth
     fs <- liftIO $ getMemberships u

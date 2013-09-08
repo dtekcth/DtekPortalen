@@ -9,23 +9,23 @@ import Helpers.Post
 import Yesod.Paginator (selectPaginated)
 import Data.Shorten
 
-getPostsR :: Handler RepHtml
+getPostsR :: Handler Html
 getPostsR = do
     (map entityVal -> posts, widget) <- runDB $ selectPaginated 10 [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
         $(widgetFile "posts")
 
-getPostR :: Text -> Handler RepHtml
+getPostR :: Text -> Handler Html
 getPostR slug = do
     standardLayout $ do
         setDtekTitle "Specifikt inlägg"
         slugToPostWidget True slug
 
-postPostR :: Text -> Handler RepHtml
+postPostR :: Text -> Handler Html
 postPostR = getPostR
 
-getManagePostsR :: Handler RepHtml
+getManagePostsR :: Handler Html
 getManagePostsR = do
     uid <- requireAuthId
     (map entityVal -> posts) <- runDB $ selectList [] [Desc PostCreated]
@@ -34,10 +34,10 @@ getManagePostsR = do
         let (postslist :: Widget) = $(widgetFile "postslist")
         $(widgetFile "manage")
 
-postManagePostsR :: Handler RepHtml
+postManagePostsR :: Handler Html
 postManagePostsR = getManagePostsR
 
-getEditPostR :: Text -> Handler RepHtml
+getEditPostR :: Text -> Handler Html
 getEditPostR slug = do
     uid <- requireAuthId
     mkpost <- runDB $ selectFirst [PostSlug ==. slug] []
@@ -45,10 +45,10 @@ getEditPostR slug = do
         setDtekTitle "Redigera inlägg"
         $(widgetFile "editpost")
 
-postEditPostR :: Text -> Handler RepHtml
+postEditPostR :: Text -> Handler Html
 postEditPostR = getEditPostR
 
-getDelPostR :: Text -> Handler RepHtml
+getDelPostR :: Text -> Handler Html
 getDelPostR slug = do
     p <- runDB $ getBy $ UniquePost slug
     case p of

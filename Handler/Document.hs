@@ -16,14 +16,14 @@ documentEditForm doc = renderTable $
 guardExistence :: Text -- ^ Textual ID of the document
                -> Handler (Entity Document) --(DocumentId, Document)
 guardExistence tid | not (validDocTid tid) =
-    hamletToRepHtml [hamlet| Ogiltigt dokument #{tid} |] >>= sendResponse
+    giveUrlRenderer [hamlet| Ogiltigt dokument #{tid} |] >>= sendResponse
 guardExistence tid | otherwise = do
     e <- runDB $ insertBy defDoc
     return $ either id (flip Entity defDoc) e
   where defDoc = emptyDoc tid
 
 getDocumentR :: Text -- ^ Textual ID of the document
-          -> Handler RepHtml
+          -> Handler Html
 getDocumentR tid = do
     doc <- fmap entityVal $ guardExistence tid
     ((_, form), enctype) <- runFormPost $ documentEditForm doc
@@ -44,7 +44,7 @@ getDocumentR tid = do
         -- $(widgetFile "document") -- TODO: Move out the html one day
 
 postDocumentR :: Text -- ^ Textual ID of the document
-              -> Handler RepHtml
+              -> Handler Html
 postDocumentR tid = do
     Entity did doc <- guardExistence tid
     ((res, _), _) <- runFormPost $ documentEditForm doc

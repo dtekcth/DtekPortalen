@@ -11,7 +11,7 @@ profileEditForm u = renderTable $ aopt textField "Användarnamn"
         } (Just $ userNick u)
 
 
-getProfileR :: Handler RepHtml
+getProfileR :: Handler Html
 getProfileR = do
     u <- fmap entityVal requireAuth
     ((_, form), enctype) <- runFormPost $ profileEditForm u
@@ -30,7 +30,7 @@ getProfileR = do
         setDtekTitle "Redigera profil"
 
 
-postProfileR :: Handler RepHtml
+postProfileR :: Handler Html
 postProfileR = do
     Entity uid u <- requireAuth
     ((res, _ ), _ ) <- runFormPost $ profileEditForm u
@@ -45,8 +45,4 @@ postProfileR = do
             runDB $ update uid
                 [ UserNick =. ef
                 ]
-
             setSuccessMessage "Profil sparad"
-            tm <- getRouteToMaster
-            redirect $ tm ProfileR
-

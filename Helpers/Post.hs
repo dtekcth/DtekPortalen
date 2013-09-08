@@ -16,7 +16,7 @@ slugToPostWidget :: Bool -- ^ Full?
                  -> Text -- ^ The slug
                  -> Widget
 slugToPostWidget isFull slug = do
-    mpost <- lift $ runDB $ selectFirst [PostSlug ==. slug] []
+    mpost <- handlerToWidget $ runDB $ selectFirst [PostSlug ==. slug] []
     case mpost of
         Just (entityVal -> post) -> do postToWidget isFull post
         Nothing   -> toWidget [shamlet|Posten med slug "#{slug}" hittades inte!|]
@@ -25,12 +25,13 @@ postToWidget :: Bool -- ^ Full?
              -> Post
              -> Widget
 postToWidget isFull post = do
-    creator <- fmap safeExtract $ lift $ runDB $ get (postCreator post)
-    editor <- fmap safeExtract  $ lift $ runDB $ get (postEditor post)
+    creator <- safeGet postCreator
+    editor <-  safeGet postEditor
     prettyCreated <- liftIO $ humanReadableTimeI18N swedishHumanTimeLocale $ postCreated post
     prettyEdited  <- liftIO $ humanReadableTimeI18N swedishHumanTimeLocale $ postEdited post
     if isFull then $(widgetFile "fullpost") else $(widgetFile "teasepost")
   where
+    safeGet attr = fmap safeExtract $ handlerToWidget $ runDB $ get (attr post)
     safeExtract = fromMaybe "(borttagen)" . fmap userCalcName
 
 data PostEditForm = PostEditForm
@@ -43,13 +44,17 @@ data PostEditForm = PostEditForm
 
 runPostForm :: Maybe (Entity Post) -> UserId -> Widget
 runPostForm mkpost uid = do
-    ((res, form), enctype) <- lift $ runFormPost $ postForm $ fmap entityVal mkpost
-    isPreview <- lift $ runInputPost $ iopt boolField "preview"
+    ((res, form), enctype) <-
+        handlerToWidget .
+        runFormPost .
+        postForm $
+        fmap entityVal mkpost
+    isPreview <- handlerToWidget $ runInputPost $ iopt boolField "preview"
     case res of
         FormSuccess pf ->
             if isPreview /= Just True
-                then lift $ processFormResult pf
-                else do post <- lift $ postFromForm pf
+                then handlerToWidget $ processFormResult pf
+                else do post <- handlerToWidget $ postFromForm pf
                         $(widgetFile "preview")
         _ -> return ()
 

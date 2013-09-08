@@ -35,14 +35,15 @@ import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Network.HTTP.Conduit (Manager)
 import qualified Settings
-import qualified Database.Persist.Store
+import qualified Database.Persist
 import Settings.StaticFiles
-import Database.Persist.GenericSql
-import Settings (widgetFile, Extra (..))
+import Database.Persist.Sql
+import Settings (widgetFile, Extra (..), development)
 import Model
 import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
+import System.Log.FastLogger (Logger)
 
 -- Imports we want to IGNORE in this sire (therfor commented)
 -- import Yesod.Auth.BrowserId
@@ -74,9 +75,10 @@ data CachedValues = CachedValues {
 data App = App
     { settings :: AppConfig DefaultEnv Extra
     , getStatic :: Static -- ^ Settings for static file serving.
-    , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , connPool :: Database.Persist.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
     , httpManager :: Manager
     , persistConfig :: Settings.PersistConfig
+    , appLogger :: Logger
     -- Below is my own nonscaffolded entries
     , cache :: CachedValues
     }
@@ -102,7 +104,7 @@ data App = App
 -- split these actions into two functions and place them in separate files.
 mkYesodData "App" $(parseRoutesFile "config/routes")
 
-type Form x = Html -> MForm App App (FormResult x, Widget)
+type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
@@ -111,9 +113,9 @@ instance Yesod App where
 
     -- Store session data on the client in encrypted cookies,
     -- default session idle timeout is 120 minutes
-    makeSessionBackend _ = do
-        key <- getKey "config/client_session_key.aes"
-        return . Just $ clientSessionBackend key 120
+    makeSessionBackend _ = fmap Just $ defaultClientSessionBackend
+        (120 * 60) -- 120 minutes
+        "config/client_session_key.aes"
 
     defaultLayout widget = do
         master <- getYesod
@@ -126,10 +128,12 @@ instance Yesod App where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
-            -- $(widgetFile "normalize")
+            $(combineStylesheets 'StaticR
+                [ css_normalize_css
+                , blueprint_screen_css
+                ])
             $(widgetFile "default-layout")
-            addStylesheet $ StaticR blueprint_screen_css
-        hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
+        giveUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     isAuthorized route _isWrite = do
         let mreqs = routePrivileges route
@@ -167,15 +171,19 @@ instance Yesod App where
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
     jsLoader _ = BottomOfBody
 
+    -- What messages should be logged. The following includes all messages when
+    -- in development, and warnings and errors in production.
+    shouldLog _ _source level =
+        development || level == LevelWarn || level == LevelError
+
+    makeLogger = return . appLogger
+
 -- How to run database actions.
 instance YesodPersist App where
-    type YesodPersistBackend App = SqlPersist
-    runDB f = do
-        master <- getYesod
-        Database.Persist.Store.runPool
-            (persistConfig master)
-            f
-            (connPool master)
+    type YesodPersistBackend App = SqlPersistT
+    runDB = defaultRunDB persistConfig connPool
+instance YesodPersistRunner App where
+    getDBRunner = defaultGetDBRunner connPool
 
 instance YesodAuth App where
     type AuthId App = UserId
@@ -201,19 +209,20 @@ instance YesodAuth App where
 
     renderAuthMessage _ _ = swedishMessage
 
-    loginHandler = defaultLayout $ do
-        setDtekTitle "Inloggning"
-        toWidget [hamlet|$newline never
+    loginHandler = do
+        tp <- getRouteToParent
+        lift $ defaultLayout $ do
+          setDtekTitle "Inloggning"
+          toWidget [hamlet|$newline never
 <p>Logga in med ditt Chalmers-ID och /net-lösenord, dvs samma lösenord som du använder för trådlöst nätverk.
    \ Alla chalmerister kan logga in. Du ska <b>inte</b> ha /net i slutet av username
 <p>Tillbaka till #
     <a href=@{RootR}>startsidan
 |]
-        tm <- lift getRouteToMaster
-        master <- lift getYesod
-        mapM_ (flip apLogin tm) (authPlugins master)
+          master <- getYesod
+          mapM_ (flip apLogin tp) (authPlugins master)
 
-setDtekTitle :: Html -> GWidget sub m ()
+setDtekTitle :: Html -> Widget
 setDtekTitle = setTitle . (mappend "Dtekportalen - ")
 
 -- The message types below assumes blueprint or similiar CSS framework
