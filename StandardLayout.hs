@@ -7,13 +7,11 @@ module StandardLayout (standardLayout)
 import Prelude
 import Foundation
 import Data.Time
-import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Scrapers.CalendarFeed (EventInfo(..))
 import Data.IORef
 import Text.Markdown (Markdown(..))
 import Text.Blaze (ToMarkup (toMarkup))
 import Yesod
-import Data.Shorten (shorten)
 import Settings
 
 standardLayout :: Widget -> Handler Html

@@ -41,7 +41,6 @@ import Database.Persist.Sql
 import Settings (widgetFile, Extra (..), development)
 import Model
 import Text.Jasmine (minifym)
-import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
 import System.Log.FastLogger (Logger)
 
@@ -55,7 +54,6 @@ import Data.IORef
 import Scrapers.CalendarFeed
 import qualified Data.Text as T
 import Data.Text (Text)
-import Text.Hamlet (shamlet)
 import Yesod.Auth.Kerberos
 import Yesod.Form.I18n.Swedish
 import Data.Maybe (fromMaybe)

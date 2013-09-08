@@ -2,7 +2,6 @@
 module Handler.SmallHandlers where
 
 import Import
-import Text.Markdown
 
 layout :: Html -> Widget -> Handler Html
 layout title widget = standardLayout $ do
