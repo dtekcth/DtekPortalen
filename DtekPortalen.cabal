@@ -127,7 +127,7 @@ executable         DtekPortalen
                  , text                          >= 0.11       && < 0.12
                  , bytestring
                  , http-conduit
-                 , directory            >= 1.2.0.1  && < 1.3
+                 , directory            >= 1.1.0.2  && < 2.0
                  -- Modules for this project
                  , process              >= 1.0      && < 2.0
                  , split
