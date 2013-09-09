@@ -97,7 +97,7 @@ executable         DtekPortalen
 
     build-depends: base                          >= 4          && < 5
                  -- yesod-platform will put strict versioning ...
-                 , yesod-platform                == 1.2.4.1
+                 , yesod-platform                == 1.2.4.2
                  -- ... on the packages below
                  -- BEGIN yesod-platform regulated packages
                  , yesod
