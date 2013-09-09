@@ -145,4 +145,4 @@ executable         DtekPortalen
                  , shorten-strings      >= 0.1
                  , friendly-time        >= 0.2.2 && < 0.3
                  , markdown             >= 0.1.1
-                 , yesod-text-markdown  >= 0.1
+                 , yesod-text-markdown  >= 0.1.1
