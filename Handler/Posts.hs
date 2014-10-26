@@ -6,19 +6,18 @@ module Handler.Posts where
 import Import
 import Yesod.Auth (requireAuthId)
 import Helpers.Post
-import Yesod.Paginator (selectPaginated)
+{-import Yesod.Paginator (selectPaginated)-}
 import Data.Shorten
 
 getPostsR :: Handler Html
 getPostsR = do
-    (map entityVal -> posts, widget) <- runDB $ selectPaginated 10 [] [Desc PostCreated]
+    (map entityVal -> posts, widget) <- runDB $ selectList [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
         $(widgetFile "posts")
 
 getPostR :: Text -> Handler Html
-getPostR slug = do
-    standardLayout $ do
+getPostR slug = standardLayout $ do
         setDtekTitle "Specifikt inlägg"
         slugToPostWidget True slug
 
