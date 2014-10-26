@@ -1,0 +1,6 @@
+[submodule "yesod-auth-kerberos"]
+	path = yesod-auth-kerberos
+	url = https://github.com/adamse/yesod-auth-kerberos
+[submodule "shorten-strings"]
+	path = shorten-strings
+	url = git@github.com:adamse/shorten-strings.git

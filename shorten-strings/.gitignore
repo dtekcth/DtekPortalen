@@ -1,0 +1,40 @@
+## General .gitignore file by Arash Rouhani (Tarrasch)
+## Inspired from whitespace bot GunioRobot
+
+# this project
+dist
+
+# backup files
+*.swp
+*.swo
+*.bak
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+
+# non-source files
+*.hi
+*.o
+*.pdf
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+
+# latex
+*.aux
+*.log
+*.out
+.nfs*
+*#*#
+.goutput*

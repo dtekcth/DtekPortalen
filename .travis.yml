@@ -1,7 +1,9 @@
 language: haskell
 
 install:
-    - cabal install --force-reinstalls $(grep "yesod-platform\s*==" *.cabal | tr --delete ", ")
+    - cabal sandbox init
+    - cabal sandbox add-source ./yesod-auth-kerberos
+    - cabal sandbox add-source ./shorten-strings
     - cabal install --only-dependencies
     - cabal install
 
