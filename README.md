@@ -8,65 +8,43 @@ Installation and maintaining instructions are on the github wiki,
 but since this is intended only for the local students of Chalmers
 it's in Swedish.
 
-## Installation
+# Installation
 
 Denna installationsguide är menad att vara komplett och inte anta några
 förkunskaper. Om du känner att nått saknas så gör en pull request! :)
 
-### Förberedelser
+## Reqs
 
-Kolla ghc versioner, bra om ni har `>= 7.4.1`
+GHC 7.8.3 och modern Cabal
 
     $ ghc --version
-    The Glorious Glasgow Haskell Compilation System, version 7.6.3
+    The Glorious Glasgow Haskell Compilation System, version 7.8.3
+    adam at mba in ~/Code/DtekPortalen
     $ cabal --version
-    cabal-install version 0.14.0
-    using version 1.14.0 of the Cabal library
+    cabal-install version 1.20.0.3
 
-Installera [hsenv](https://github.com/Paczesiowa/hsenv)
 
-    $ cabal update
-    $ cabal install hsenv
+## Installation
 
-### Hämta portalen
+Get the code
 
-Clona
-
-    $ CLONEURL=https://github.com/dtekcth/DtekPortalen # eller ssh om ni vill
-    $ git clone $CLONEURL
+    $ git clone https://github.com/dtekcth/DtekPortalen
     $ cd DtekPortalen
 
-### Cabal sandbox (frivilligt, rekomenderas starkt)
+Install dependencies
 
-Skapa en cabal-sandbox
-
-    $ hsenv
-    $ echo 'source .hsenv/bin/activate' > .env
-    $ cd .
-
-Notera att den sistan raderna troligen inte gör något för er om ni inte har
-autoenv. Det gör inget, glöm bara inte bort att alltid skriva `source
-.hsenv/bin/activate` när ni börjar jobba. Ni ska se att er `PS1` har ändrats.
-Typ er prompt ska börja med texten `[hsenv]`
-
-### Installera yesod och portalen
-
-Nu, så installera rätt version av yesod-platformen:
-
-    $ cabal install --force-reinstalls $(grep "yesod-platform\s*==" *.cabal | tr --delete ", ")
-
-Sen så installera depedencies:
-
+    $ cabal sandbox init
+    $ cabal sandbox add-source ./shorten-strings
+    $ cabal sandbox add-source ./yesod-auth-kerberos
     $ cabal install --only-dependencies
 
-Sen resten.
+Build the portal
 
-    $ cabal install
+    $ cabal configure
+    $ cabal build
 
-Notera att dessa tre steg har jag splittat upp medvetet bara föra
-att felsökningen ska bli enklare.
 
-### Interaktiv utveckling
+# Interaktiv utveckling
 
 Installera yesod CLI
 
