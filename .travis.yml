@@ -4,11 +4,12 @@ before-install:
     - sudo apt-get install cabal-install-1.18 ghc-7.8.3
 
 install:
-    - cabal sandbox init
-    - cabal sandbox add-source ./yesod-auth-kerberos
-    - cabal sandbox add-source ./shorten-strings
-    - cabal install --only-dependencies
-    - cabal install
+    - cabal-1.18 sandbox init
+    - cabal-1.18 sandbox add-source ./yesod-auth-kerberos
+    - cabal-1.18 sandbox add-source ./shorten-strings
+    - cabal-1.18 install --only-dependencies
+    - cabal-1.18 configure
+    - cabal-1.18 build
 
 notifications:
   irc: "irc.dtek.se#dtek"
