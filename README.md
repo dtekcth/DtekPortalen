@@ -19,7 +19,6 @@ GHC 7.8.3 och modern Cabal
 
     $ ghc --version
     The Glorious Glasgow Haskell Compilation System, version 7.8.3
-    adam at mba in ~/Code/DtekPortalen
     $ cabal --version
     cabal-install version 1.20.0.3
 
