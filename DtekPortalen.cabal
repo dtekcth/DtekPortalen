@@ -40,6 +40,7 @@ library
                      Scrapers.CalendarFeed
                      Helpers.Post
                      Helpers.Scraping
+                     Helpers.Shorten
                      -- Model modules
                      Model.Forening
                      Model.Persist
@@ -133,7 +134,6 @@ executable         DtekPortalen
                  , old-locale
                  , yesod-newsfeed
                  , yesod-auth-kerberos
-                 , shorten-strings
                  , friendly-time
                  , markdown
                  , yesod-text-markdown

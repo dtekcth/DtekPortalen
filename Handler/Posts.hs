@@ -6,8 +6,7 @@ module Handler.Posts where
 import Import
 import Yesod.Auth (requireAuthId)
 import Helpers.Post
-{-import Yesod.Paginator (selectPaginated)-}
-import Data.Shorten
+import Helpers.Shorten
 
 getPostsR :: Handler Html
 getPostsR = do
