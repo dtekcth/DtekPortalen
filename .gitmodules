@@ -1,6 +1,3 @@
 [submodule "shorten-strings"]
 	path = shorten-strings
 	url = https://github.com/adamse/shorten-strings
-[submodule "yesod-auth-kerberos"]
-	path = yesod-auth-kerberos
-	url = https://github.com/adamse/yesod-auth-kerberos
