@@ -19,7 +19,6 @@ import Database.Persist.Sql (runMigration)
 import Network.HTTP.Client (defaultManagerSettings)
 import Network.HTTP.Conduit (newManager)
 import Control.Monad.Logger (runLoggingT)
-import System.IO (stdout)
 import System.Log.FastLogger
 import Data.Default.Class
 
@@ -77,9 +76,9 @@ makeFoundation conf = do
               Database.Persist.applyEnv
     p <- Database.Persist.createPoolConfig (dbconf :: Settings.PersistConfig)
 
-    loggerSet <- newStdoutLoggerSet defaultBufSize
+    ourLoggerSet <- newStdoutLoggerSet defaultBufSize
     (dateCacheGetter, _) <- clockDateCacher
-    let logger = YCT.Logger loggerSet dateCacheGetter
+    let logger = YCT.Logger ourLoggerSet dateCacheGetter
 
     let foundation = App conf s p manager dbconf logger cachedValues
     runLoggingT
