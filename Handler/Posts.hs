@@ -10,7 +10,7 @@ import Helpers.Shorten
 
 getPostsR :: Handler Html
 getPostsR = do
-    (map entityVal -> posts, widget) <- runDB $ selectList [] [Desc PostCreated]
+    (map entityVal -> posts) <- runDB $ selectList [] [Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Gamla inlägg"
         $(widgetFile "posts")

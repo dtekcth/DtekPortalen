@@ -28,6 +28,7 @@ module Foundation
 
 import Prelude
 import Yesod
+import Yesod.Core.Types
 import Yesod.Static
 import Yesod.Auth
 import Yesod.Auth.Message (swedishMessage)
@@ -42,7 +43,6 @@ import Settings (widgetFile, Extra (..), development)
 import Model
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
-import System.Log.FastLogger (Logger)
 
 -- Imports we want to IGNORE in this sire (therfor commented)
 -- import Yesod.Auth.BrowserId
@@ -129,7 +129,7 @@ instance Yesod App where
                 , blueprint_screen_css
                 ])
             $(widgetFile "default-layout")
-        giveUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
+        withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     isAuthorized route _isWrite = do
         let mreqs = routePrivileges route
@@ -176,10 +176,13 @@ instance Yesod App where
 
 -- How to run database actions.
 instance YesodPersist App where
-    type YesodPersistBackend App = SqlPersistT
+    type YesodPersistBackend App = SqlBackend
     runDB = defaultRunDB persistConfig connPool
+
 instance YesodPersistRunner App where
     getDBRunner = defaultGetDBRunner connPool
+
+instance YesodAuthPersist App
 
 instance YesodAuth App where
     type AuthId App = UserId

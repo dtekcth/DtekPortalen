@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, OverloadedStrings #-}
+{-# LANGUAGE ViewPatterns #-}
 module Handler.Root where
 
 import Import
@@ -13,8 +14,7 @@ import Helpers.Post
 -- inclined, or create a single monolithic file.
 getRootR :: Handler Html
 getRootR = do
-    kposts <- runDB $ selectList [] [LimitTo 5, Desc PostCreated]
-    let posts = map entityVal kposts
+    (map entityVal -> posts) <- runDB $ selectList [] [LimitTo 5, Desc PostCreated]
     standardLayout $ do
         setDtekTitle "Startsida"
         $(widgetFile "homepage")

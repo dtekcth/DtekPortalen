@@ -127,10 +127,13 @@ swedishHumanTimeLocale = HumanTimeLocale
     , minutesAgo = \x -> "för " ++ x ++ " minuter sedan"
     , oneHourAgo = "en timme sedan"
     , aboutHoursAgo = \x -> "för cirka " ++ x ++ " timmar sedan"
-    , at = \x -> "i " ++ x ++ "s"
+    , at = \_ x -> "i " ++ x ++ "s"
     , daysAgo = \x -> "för " ++ x ++ " dagar sedan"
     , weekAgo = \x -> "för " ++ x ++ " vecka sedan"
     , weeksAgo = \x -> "för " ++ x ++ " veckor sedan"
-    , onYear = ("" ++)
+    , onYear = id
     , locale = swedishTimeLocale
+    , dayOfWeekFmt = "%A"
+    , thisYearFmt = "%F"
+    , prevYearFmt = "%F"
     }

@@ -16,7 +16,7 @@ documentEditForm doc = renderTable $
 guardExistence :: Text -- ^ Textual ID of the document
                -> Handler (Entity Document) --(DocumentId, Document)
 guardExistence tid | not (validDocTid tid) =
-    giveUrlRenderer [hamlet| Ogiltigt dokument #{tid} |] >>= sendResponse
+    withUrlRenderer [hamlet| Ogiltigt dokument #{tid} |] >>= sendResponse
 guardExistence tid | otherwise = do
     e <- runDB $ insertBy defDoc
     return $ either id (flip Entity defDoc) e

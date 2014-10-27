@@ -1,4 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# LANGUAGE ViewPatterns #-}
 module Application
     ( makeApplication
     , getApplicationDev
@@ -7,16 +8,20 @@ module Application
 import Import
 import Settings
 import Yesod.Auth
+import Yesod.Core.Types as YCT
 import Yesod.Default.Config
 import Yesod.Default.Main
 import Yesod.Default.Handlers
-import Network.Wai.Middleware.RequestLogger
+import Network.Wai.Logger (clockDateCacher)
+import Network.Wai.Middleware.RequestLogger as WL
 import qualified Database.Persist
 import Database.Persist.Sql (runMigration)
-import Network.HTTP.Conduit (newManager, def)
+import Network.HTTP.Client (defaultManagerSettings)
+import Network.HTTP.Conduit (newManager)
 import Control.Monad.Logger (runLoggingT)
 import System.IO (stdout)
-import System.Log.FastLogger (mkLogger)
+import System.Log.FastLogger
+import Data.Default.Class
 
 -- Import all relevant handler modules here.
 import Handler.Root
@@ -53,7 +58,7 @@ makeApplication conf = do
             if development
                 then Detailed True
                 else Apache FromSocket
-        , destination = Logger $ appLogger foundation
+        , destination = WL.Logger . loggerSet $ appLogger foundation
         }
 
     app <- toWaiAppPlain foundation
@@ -61,7 +66,7 @@ makeApplication conf = do
 
 makeFoundation :: AppConfig DefaultEnv Extra -> IO App
 makeFoundation conf = do
-    manager <- newManager def
+    manager <- newManager defaultManagerSettings
     s <- staticSite
     let calendarUrl = unpack . extraCalendar $ appExtra conf
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
@@ -71,13 +76,16 @@ makeFoundation conf = do
               Database.Persist.loadConfig >>=
               Database.Persist.applyEnv
     p <- Database.Persist.createPoolConfig (dbconf :: Settings.PersistConfig)
-    logger <- mkLogger True stdout
+
+    loggerSet <- newStdoutLoggerSet defaultBufSize
+    (dateCacheGetter, _) <- clockDateCacher
+    let logger = YCT.Logger loggerSet dateCacheGetter
 
     let foundation = App conf s p manager dbconf logger cachedValues
     runLoggingT
         (Database.Persist.runPool dbconf (runMigration migrateAll) p)
         (messageLoggerSource foundation logger)
-    return $ foundation
+    return foundation
 
 -- for yesod devel
 getApplicationDev :: IO (Int, Application)
