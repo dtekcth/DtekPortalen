@@ -14,21 +14,15 @@ cabal-version:     >= 1.6
 build-type:        Simple
 homepage:          https://github.com/dtekcth/DtekPortalen
 
-data-files: static/blueprint
-            static/blueprint/ie.css
-            static/blueprint/plugins
-            static/blueprint/plugins/buttons
-            static/blueprint/plugins/buttons/icons
+-- $ find static/* -type f
+data-files: static/blueprint/ie.css
             static/blueprint/plugins/buttons/icons/cross.png
             static/blueprint/plugins/buttons/icons/key.png
             static/blueprint/plugins/buttons/icons/tick.png
             static/blueprint/plugins/buttons/readme.txt
             static/blueprint/plugins/buttons/screen.css
-            static/blueprint/plugins/fancy-type
             static/blueprint/plugins/fancy-type/readme.txt
             static/blueprint/plugins/fancy-type/screen.css
-            static/blueprint/plugins/link-icons
-            static/blueprint/plugins/link-icons/icons
             static/blueprint/plugins/link-icons/icons/doc.png
             static/blueprint/plugins/link-icons/icons/email.png
             static/blueprint/plugins/link-icons/icons/external.png
@@ -40,12 +34,10 @@ data-files: static/blueprint
             static/blueprint/plugins/link-icons/icons/xls.png
             static/blueprint/plugins/link-icons/readme.txt
             static/blueprint/plugins/link-icons/screen.css
-            static/blueprint/plugins/rtl
             static/blueprint/plugins/rtl/readme.txt
             static/blueprint/plugins/rtl/screen.css
             static/blueprint/print.css
             static/blueprint/screen.css
-            static/blueprint/src
             static/blueprint/src/forms.css
             static/blueprint/src/grid.css
             static/blueprint/src/grid.png
@@ -53,13 +45,8 @@ data-files: static/blueprint
             static/blueprint/src/print.css
             static/blueprint/src/reset.css
             static/blueprint/src/typography.css
-            static/combined
-            static/combined/8q_Z-N3G.css
-            static/css
             static/css/normalize.css
-            static/img
             static/img/dteklogo.gif
-            static/js
             static/js/modernizr.js
 
 
