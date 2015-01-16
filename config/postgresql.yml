@@ -17,5 +17,5 @@ Staging:
   database: dtekportalen_staging
 
 Production:
-  database: dtekportalen_production
+  database: dtekportalen 
   <<: *defaults
