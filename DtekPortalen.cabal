@@ -140,6 +140,7 @@ executable         DtekPortalen
                  , yesod-static
                  , yesod-auth
                  , hamlet
+                 , system-filepath
                  , data-default-class
                  , clientsession
                  , hjsmin

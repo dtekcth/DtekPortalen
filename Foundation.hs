@@ -44,10 +44,6 @@ import Model
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 
--- Imports we want to IGNORE in this sire (therfor commented)
--- import Yesod.Auth.BrowserId
--- import Yesod.Auth.GoogleEmail
-
 -- Imports specific for this site (not scaffolded)
 import Data.Monoid
 import Data.IORef
