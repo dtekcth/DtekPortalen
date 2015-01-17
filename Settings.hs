@@ -7,7 +7,7 @@ module Settings
     ( widgetFile
     , PersistConfig
     , staticRoot
-    , staticDir
+    , getStaticDir
     , Extra (..)
     , parseExtra
     , development
@@ -41,9 +41,9 @@ type PersistConfig = PostgresConf
 -- | The location of static files on your system. This is a file system
 -- path. The default value works properly with your scaffolded site.
 getStaticDir :: IO FilePath
-getStaticDir = do dir <- getDataFileName staticDir
+getStaticDir = do dir <- getDataFileName "static"
                   return (if development
-                             then "static/"
+                             then "static"
                              else dir)
 
 -- | The base URL for your static files. As you can see by the default

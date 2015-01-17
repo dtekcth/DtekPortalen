@@ -162,7 +162,15 @@ instance Yesod App where
     -- and names them based on a hash of their content. This allows
     -- expiration dates to be set far in the future without worry of
     -- users receiving stale content.
-    addStaticContent = addStaticContentExternal minifym base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
+    addStaticContent ext mime fc =
+      do staticDir <- liftIO Settings.getStaticDir
+         addStaticContentExternal minifym
+              base64md5
+              staticDir
+              (StaticR . flip StaticRoute [])
+              ext
+              mime
+              fc
 
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
     jsLoader _ = BottomOfBody

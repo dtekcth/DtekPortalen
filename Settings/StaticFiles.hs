@@ -1,9 +1,8 @@
 module Settings.StaticFiles where
 
-import           Control.Monad (return)
 import           Data.Default (def)
 import           Language.Haskell.TH (Q, Exp, Name, runIO)
-import           Prelude (IO, FilePath)
+import           Prelude
 import           Yesod.Static
 import qualified Yesod.Static as Static
 
