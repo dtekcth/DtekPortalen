@@ -2,30 +2,28 @@ module Settings.StaticFiles where
 
 import           Control.Monad (return)
 import           Data.Default (def)
-import           Language.Haskell.TH (Q, Exp, Name)
-import           Prelude (IO)
+import           Language.Haskell.TH (Q, Exp, Name, runIO)
+import           Prelude (IO, FilePath)
 import           Yesod.Static
 import qualified Yesod.Static as Static
 
-import           Paths_DtekPortalen
-import           Settings (staticDir)
+import           Settings (getStaticDir)
 import           Settings.Development
 
 
 -- | use this to create your static file serving site
 staticSite :: IO Static.Static
 staticSite =
-  do staticDir <- getDataFileName "static"
+  do dir <- getStaticDir
      (if development
          then Static.staticDevel
-         else Static.static) staticDir
-
+         else Static.static) dir
 
 -- | This generates easy references to files in the static directory at compile time,
 -- giving you compile-time verification that referenced files exist.
 -- Warning: any files added to your static directory during run-time can't be
 -- accessed this way. You'll have to use their FilePath or URL to access them.
-$(staticFiles Settings.staticDir)
+$(runIO getStaticDir >>= staticFiles)
 
 combineSettings :: CombineSettings
 combineSettings = def

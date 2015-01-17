@@ -15,20 +15,23 @@ module Settings
     , swedishHumanTimeLocale
     ) where
 
-import Prelude
-import Text.Shakespeare.Text (st)
-import Language.Haskell.TH.Syntax
+import Control.Applicative
+import Data.Default (def)
+import Data.Text (Text)
+import Data.Time.Format.Human
+import Data.Yaml
 import Database.Persist.Postgresql (PostgresConf)
+import Language.Haskell.TH.Syntax
+import Prelude
+import System.Locale
+import Text.Hamlet
+import Text.Shakespeare.Text (st)
 import Yesod.Default.Config
 import Yesod.Default.Util
-import Data.Text (Text)
-import Data.Yaml
-import Control.Applicative
+
+import           Paths_DtekPortalen
 import Settings.Development
-import Data.Default (def)
-import Text.Hamlet
-import System.Locale
-import Data.Time.Format.Human
+
 
 -- | Which Persistent backend this site is using.
 type PersistConfig = PostgresConf
@@ -37,8 +40,11 @@ type PersistConfig = PostgresConf
 
 -- | The location of static files on your system. This is a file system
 -- path. The default value works properly with your scaffolded site.
-staticDir :: FilePath
-staticDir = "static"
+getStaticDir :: IO FilePath
+getStaticDir = do dir <- getDataFileName staticDir
+                  return (if development
+                             then "static/"
+                             else dir)
 
 -- | The base URL for your static files. As you can see by the default
 -- value, this can simply be "static" appended to your application root.

@@ -33,8 +33,6 @@ Get the code
 Install dependencies
 
     $ cabal sandbox init
-    $ cabal sandbox add-source ./shorten-strings
-    $ cabal sandbox add-source ./yesod-auth-kerberos
     $ cabal install --only-dependencies
 
 Build the portal
