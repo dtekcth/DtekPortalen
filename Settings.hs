@@ -20,7 +20,6 @@ import Data.Default (def)
 import Data.Text (Text)
 import Data.Time.Format.Human
 import Data.Yaml
-import Database.Persist.Postgresql (PostgresConf)
 import Language.Haskell.TH.Syntax
 import Prelude
 import System.Locale
@@ -29,12 +28,22 @@ import Text.Shakespeare.Text (st)
 import Yesod.Default.Config
 import Yesod.Default.Util
 
-import           Paths_DtekPortalen
+import Paths_DtekPortalen
 import Settings.Development
 
+#if DEVELOPMENT
+import Database.Persist.Sqlite (SqliteConf)
+#else
+import Database.Persist.Postgresql (PostgresConf)
+#endif
 
 -- | Which Persistent backend this site is using.
-type PersistConfig = PostgresConf
+type PersistConfig =
+#if DEVELOPMENT
+  SqliteConf
+#else
+  PostgresConf
+#endif
 
 -- Static setting below. Changing these requires a recompile
 

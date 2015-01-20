@@ -133,50 +133,51 @@ executable         DtekPortalen
                 GeneralizedNewtypeDeriving
                 FlexibleContexts
 
-    build-depends: base                          >= 4          && < 5
-                 , yesod
-                 , yesod-core
-                 , yesod-form
-                 , yesod-static
-                 , yesod-auth
-                 , hamlet
-                 , system-filepath
-                 , data-default-class
-                 , clientsession
-                 , hjsmin
-                 , yaml
-                 , yesod-default
-                 , persistent
-                 , persistent-template
-                 , shakespeare
-                 , shakespeare-text
+    build-depends: base >= 4 && < 5
                  , blaze-html
                  , blaze-markup
-                 , wai-logger
-                 , wai-extra
-                 , data-default
-                 , yesod-default
-                 , conduit
-                 , monad-logger
-                 , fast-logger
-                 , warp
-                 , persistent-postgresql
-                 , template-haskell
-                 , text
                  , bytestring
+                 , clientsession
+                 , conduit
+                 , data-default
+                 , data-default-class
+                 , directory
+                 , fast-logger
+                 , friendly-time
+                 , hamlet
+                 , hjsmin
                  , http-client
                  , http-conduit
-                 , directory
-                 , process
-                 , split
-                 , tagsoup
-                 , time
-                 , url
-                 , timerep
-                 , utf8-string
-                 , old-locale
-                 , yesod-newsfeed
-                 , yesod-auth-kerberos
-                 , friendly-time
                  , markdown
+                 , monad-logger
+                 , old-locale
+                 , persistent
+                 , persistent-postgresql
+                 , persistent-sqlite
+                 , persistent-template
+                 , process
+                 , shakespeare
+                 , shakespeare-text
+                 , split
+                 , system-filepath
+                 , tagsoup
+                 , template-haskell
+                 , text
+                 , time
+                 , timerep
+                 , url
+                 , utf8-string
+                 , wai-extra
+                 , wai-logger
+                 , warp
+                 , yaml
+                 , yesod
+                 , yesod-auth
+                 , yesod-auth-kerberos
+                 , yesod-core
+                 , yesod-default
+                 , yesod-default
+                 , yesod-form
+                 , yesod-newsfeed
+                 , yesod-static
                  , yesod-text-markdown

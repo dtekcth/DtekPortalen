@@ -71,7 +71,9 @@ makeFoundation conf = do
     calendarRef <- hourlyRefreshingRef (getEventInfo calendarUrl) []
     let cachedValues = CachedValues calendarRef
 
-    dbconf <- withYamlEnvironment "config/postgresql.yml" (appEnv conf)
+    dbconf <- withYamlEnvironment
+                (if development then "config/sqlite.yml" else "config/postgresql.yml")
+                (appEnv conf)
               Database.Persist.loadConfig >>=
               Database.Persist.applyEnv
     p <- Database.Persist.createPoolConfig (dbconf :: Settings.PersistConfig)
