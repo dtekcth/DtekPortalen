@@ -14,15 +14,16 @@ förkunskaper. Om du känner att nått saknas så gör en pull request! :)
 
 ## Reqs
 
-GHC 7.8.3 och modern Cabal
+GHC 7.8.3 and modern Cabal
 
     $ ghc --version
     The Glorious Glasgow Haskell Compilation System, version 7.8.3
     $ cabal --version
     cabal-install version 1.20.0.3
 
+We use SQLite3 for dev and Postgres for production.
 
-## Installation
+## Hacking
 
 Get the code
 
@@ -36,7 +37,7 @@ Install dependencies
 
 Build the portal
 
-    $ cabal configure
+    $ cabal configure -fdev
     $ cabal build
 
 

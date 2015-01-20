@@ -14,6 +14,7 @@ cabal-version:     >= 1.6
 build-type:        Simple
 homepage:          https://github.com/dtekcth/DtekPortalen
 
+
 data-files: static/blueprint/ie.css
             static/blueprint/plugins/buttons/icons/cross.png
             static/blueprint/plugins/buttons/icons/key.png
@@ -80,11 +81,15 @@ extra-source-files: deploy/Procfile
                     config/settings.yml
                     config/sqlite.yml
 
-Flag dev
+source-repository head
+  type:     git
+  location: https://github.com/dtekcth/DtekPortalen
+
+flag dev
     Description:   Turn on development settings, like auto-reload templates.
     Default:       False
 
-executable         DtekPortalen
+executable DtekPortalen
     if flag(dev)
         cpp-options:   -DDEVELOPMENT
         ghc-options:   -Wall -threaded -O0
