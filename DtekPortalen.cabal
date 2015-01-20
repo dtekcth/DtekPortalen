@@ -3,7 +3,7 @@ version:           0.0.0
 license:           BSD3
 license-file:      LICENSE
 author:            Arash Rouhani
-maintainer:        dHack
+maintainer:        dHack@dtek.se
 synopsis:          Yesod website for Chalmers D students.
 description:       This site is intenteded for use of computer science students
                    at Chalmers University, this site relies on a in-place
