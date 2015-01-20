@@ -71,19 +71,16 @@ library
                      Settings
                      Settings.StaticFiles
                      Settings.Development
-                     -- Nonscaffolded sitespecific modules
                      StandardLayout
                      Scrapers.CalendarFeed
                      Helpers.Post
                      Helpers.Scraping
                      Helpers.Shorten
-                     -- Model modules
                      Model.Forening
                      Model.Persist
                      Model.Document
                      Model.Post
                      Model.User
-                     -- Handler modules
                      Handler.Root
                      Handler.Forening
                      Handler.Posts
@@ -119,7 +116,8 @@ executable         DtekPortalen
     else
         ghc-options:   -Wall -threaded
 
-    main-is:       main.hs
+    hs-source-dirs: src
+    main-is: main.hs
 
     extensions: TemplateHaskell
                 QuasiQuotes

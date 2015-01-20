@@ -10,3 +10,7 @@ cabal-dev
 cabal.sandbox.config
 cabal.config
 static/combined/
+dtekportalen.sqlite3
+/config/client_session_key.aes
+/static/tmp
+/static/combined
