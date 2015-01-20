@@ -48,6 +48,46 @@ data-files: static/blueprint/ie.css
             static/css/normalize.css
             static/img/dteklogo.gif
             static/js/modernizr.js
+            templates/about.hamlet
+            templates/admin.hamlet
+            templates/boilerplate-layout.hamlet
+            templates/boilerplate-wrapper.hamlet
+            templates/contact.hamlet
+            templates/default-layout-wrapper.hamlet
+            templates/default-layout.cassius
+            templates/default-layout.hamlet
+            templates/editpost.hamlet
+            templates/footer.cassius
+            templates/footer.hamlet
+            templates/forening.hamlet
+            templates/fullpost.cassius
+            templates/fullpost.hamlet
+            templates/header.cassius
+            templates/header.hamlet
+            templates/homepage.hamlet
+            templates/links.hamlet
+            templates/lmenu.hamlet
+            templates/manage.hamlet
+            templates/posts.hamlet
+            templates/postslist.hamlet
+            templates/postslist.julius
+            templates/preview.cassius
+            templates/preview.hamlet
+            templates/rmenu.hamlet
+            templates/snd.hamlet
+            templates/standard.cassius
+            templates/standard.hamlet
+            templates/teasepost.cassius
+            templates/teasepost.hamlet
+
+
+extra-source-files: deploy/Procfile
+                    config/favicon.ico
+                    config/models
+                    config/postgresql.yml
+                    config/routes
+                    config/settings.yml
+                    config/sqlite.yml
 
 
 Flag dev
@@ -63,6 +103,8 @@ library
         Buildable: True
     else
         Buildable: False
+
+    hs-source-dirs: src
 
     exposed-modules: Application
     other-modules:   Foundation
