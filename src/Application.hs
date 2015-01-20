@@ -22,7 +22,6 @@ import Control.Monad.Logger (runLoggingT)
 import System.Log.FastLogger
 import Data.Default.Class
 
--- Import all relevant handler modules here.
 import Handler.Root
 import Handler.Forening
 import Handler.Posts
@@ -32,7 +31,6 @@ import Handler.Document
 import Handler.Feed
 import Handler.SmallHandlers
 
--- Own imports
 import Helpers.Scraping (hourlyRefreshingRef)
 import Scrapers.CalendarFeed
 import Data.Text (unpack)

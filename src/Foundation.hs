@@ -14,7 +14,6 @@ module Foundation
     , module Settings
     , module Model
     -- own exports
- -- , AppMessage (..) -- We don't want i18n
     , module Settings.StaticFiles
     , setDtekTitle
     , CachedValues(..)

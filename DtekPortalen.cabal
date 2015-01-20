@@ -3,7 +3,7 @@ version:           0.0.0
 license:           BSD3
 license-file:      LICENSE
 author:            Arash Rouhani
-maintainer:        Arash Rouhani
+maintainer:        dHack
 synopsis:          Yesod website for Chalmers D students.
 description:       This site is intenteded for use of computer science students
                    at Chalmers University, this site relies on a in-place
@@ -14,7 +14,6 @@ cabal-version:     >= 1.6
 build-type:        Simple
 homepage:          https://github.com/dtekcth/DtekPortalen
 
--- $ find static/* -type f
 data-files: static/blueprint/ie.css
             static/blueprint/plugins/buttons/icons/cross.png
             static/blueprint/plugins/buttons/icons/key.png
@@ -23,15 +22,7 @@ data-files: static/blueprint/ie.css
             static/blueprint/plugins/buttons/screen.css
             static/blueprint/plugins/fancy-type/readme.txt
             static/blueprint/plugins/fancy-type/screen.css
-            static/blueprint/plugins/link-icons/icons/doc.png
-            static/blueprint/plugins/link-icons/icons/email.png
-            static/blueprint/plugins/link-icons/icons/external.png
-            static/blueprint/plugins/link-icons/icons/feed.png
-            static/blueprint/plugins/link-icons/icons/im.png
-            static/blueprint/plugins/link-icons/icons/lock.png
-            static/blueprint/plugins/link-icons/icons/pdf.png
-            static/blueprint/plugins/link-icons/icons/visited.png
-            static/blueprint/plugins/link-icons/icons/xls.png
+            static/blueprint/plugins/link-icons/icons/*.png
             static/blueprint/plugins/link-icons/readme.txt
             static/blueprint/plugins/link-icons/screen.css
             static/blueprint/plugins/rtl/readme.txt
@@ -89,69 +80,11 @@ extra-source-files: deploy/Procfile
                     config/settings.yml
                     config/sqlite.yml
 
-
 Flag dev
     Description:   Turn on development settings, like auto-reload templates.
     Default:       False
 
-Flag library-only
-    Description:   Build for use with "yesod devel"
-    Default:       False
-
-library
-    if flag(library-only)
-        Buildable: True
-    else
-        Buildable: False
-
-    hs-source-dirs: src
-
-    exposed-modules: Application
-    other-modules:   Foundation
-                     Import
-                     Model
-                     Settings
-                     Settings.StaticFiles
-                     Settings.Development
-                     StandardLayout
-                     Scrapers.CalendarFeed
-                     Helpers.Post
-                     Helpers.Scraping
-                     Helpers.Shorten
-                     Model.Forening
-                     Model.Persist
-                     Model.Document
-                     Model.Post
-                     Model.User
-                     Handler.Root
-                     Handler.Forening
-                     Handler.Posts
-                     Handler.Profile
-                     Handler.Admin
-                     Handler.Document
-                     Handler.Feed
-                     Handler.SmallHandlers
-
-    ghc-options:   -Wall -threaded -O0
-    cpp-options:   -DDEVELOPMENT
-
-    extensions: TemplateHaskell
-                QuasiQuotes
-                OverloadedStrings
-                NoImplicitPrelude
-                CPP
-                OverloadedStrings
-                MultiParamTypeClasses
-                TypeFamilies
-                GADTs
-                GeneralizedNewtypeDeriving
-                FlexibleContexts
-                ViewPatterns
-
 executable         DtekPortalen
-    if flag(library-only)
-        Buildable: False
-
     if flag(dev)
         cpp-options:   -DDEVELOPMENT
         ghc-options:   -Wall -threaded -O0
