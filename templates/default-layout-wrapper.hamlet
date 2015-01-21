@@ -8,8 +8,8 @@
         <meta name="author" content="">
 
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" type="text/css" rel="@{StaticR css_normalize_css}">
-        <link rel="stylesheet" type="text/css" rel="@{StaticR blueprint_screen_css}">
+        <link rel="stylesheet" type="text/css" href="@{StaticR css_normalize_css}">
+        <link rel="stylesheet" type="text/css" href="@{StaticR blueprint_screen_css}">
 
         ^{pageHead pc}
 
