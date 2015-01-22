@@ -74,6 +74,7 @@ data-files: static/blueprint/ie.css
 
 
 extra-source-files: deploy/Procfile
+                    deploy/service.sh
                     config/favicon.ico
                     config/models
                     config/postgresql.yml
