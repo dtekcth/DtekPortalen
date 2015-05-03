@@ -1,7 +1,8 @@
 body
     background: #CACACA
+    font-family: 'Open Sans', Arial
 
-/* override blueprint value */
+/* Override blueprint value */
 tbody tr:nth-child(even) td, tbody tr.even td
     background: #fdc
 
@@ -11,22 +12,83 @@ section
     padding: 20px
     background: #fff
 
-/*links*/
+/* Links */
 
-a
-    color: #09c
+a, a:visited, .span-14 a, .span-14 a:visited
+    color: #069
     text-decoration: none
 
-a:hover
-    color: #069
+a:hover, .span-14 a:hover
+    color: #09c
     text-decoration: underline
 
-a:visited
-    color: #069
+/* Header and footernavigation */
 
-/* Round corners */
+.header
+    height: 75px;
+    background-color: #fc8800
 
-.round
-    -moz-border-radius: 10px
-    -webkit-border-radius: 10px
-    border-radius: 10px
+#headertitle h1 
+    line-height: 70px
+    font-size: 36px
+
+#userbox a, footer #footernav a, #userbox a:visited, #footernav a:visited 
+    font-weight: normal
+    border-bottom: 1px dotted #000
+	text-decoration: none
+	color: #000
+
+#userbox a:hover,  footer #footernav a:hover 
+    border-bottom: 1px solid #000
+
+#userbox ul, #userbox li 
+    margin: 0;
+    padding: 0;
+
+/* Distance from a "line" */
+
+.block hr 
+    margin: 10px 0
+
+/* Articles in the newflow */
+
+article 
+    border-top: 1px solid #ccc
+    margin-bottom: 10px
+
+article h3 
+    margin-bottom: 10px
+
+article footer
+    font-style: normal
+    font-size: 12px
+    color: #555
+
+article p, span
+    text-align: justify
+
+article a img
+    margin: 10px auto
+    padding: 10px
+    background-color: white
+	border: 1px solid #888
+	
+	display: block
+    position: relative
+
+article footer 
+    font-style: normal
+    font-size:  12px
+    color: #555
+
+/* Left menu-fixes */
+
+#lmenu a
+    font-size: 12px
+    margin-left: 10px
+
+#lmenu li a  
+    margin-left: 0px
+
+#lmenu img  
+    margin-left: -10px
